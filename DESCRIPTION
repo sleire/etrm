@@ -1,6 +1,6 @@
 Package: hedgeR
 Type: Package
-Title: Commodity hedging strategies
+Title: Portfolio Insurance Strategies
 Version: 0.1
 Date: 2015-09-09
 Authors@R: person("Anders", "Sleire", email = "sleire@gmail.com", role = c("aut", "cre"))
