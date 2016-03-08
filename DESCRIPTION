@@ -1,9 +1,10 @@
 Package: hedgeR
 Type: Package
-Title: Portfolio Insurance Strategies
+Title: Commodity Portfolio Insurance Strategies
 Version: 0.1
 Date: 2015-09-09
 Authors@R: person("Anders", "Sleire", email = "sleire@gmail.com", role = c("aut", "cre"))
 Description: Futures trading strategies for commodity market risk management
 License: MIT
 LazyData: TRUE
+RoxygenNote: 5.0.1

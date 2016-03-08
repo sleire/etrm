@@ -1,13 +1,15 @@
 # hedgeR
-An R package with futures trading strategies for commodity market risk management  
+Futures trading strategies for commodity market risk management  
   
-- Step Hedge  
-- CPPI Hedge
-- DPPI Hedge
-- Delta Hedge
-- Sigmoid Hedge
 
-### Dynamic Asset Allocation Strategies
+- CppiStrat	Constant Proportion Portfolio Insurance (CPPI)
+- DppiStrat	Dynamic Proportion Portfolio Insurance (DPPI)
+- ObpiStrat	Option Based Portfolio Insurance (OBPI)
+- SfpiStrat	Sigmoid Function Portfolio Insurance (SFPI)
+- ShpiStrat	Step Hedge Portfolio Insurance (SHPI)
+- VbpiStrat	VaR Based Portfolio Insurance (VBPI)
+
+### Dynamic hedging strategies for
 - Long and short hedgers
 - Back testing and decision support for traded contracts
 
