@@ -25,6 +25,6 @@ VbpiStrat(Q, P, TP, conf = 0.95, tcost = 0, min = Q, int = TRUE)
 Data frame with strategy results
 }
 \description{
-Implements VBPI strategy for price risk management
+Implements VBPI strategy for commodity price risk management
 }
 

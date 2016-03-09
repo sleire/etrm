@@ -25,6 +25,6 @@ DppiStrat(Q, P, tper = 1.15, RF = 10, tcost = 0, min = Q, int = TRUE)
 Data frame with strategy results
 }
 \description{
-Implements DPPI strategy for price risk management
+Implements DPPI strategy for commodity price risk management
 }
 

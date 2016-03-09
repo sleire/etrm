@@ -19,6 +19,6 @@ ShpiStrat(Q, P, tcost = 0, int = TRUE)
 Data frame with strategy results
 }
 \description{
-Implements SHPI strategy for price risk management
+Implements SHPI strategy for commodity price risk management
 }
 

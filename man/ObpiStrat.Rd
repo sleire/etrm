@@ -30,6 +30,6 @@ ObpiStrat(Q, P, K = P[1], vol, R = 0, tdays = 250, tcost = 0, min = Q,
 Data frame with strategy results
 }
 \description{
-Implements OBPI strategy for price risk management
+Implements OBPI strategy for commodity price risk management
 }
 

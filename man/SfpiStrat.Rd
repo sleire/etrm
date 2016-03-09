@@ -23,6 +23,6 @@ SfpiStrat(Q, P, a, tcost = 0, min = Q, int = TRUE)
 Data frame with strategy results
 }
 \description{
-Implements SFPI strategy for price risk management
+Implements SFPI strategy for commodity price risk management
 }
 

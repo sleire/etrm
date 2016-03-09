@@ -25,6 +25,6 @@ CppiStrat(Q, P, TP, RF = 10, tcost = 0, min = Q, int = TRUE)
 Data frame with strategy results
 }
 \description{
-Implements CPPI strategy for price risk management
+Implements CPPI strategy for commodity price risk management
 }
 

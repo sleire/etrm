@@ -1,6 +1,6 @@
 #' Step Hedge Portfolio Insurance (SHPI)
 #'
-#' Implements SHPI strategy for price risk management
+#' Implements SHPI strategy for commodity price risk management
 #' @param Q numeric value for quantity to be hedged
 #' @param P numeric futures price vector
 #' @param tcost numeric transaction costs pr unit

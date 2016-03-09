@@ -1,6 +1,6 @@
 #' Dynamic Proportion Portfolio Insurance (DPPI)
 #'
-#' Implements DPPI strategy for price risk management
+#' Implements DPPI strategy for commodity price risk management
 #' @param Q numeric value for quantity to be hedged
 #' @param P numeric futures price vector
 #' @param tper numeric target price markup

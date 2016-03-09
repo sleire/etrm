@@ -1,6 +1,6 @@
 #' Constant Proportion Portfolio Insurance (CPPI)
 #'
-#' Implements CPPI strategy for price risk management
+#' Implements CPPI strategy for commodity price risk management
 #' @param Q numeric value for quantity to be hedged
 #' @param P numeric futures price vector
 #' @param TP numeric target price to protect

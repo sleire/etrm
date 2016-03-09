@@ -1,6 +1,6 @@
 #' VaR Based Portfolio Insurance (VBPI)
 #'
-#' Implements VBPI strategy for price risk management
+#' Implements VBPI strategy for commodity price risk management
 #' @param Q numeric value for quantity to be hedged
 #' @param P numeric futures price vector
 #' @param TP numeric target price to protect

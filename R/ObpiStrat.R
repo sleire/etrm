@@ -1,6 +1,6 @@
 #' Option Based Portfolio Insurance (OBPI)
 #'
-#' Implements OBPI strategy for price risk management
+#' Implements OBPI strategy for commodity price risk management
 #' @param Q numeric value for quantity to be hedged
 #' @param P numeric futures price vector
 #' @param K numeric strike price
