@@ -1,7 +1,7 @@
 # hedgeR: Portfolio insurance strategies for commodity price risk management
 Futures trading strategies for both long and short hedgers. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
 
-Portfolio insurance strategies implemented as functions:
+### Portfolio insurance strategies implemented as functions:
 
 - cppi() - Constant Proportion Portfolio Insurance   
 - dppi() - Dynamic Proportion Portfolio Insurance   
