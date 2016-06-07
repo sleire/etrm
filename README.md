@@ -1,13 +1,13 @@
-# hedgeR
-Futures trading strategies for commodity market risk management  
-  
+# hedgeR: Portfolio insurance strategies for commodity price risk management
+hedgeR contains futures trading strategies for commodity market risk management for both long and short hedgers. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
 
-- CppiStrat	-> Constant Proportion Portfolio Insurance (CPPI)
-- DppiStrat	-> Dynamic Proportion Portfolio Insurance (DPPI)
-- ObpiStrat	-> Option Based Portfolio Insurance (OBPI)
-- SfpiStrat	-> Sigmoid Function Portfolio Insurance (SFPI)
-- ShpiStrat	-> Step Hedge Portfolio Insurance (SHPI)
-- VbpiStrat	-> VaR Based Portfolio Insurance (VBPI)
+Portfolio insurance strategies:
+- cppi: Constant Proportion Portfolio Insurance (CPPI)
+- dppi: Dynamic Proportion Portfolio Insurance (DPPI)
+- obpi: Option Based Portfolio Insurance (OBPI)
+- shpi: Step Hedge Portfolio Insurance (SHPI)
+- vbpi: VaR Based Portfolio Insurance (VBPI)
+- slpi: Stop Loss Portfolio insurance (SLPI)
 
 ### Dynamic hedging strategies for
 - Long and short hedgers
