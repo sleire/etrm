@@ -1,5 +1,5 @@
 # hedgeR: Portfolio insurance strategies for commodity price risk management
-Futures trading strategies for both long and short hedgers. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
+Futures trading strategies for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
 
 ### Portfolio insurance strategies implemented as functions:
 
@@ -9,6 +9,8 @@ Futures trading strategies for both long and short hedgers. All models below aim
 - shpi() - Step Hedge Portfolio Insurance            
 - vbpi() - VaR Based Portfolio Insurance             
 - slpi() - Stop Loss Portfolio insurance             
+
+The functions return s4 objects of type "cppi", "dppi", "obpi", "shpi", "vbpi" and "slpi". Generic methods "show", "summary" and "plot" are available for all classes.
 
 ### Dynamic hedging strategies for
 - Long and short hedgers
