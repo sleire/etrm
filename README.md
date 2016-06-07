@@ -3,12 +3,12 @@ Futures trading strategies for both long and short hedgers. All models below aim
 
 Portfolio insurance strategies implemented as functions:
 
-- cppi(): Constant Proportion Portfolio Insurance (CPPI)
-- dppi(): Dynamic Proportion Portfolio Insurance (DPPI)
-- obpi(): Option Based Portfolio Insurance (OBPI)
-- shpi(): Step Hedge Portfolio Insurance (SHPI)
-- vbpi(): VaR Based Portfolio Insurance (VBPI)
-- slpi(): Stop Loss Portfolio insurance (SLPI)
+- cppi() - Constant Proportion Portfolio Insurance   
+- dppi() - Dynamic Proportion Portfolio Insurance   
+- obpi() - Option Based Portfolio Insurance         
+- shpi() - Step Hedge Portfolio Insurance            
+- vbpi() - VaR Based Portfolio Insurance             
+- slpi() - Stop Loss Portfolio insurance             
 
 ### Dynamic hedging strategies for
 - Long and short hedgers
