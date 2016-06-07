@@ -10,7 +10,7 @@ Futures trading strategies for commercial hedgers with long or short exposure. A
 - vbpi() - VaR Based Portfolio Insurance             
 - slpi() - Stop Loss Portfolio insurance             
 
-The functions return s4 objects of type "cppi", "dppi", "obpi", "shpi", "vbpi" and "slpi". Generic methods "show", "summary" and "plot" are available for all classes.
+The functions return s4 objects of type "cppi", "dppi", "obpi", "shpi", "vbpi" and "slpi", with methods "show", "summary" and "plot".
 
 ### Dynamic hedging strategies for
 - Long and short hedgers
