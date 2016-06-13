@@ -7,8 +7,8 @@ Futures trading strategies for commercial hedgers with long or short exposure. A
 - dppi() - Dynamic Proportion Portfolio Insurance   
 - obpi() - Option Based Portfolio Insurance         
 - shpi() - Step Hedge Portfolio Insurance            
-- vbpi() - VaR Based Portfolio Insurance             
 - slpi() - Stop Loss Portfolio insurance             
+- vbpi() - VaR Based Portfolio Insurance 
 
 Output S4 objects of type "cppi", "dppi", "obpi", "shpi", "vbpi" and "slpi", with methods "show", "summary" and "plot".
 
