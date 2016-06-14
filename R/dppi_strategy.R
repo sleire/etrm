@@ -1,6 +1,6 @@
-#' Constant Proportion Portfolio Insurance (CPPI)
+#' Dynamic Proportion Portfolio Insurance (DPPI)
 #'
-#' Implements CPPI strategy for commodity price risk management
+#' Implements DPPI strategy for commodity price risk management
 #' @param q numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)
 #' @param tdate numeric values as dates
 #' @param f numeric futures price vector
@@ -11,15 +11,15 @@
 #' @return Data frame with strategy results
 #' @export
 
-cppi<-function(
+dppi<-function(
   q,
   tdate,
   f,
   tper = 0.1,
-  rper = 0.2,
+  rper = 0.2 * f,
   tcost = 0,
   int = TRUE
-  ){
+){
 
   # validation of arguments
 
@@ -53,6 +53,7 @@ cppi<-function(
     stop("Date and price vectors must be of equal length")
 
   # define vectors
+  tp<-vector(length(f),mode="numeric")       # target price
   pp<-vector(length(f),mode="numeric")       # portfolio price
   h<-vector(length(f),mode="numeric")        # hedge
   tr<-vector(length(f),mode="numeric")       # transaction
@@ -81,19 +82,16 @@ cppi<-function(
     test4<-expression(1-(pp[t-1]-tp)/rf[t-1])
   }
 
-  # define rf and tp
-  rf<-f[1]*rper
-  tp<-f[1]*(1+tper)
-
   # test of model selection
-  if(length(rf)==1){
-    rf<-rep(rf,length(f))             # CPPI model
+  if(length(rper)==1){
+    rf<-rep(rper*f[1],length(f))      # CPPI model
   } else {
     stopifnot(length(rf)==length(f))  # check validity of rf for vector for DPPI
   }
 
   # t=1
   pp[1]<-f[1]                           # t=1 initial portfolio price
+  tp[1]<-f[1] * (1+tper)
 
   if(eval(test1)>rf[1]){
     h[1]<-0
@@ -120,13 +118,18 @@ cppi<-function(
     hper[t]<-abs(h[t]/q)
     ch[t]<-ch[t-1]+(f[t]+sign(tr[t])*tcost)*tr[t]
     pp[t]<-(f[t]*exp[t]+ch[t])/q
+    if (tper<0){
+      tp[t]<-max(pp[t]*tper,tp[t-1])
+    } else {
+      tp[t]<-min(pp[t]*tper,tp[t-1])
+    }
   }
 
-  # create an instance of the CPPI class
-  out <- new("CPPI",
-             Name="CPPI",
+  # create an instance of the DPPI class
+  out <- new("DPPI",
+             Name="DPPI",
              Volume=q,
-             TargetPrice=tp,
+             TargetPrice=unique(tp),
              RiskFactor=rf,
              TransCost=tcost,
              TradeisInt=int,
@@ -138,9 +141,9 @@ cppi<-function(
                Hedged=h,
                HedgeRate=hper,
                PortfPrice=pp
-               )
              )
+  )
 
-  # return CPPI object
+  # return DPPI object
   return(out)
 }
