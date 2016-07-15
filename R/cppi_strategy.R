@@ -2,16 +2,16 @@
 #'
 #' Implements CPPI strategy for commodity price risk management
 #' @param q numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)
-#' @param tdate numeric values as dates
+#' @param tdate date vector with trading days
 #' @param f numeric futures price vector
 #' @param tper numeric target price markup/down to the price on the first trading day
 #' @param rper numeric risk factor as a percentage of the price on the first trading day
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
-#' @return Data frame with strategy results
+#' @return instance of the CPPI class
 #' @export
 
-cppi<-function(
+cppi <- function(
   q,
   tdate,
   f,
