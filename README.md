@@ -1,4 +1,4 @@
-# hedgeR: Portfolio insurance strategies for commodity price risk management
+# hedgeR: Commodity Market Risk Management in R
 Futures trading strategies for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
 
 Testing
