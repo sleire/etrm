@@ -112,10 +112,10 @@ setMethod("summary",
 
             ChurnRate <- sum(abs(object@Results$Traded))/abs(object@Volume)
 
-            Stats <- object@Results[1,]
-            Stats <- rbind(Stats, sapply(object@Results, max))
-            Stats <- rbind(Stats, sapply(object@Results, min))
-            Stats <- rbind(Stats, tail(object@Results,1))
+            Stats <- object@Results[1,2:8]
+            Stats <- rbind(Stats, sapply(object@Results[,2:8], max))
+            Stats <- rbind(Stats, sapply(object@Results[,2:8], min))
+            Stats <- rbind(Stats, tail(object@Results[,2:8],1))
             rownames(Stats) <- c("First","Max","Min","Last")
 
             list(Description=Description,Volume=Volume,
@@ -133,10 +133,14 @@ setMethod("plot",
           definition = function(x, y = NULL, title="",
                                 xlab = "", ylab.1 = "Price",
                                 ylab.2 = "Hedge %",
+                                #ylab.3 = "Return %",
                                 legend= "top",...){
 
             x@Results$xaxis <- 1:length(x@Results$Price)
-            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
+#            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
+#             x@Results$MarRet <- c(0,diff(log(c14@Results$Price)))*100
+#             x@Results$PorRet <- c(0,diff(log(x@Results$PortfPrice)))*100
+
 
             PricePlot <- ggplot(x@Results, aes(x=xaxis,y=Price)) +
               geom_line(aes(y=Price,colour="Market"),size=0.5) +
@@ -153,8 +157,16 @@ setMethod("plot",
                                               color = "transparent")
               )
 
-            HedgePlot <- ggplot(x@Results, aes(x=xaxis,y=HedgeRate)) +
-              geom_area(aes(y=HedgeRate),fill="gray75") +
+#             ReturnPlot <- ggplot(x@Results, aes(x=xaxis,y=MarRet)) +
+#               geom_line(aes(y=MarRet,colour="Market"),size=0.5) +
+#               geom_line(aes(y=PorRet,colour="Portfolio"),size=0.5) +
+#               theme(legend.position="",legend.title=element_blank()) +
+#               xlab(xlab) +  ylab(ylab.3) +
+#               theme(plot.margin=unit(c(0,1,0,0),"cm")) +
+#               theme(axis.title=element_text(size=12))
+
+            HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
+              geom_area(aes(y=HedgeRate*100),fill="gray75") +
               theme(legend.position="top",legend.title=element_blank()) +
               xlab(xlab) +  ylab(ylab.2) +
               theme(plot.margin=unit(c(0,1,0,0),"cm")) +

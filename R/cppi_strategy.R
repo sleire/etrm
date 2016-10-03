@@ -15,7 +15,7 @@ cppi <- function(
   q,
   tdate,
   f,
-  tper = 0.1,
+  tper,
   rper = 0.2,
   tcost = 0,
   int = TRUE
@@ -37,8 +37,8 @@ cppi <- function(
   if (tcost < 0)
     stop("Transaction cost cannot be a negative number")
 
-  if (rper <= 0)
-    stop("Risk factor must be a positive number")
+  # if (rper <= 0)
+  #   stop("Risk factor must be a positive number")
 
   if (tper == 0)
     stop("Target price percentage cannot be zero")
@@ -67,6 +67,17 @@ cppi <- function(
     digits<-0         # model with smallest tradeable volume unit = 1 (int=TRUE)
   }
 
+  # define rf and tp
+  rf<-f[1]*rper
+  tp<-f[1]*(1+tper)
+
+  # test of model selection
+  if(length(rf)==1){
+    rf<-rep(rf,length(f))             # CPPI model
+  } else {
+    stopifnot(length(rf)==length(f))  # check validity of rf for vector for DPPI
+  }
+
   # expression definitions for positive q (net buyer)
   # and negative q (net seller)
   if(q>0){
@@ -79,17 +90,6 @@ cppi <- function(
     test2<-expression(1-(pp[1]-tp)/rf[1])
     test3<-expression(pp[t-1]-tp)
     test4<-expression(1-(pp[t-1]-tp)/rf[t-1])
-  }
-
-  # define rf and tp
-  rf<-f[1]*rper
-  tp<-f[1]*(1+tper)
-
-  # test of model selection
-  if(length(rf)==1){
-    rf<-rep(rf,length(f))             # CPPI model
-  } else {
-    stopifnot(length(rf)==length(f))  # check validity of rf for vector for DPPI
   }
 
   # t=1
@@ -137,6 +137,7 @@ cppi <- function(
                Exposed=exp,
                Hedged=h,
                HedgeRate=hper,
+               Target = rep(tp,length(f)),
                PortfPrice=pp
                )
              )

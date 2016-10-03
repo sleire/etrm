@@ -16,10 +16,10 @@ dppi <- function(
   tdate,
   f,
   tper = 0.1,
-  rper = 0.2 * f,
+  rper = 0.2,
   tcost = 0,
   int = TRUE
-){
+  ){
 
   # validation of arguments
 
@@ -68,25 +68,26 @@ dppi <- function(
     digits<-0         # model with smallest tradeable volume unit = 1 (int=TRUE)
   }
 
-  # expression definitions for positive q (net buyer)
-  # and negative q (net seller)
-  if(q>0){
-    test1<-expression(tp-pp[1])
-    test2<-expression(1-(tp-pp[1])/rf[1])
-    test3<-expression(tp-pp[t-1])
-    test4<-expression(1-(tp-pp[t-1])/rf[t-1])
-  } else {
-    test1<-expression(pp[1]-tp)
-    test2<-expression(1-(pp[1]-tp)/rf[1])
-    test3<-expression(pp[t-1]-tp)
-    test4<-expression(1-(pp[t-1]-tp)/rf[t-1])
-  }
-
   # test of model selection
   if(length(rper)==1){
     rf<-rep(rper*f[1],length(f))      # CPPI model
   } else {
-    stopifnot(length(rf)==length(f))  # check validity of rf for vector for DPPI
+    stopifnot(length(rper)==length(f))  # check validity of rf for vector for DPPI
+    rf <- rper * f
+  }
+
+  # expression definitions for positive q (net buyer)
+  # and negative q (net seller)
+  if(q>0){
+    test1<-expression(tp[1]-pp[1])
+    test2<-expression(1-(tp[1]-pp[1])/rf[1])
+    test3<-expression(tp[t-1]-pp[t-1])
+    test4<-expression(1-(tp[t-1]-pp[t-1])/rf[t-1])
+  } else {
+    test1<-expression(pp[1]-tp[1])
+    test2<-expression(1-(pp[1]-tp[1])/rf[1])
+    test3<-expression(pp[t-1]-tp[t-1])
+    test4<-expression(1-(pp[t-1]-tp[t-1])/rf[t-1])
   }
 
   # t=1
@@ -119,9 +120,9 @@ dppi <- function(
     ch[t]<-ch[t-1]+(f[t]+sign(tr[t])*tcost)*tr[t]
     pp[t]<-(f[t]*exp[t]+ch[t])/q
     if (tper<0){
-      tp[t]<-max(pp[t]*tper,tp[t-1])
+      tp[t]<-max(pp[t]*(1+tper),tp[t-1])
     } else {
-      tp[t]<-min(pp[t]*tper,tp[t-1])
+      tp[t]<-min(pp[t]*(1+tper),tp[t-1])
     }
   }
 
@@ -140,6 +141,7 @@ dppi <- function(
                Exposed=exp,
                Hedged=h,
                HedgeRate=hper,
+               Target = tp,
                PortfPrice=pp
              )
   )
