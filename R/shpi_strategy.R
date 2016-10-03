@@ -1,19 +1,21 @@
-#' Stop Loss Portfolio Insurance (SLPI)
+#' Step Hedge Portfolio Insurance (SHPI)
 #'
-#' Implements SLPI strategy for commodity price risk management
+#' Implements SHPI strategy for commodity price risk management
 #' @param q numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)
 #' @param tdate date vector with trading days
 #' @param f numeric futures price vector
+#' @param daysleft integer with days left to contract expiry
 #' @param tper numeric target price markup/down to the price on the first trading day
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
-#' @return instance of the SLPI class
+#' @return instance of the SHPI class
 #' @export
 
-slpi<-function(
+shpi<-function(
   q,
   tdate,
   f,
+  daysleft,
   tper = 0.1,
   tcost = 0,
   int = TRUE
@@ -47,7 +49,6 @@ slpi<-function(
   if (length(tdate) != length(f))
     stop("Date and price vectors must be of equal length")
 
-
   # define vectors
   pp<-vector(length(f),mode="numeric")         # portfolio price
   h<-vector(length(f),mode="numeric")          # hedge
@@ -56,8 +57,8 @@ slpi<-function(
   exp<-vector(length(f),mode="numeric")        # exposed
   HP<-vector(length(f),mode="numeric")         # high/low portfolio price
 
-  # volume restrictions
-  if(int==FALSE){
+
+  if (int==FALSE){
     # model without tradeable volume restrictions (int=FALSE)
     digits<-10
   } else {
@@ -74,37 +75,36 @@ slpi<-function(
     test2<-expression(which(pp<=HP))
   }
 
+  # calculation of hedge, trades, exposed vol and portfolio price
+  h <- round((cumsum(f/f))/daysleft*q,digits)     # initial hedging plan
+  HP <-rep(f[1]*(1+tper),length(f))               # target price vector
+
   # t=1
-  hper[1]<-0
-  h[1]<-round(hper[1]*q,digits)
+  hper[1]<-h[1]/q
   tr[1]<-h[1]
   exp[1]<-q-h[1]
   pp[1]<-(tr[1]*(f[1]+sign(tr[1])*tcost)+exp[1]*f[1])/q
-  HP[1]<-f[1]*(1+tper)
 
   # t=2,..,T
   for(i in 2:(length(f))){
-    hper[i]<-0
-    h[i]<-round(hper[i]*q,digits)
+    hper[i]<-h[i]/q
     tr[i]<-h[i]-h[i-1]
     exp[i]<-q-h[i]
     pp[i]<-(cumsum(tr[1:i]*(f[1:i]+sign(tr[1:i])*tcost))[i]+exp[i]*f[i])/q
-    HP[i]<-f[1]*(1+tper)
   }
   if(eval(test1)){
-    hper[min(eval(test2)):length(h)]<-1
+    h[min(eval(test2)):length(h)]<-q
     for(i in 2:length(f)){
-      h[i]<-round(hper[i]*q,digits)
+      hper[i] <- h[i]/q
       tr[i]<-h[i]-h[i-1]
       exp[i]<-q-h[i]
       pp[i]<-(cumsum(tr[1:i]*(f[1:i]+sign(tr[1:i])*tcost))[i]+exp[i]*f[i])/q
-      HP[i]<-f[1]*(1+tper)
     }
   }
 
-  # create an instance of the SLPI class
-  out <- new("SLPI",
-             Name="SLPI",
+  # create an instance of the SHPI class
+  out <- new("SHPI",
+             Name="SHPI",
              Volume=q,
              TargetPrice=unique(HP),
              TransCost=tcost,
@@ -121,6 +121,6 @@ slpi<-function(
              )
   )
 
-  # return SLPI object
+    # return SHPI object
   return(out)
 }
