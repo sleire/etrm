@@ -89,7 +89,7 @@ setClass("VBPI",
 #'@export
 setMethod("show",
           signature ="GenericStrat",
-          definition=function(object, ...) {
+          definition=function(object) {
             Results <- object@Results
             Results
           })

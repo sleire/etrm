@@ -32,20 +32,6 @@ msfc <- function(
   edate <- bench$To
   f <- bench$Price
 
-  # trigonometric prior function
-  trigprior <- function(x, prior_par){
-    # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
-    pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
-      prior_par[3] * sin(prior_par[5] * x * pi/365) +
-      prior_par[4] * cos(prior_par[5] * x * pi/365)
-    pri
-  }
-
-  # start numeric date vector for prior on tdate date's day number
-  tfrom <-lubridate::yday(tdate)
-  tpri <- tfrom:(tfrom + length(Date) -1)
-  prior <- trigprior(tpri, prior_par)
-
   # date vector, time vector (in years) and knots
   Date <- seq(tdate,max(edate),by="day")
   #Date <- seq(min(sdate),max(edate),by="day")
@@ -62,6 +48,20 @@ msfc <- function(
   tcs <- as.numeric((sdate-tdate)/365)
   tce <- as.numeric((edate-tdate)/365)
   tc <- as.numeric((edate-sdate)/365)
+
+  # # trigonometric prior function
+  # trigprior <- function(x, prior_par){
+  #   # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
+  #   pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
+  #     prior_par[3] * sin(prior_par[5] * x * pi/365) +
+  #     prior_par[4] * cos(prior_par[5] * x * pi/365)
+  #   pri
+  # }
+  #
+  # # start numeric date vector for prior on tdate date's day number
+  # tfrom <-lubridate::yday(tdate)
+  # tpri <- tfrom:(tfrom + length(Date) -1)
+  # prior <- trigprior(tpri, prior_par)
 
   # build (5nx5n) matrix H
   H <- matrix(0,nrow=5*n,ncol=5*n)
