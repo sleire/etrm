@@ -11,11 +11,11 @@
 
 msfc <- function(
   tdate,
-  # prior_par = c(0,0,0,0,0),
   include,
   sdate,
   edate,
-  f
+  f,
+  # prior_par = c(0,0,0,0,0)
   ){
 
   BenchSheet <- data.frame(
@@ -31,9 +31,9 @@ msfc <- function(
   edate <- bench$To
   f <- bench$Price
 
-  #viz_par <- c(35, 0.03, 2.437, 4.366, 2)
-
   trigprior <- function(x, prior_par = c(0,0,0,0,0)){
+    # defalt prior function is zero
+    # viz_par <- c(35, 0.03, 2.437, 4.366, 2)
     pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
       prior_par[3] * sin(prior_par[5] * x * pi/365) +
       prior_par[4] * cos(prior_par[5] * x * pi/365)
@@ -126,6 +126,7 @@ msfc <- function(
   }
 
   # build (3n+m-2) vector B
+  # ta med sinuskurven her..
   B <- c(rep(0,3*(n-1)),0,f*tc)
 
   # solve equations with Lagrange: x'Hx + a'(Ax-B)
@@ -139,8 +140,8 @@ msfc <- function(
 
   # construct the MSFC with n polynomials
   # time delta dtv, numeric equivalent of 0.0001 day
-  #dtv <- as.numeric(Date[1]-(Date[1]+0.0001))/365
-  #dtv <- 0.00000027397259581841
+  # dtv <- as.numeric(Date[1]-(Date[1]+0.0001))/365
+  # dtv <- 0.00000027397259581841
   ki <- k*365
   MSFC <- NULL
   st <- ki[1] +1
@@ -171,9 +172,6 @@ msfc <- function(
   }
 
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
-
-  # data frame with results
-  #return(Results)
 
   # create an instance of the MSFC class
   out <- new("MSFC",

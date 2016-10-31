@@ -26,7 +26,7 @@ setClass("MSFC",
 #'@export
 setMethod("show",
           signature ="MSFC",
-          definition=function(object) {
+          definition=function(object, ...) {
             Results <- object@Results
             Results
           })
