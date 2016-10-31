@@ -2,6 +2,7 @@
 #'
 #' Creates a smooth forward curve from futures prices for a flow delivery
 #' @param tdate trading date
+#' @param include logical vector to determine if contracts should be included in calculation
 #' @param sdate date vector with contract delivery start dates
 #' @param edate date vector with contract delivery end dates
 #' @param f numeric vector with futures contract prices

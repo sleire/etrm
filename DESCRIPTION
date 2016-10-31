@@ -4,7 +4,9 @@ Title: Commodity Market Risk Management in R
 Version: 0.1
 Date: 2015-09-09
 Authors@R: person("Anders", "Sleire", email = "sleire@gmail.com", role = c("aut", "cre"))
-Description: Forward curves and trading strategies for commodity market risk management
+Description: Tools for commodity market risk management. Generation of forward
+curves and execution of trading strategies
 License:  GPL (>= 2)
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Imports: ggplot2, lubridate, reshape2, gridExtra
