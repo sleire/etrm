@@ -6,6 +6,7 @@
 #' @param edate date vector with contract delivery end dates
 #' @param f numeric vector with futures contract prices
 #' @return instance of the MSFC class
+#' @import lubridate
 #' @export
 
 
@@ -31,14 +32,19 @@ msfc <- function(
   edate <- bench$To
   f <- bench$Price
 
-  trigprior <- function(x, prior_par = c(0,0,0,0,0)){
-    # defalt prior function is zero
-    # viz_par <- c(35, 0.03, 2.437, 4.366, 2)
+  # trigonometric prior function
+  trigprior <- function(x, prior_par){
+    # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
     pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
       prior_par[3] * sin(prior_par[5] * x * pi/365) +
       prior_par[4] * cos(prior_par[5] * x * pi/365)
     pri
   }
+
+  # start numeric date vector for prior on tdate date's day number
+  tfrom <-lubridate::yday(tdate)
+  tpri <- tfrom:(tfrom + length(Date) -1)
+  prior <- trigprior(tpri, prior_par)
 
   # date vector, time vector (in years) and knots
   Date <- seq(tdate,max(edate),by="day")
