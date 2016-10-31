@@ -14,7 +14,7 @@ msfc <- function(
   include,
   sdate,
   edate,
-  f,
+  f
   # prior_par = c(0,0,0,0,0)
   ){
 
