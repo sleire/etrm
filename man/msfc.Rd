@@ -9,6 +9,8 @@ msfc(tdate, include, sdate, edate, f)
 \arguments{
 \item{tdate}{trading date}
 
+\item{include}{logical vector to determine if contracts should be included in calculation}
+
 \item{sdate}{date vector with contract delivery start dates}
 
 \item{edate}{date vector with contract delivery end dates}

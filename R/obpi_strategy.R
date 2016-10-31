@@ -10,7 +10,6 @@
 #' @param tdays integer assumed number of trading days per year
 #' @param daysleft integer with days left to option expiry
 #' @param tcost numeric transaction costs pr unit
-#' @param min numeric minimum quantity to be hedged at delivery
 #' @param int TRUE/ FALSE integer restriction on tradable volume
 #' @return instance of the OBPI class
 #' @export
