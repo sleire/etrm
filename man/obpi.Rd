@@ -27,8 +27,6 @@ obpi(q, tdate, f, k = f[1], vol, r = 0, tdays = 250, daysleft,
 \item{tcost}{numeric transaction costs pr unit}
 
 \item{int}{TRUE/ FALSE integer restriction on tradable volume}
-
-\item{min}{numeric minimum quantity to be hedged at delivery}
 }
 \value{
 instance of the OBPI class
