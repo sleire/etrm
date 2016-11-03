@@ -180,11 +180,21 @@ msfc <- function(
 
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
+  # get computed prices for contracts used in bench
+    Comp <- NULL
+    for (i in 1:length(f)){
+      c <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+      Comp <- append(Comp, c)
+    }
+
+    bench <- cbind(bench,Comp)
+
+
   # create an instance of the MSFC class
   out <- new("MSFC",
              Name="MSFC",
              TradeDate = tdate,
-             BenchSheet = BenchSheet,
+             BenchSheet = bench,
              Polynomials = n,
              PriorFunc = FALSE,
              Results = Results
@@ -194,27 +204,22 @@ msfc <- function(
   return(out)
 }
 
-# comp <- function (x, sdate, edate){
-#   Date <- seq(tdate,max(edate),by="day")
-#   skno <- match(sdate,Date)
-#   ekno <- as.numeric(skno+(edate-sdate+1))
-#   comp <- NULL
-#   for (i in 1:length(skno)){
-#     c <- mean(x[(skno[i]):(ekno[i]-1)])
-#     comp <- append(comp, c)
-#   }
-#   return(comp)
-# }
-#
-# fc <- comp(res$MSFC, sdate, edate)
-# f
-# round(fc,2)
-
 # s <-1
 # po <- (x[1]/5*((tv[(st):(ki[s+1])]+dtv)**5-tv[(st):(ki[s+1])]**5)
 #        + x[2]/4*((tv[(st):(ki[s+1])]+dtv)**4-tv[(st):(ki[s+1])]**4)
 #        + x[3]/3*((tv[(st):(ki[s+1])]+dtv)**3-tv[(st):(ki[s+1])]**3)
 #        + x[4]/2*((tv[(st):(ki[s+1])]+dtv)**2-tv[(st):(ki[s+1])]**2)
 #        + x[5]*((tv[(st):(ki[s+1])]+dtv)-tv[(st):(ki[s+1])]))/dtv
+#
+# ffc <- NULL
+# for (i in 2:93){
+#   d <- (x[1]/5*((tv[i]+dtv)**5-tv[i]**5) +
+#     x[2]/4*((tv[i]+dtv)**4-tv[i]**4) +
+#     x[3]/3*((tv[i]+dtv)**3-tv[i]**3) +
+#     x[4]/2*((tv[i]+dtv)**2-tv[i]**2) +
+#     x[5]*((tv[i]+dtv)-tv[i]))/(dtv)
+#   ffc <- append(ffc, d)
+#
+# }
 
 
