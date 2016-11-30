@@ -6,7 +6,7 @@ A typical characteristic of some energy markets (such as electricity and natural
 The function
 - mcfc() - Maximum Smoothness Forward Curve 
 
-Outputs an S4 object of type "MSFC", with methods "show", "summary" and "plot".
+outputs an S4 object of type "MSFC", with methods "show", "summary" and "plot".
 
 ### Commodity portfolio insurance strategy functions:
 Futures trading strategies for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
