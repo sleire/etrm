@@ -1,7 +1,7 @@
 # hedgeR: Commodity Market Risk Management in R
 
 ### Maximum Smoothness Forward Curve function:
-A typical characteristic of some energy commodities, such as electricity and natural gas) is a delivery of the underlying over a period, instead of a delivery on a single date. A smooth forward curve is an essential tool for pricing non-standard contracts having any settlement period.
+A typical characteristic of some energy markets (such as electricity and natural gas) is a delivery of the commodity over a period, instead of a delivery on a single date. A smooth forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period.
 
 Output S4 objects of type "msfc", with methods "show", "summary" and "plot".
 
