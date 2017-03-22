@@ -150,23 +150,24 @@ msfc <- function(
   # dtv <- as.numeric(Date[1]-(Date[1]+0.0001))/365
   # dtv <- 0.00000027397259581841
   ki <- k*365
-  MSFC <- NULL
+  MSFC <- vector(length(Date), mode = "numeric")
+  #MSFC <- NULL
   st <- ki[1] +1
   xi <- 1
   for (s in 1:n) {
-    po <- (x[xi]*tv[(st):(ki[s+1])]**4
+    MSFC[st:(ki[s+1])] <- (x[xi]*tv[(st):(ki[s+1])]**4
              + x[xi+1]*tv[(st):(ki[s+1])]**3
              + x[xi+2]*tv[(st):(ki[s+1])]**2
              + x[xi+3]*tv[(st):(ki[s+1])]
              + x[xi+4])
-    st <- ki[s+1] + 1
+    st <- ki[s+1]
     xi <- xi + 5
-    MSFC <- append(MSFC,po)
+   # MSFC <- append(MSFC,po)
   }
 
 
   if (length(Date > length(MSFC))){
-    MSFC <- c(rep(NA,(length(Date)-length(MSFC))),MSFC)
+    MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
   }
 
   Results <- data.frame(Date,MSFC)
@@ -187,7 +188,8 @@ msfc <- function(
       Comp <- append(Comp, c)
     }
 
-    bench <- cbind(bench,Comp)
+
+  bench <- cbind(bench,Comp)
 
 
   # create an instance of the MSFC class
@@ -221,5 +223,3 @@ msfc <- function(
 #   ffc <- append(ffc, d)
 #
 # }
-
-
