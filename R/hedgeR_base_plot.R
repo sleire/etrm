@@ -64,7 +64,7 @@ add_legend("topleft",
 
 
 
-par(mar=c(5,4,4,5)+.1)
+par(mar=c(3,5,3,5)+.1)
 plot(date,
      hed,
      type="l",
@@ -91,11 +91,4 @@ lines(date,tar,col="black", lty =2)
 lines(date,por,col="steelblue")
 grid(nx = NULL)
 
-
-plot(date,hed,type="l",col="lightsteelblue3",
-     ylim = c(0,100), xaxt="n",yaxt="n",xlab="",ylab="")
-
-#polygon(date,hed,col='lightsteelblue3', border = NA)
-axis(4)
-mtext("Hedge %",side=4,line=3)
 #legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
