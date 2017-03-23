@@ -1,17 +1,13 @@
 # base R plot of heging strategies
 
-# test data
-hed <- o6@Results$HedgeRate
-date <- o6@Results$Date
-mar <- o6@Results$Price
-tar <- o6@Results$Target
-por <- o6@Results$PortfPrice
+bt <- o14
 
-hed <- head(o6@Results$HedgeRate)
-date <- head(o6@Results$Date)
-mar <- head(o6@Results$Price)
-tar <- head(o6@Results$Target)
-por <- head(o6@Results$PortfPrice)
+# test data
+hed <- bt@Results$HedgeRate
+date <- bt@Results$Date
+mar <- bt@Results$Price
+tar <- bt@Results$Target
+por <- bt@Results$PortfPrice
 
 # add legend function
 add_legend <- function(...) {
@@ -22,7 +18,6 @@ add_legend <- function(...) {
   legend(...)
 }
 
-
 par(mar=c(5,4,4,5)+.1)
 plot(date,
      mar,
@@ -31,14 +26,13 @@ plot(date,
      xlab="",
      ylab="Price",
      #ylim=c(10,100),
-     main = "First attempt")
+     main = "Strategy plot in base R")
 #par(bg = "grey")
 rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
 grid(nx = NULL, col = "white", lty =1)
 lines(date, mar, col = "indianred")
 lines(date,tar,col="black", lty =2)
 lines(date,por,col="steelblue")
-
 
 par(new=TRUE)
 plot(date,hed*100,type="l",col="lightsteelblue3",
@@ -53,5 +47,6 @@ add_legend("topright",
            col=c("indianred","black", "steelblue", "lightsteelblue3"),
            horiz=TRUE, bty='n', cex=0.8)
 
-
+# for hedge area plot
+# https://github.com/VictoriaLynn/plotting-examples/blob/master/fill_between/fill_between.R
 
