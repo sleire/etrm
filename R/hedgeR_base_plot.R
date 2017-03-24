@@ -24,24 +24,25 @@ plot(date,
      type="l",
      col = "gray",
      yaxt = "n",
-     xlab="",
+     xlab="Price",
      ylab="",
-     #ylim=c(10,100),
      main = "Strategy plot in base R")
-#par(bg = "grey")
 rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
 grid(nx = NULL, col = "white", lty =1)
-
+opar <- par()
 par(new=TRUE)
 plot(date,hed,type="l",col="lightsteelblue3",
      ylim = c(0,100), xaxt="n",yaxt="n",xlab="",ylab="")
 polygon(c(date[1],date,tail(date, 1)),
         c(0,hed,0),col='lightsteelblue3', border = NA)
-par(new=TRUE)
+axis(4)
+par(opar)
 lines(date, mar, col = "indianred")
 lines(date,tar,col="black", lty =2)
 lines(date,por,col="steelblue")
 axis(2)
+
+
 par(new=TRUE)
 plot(date,hed,type="l",col="lightsteelblue3",
      ylim = c(0,100), xaxt="n",yaxt="n",xlab="",ylab="")
@@ -51,16 +52,13 @@ polygon(c(date[1],date,tail(date, 1)),
 axis(4)
 mtext("Hedge %",side=4,line=3)
 #legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
+grid(nx = NULL, col = "white", lty =1)
 
 add_legend("topleft",
            legend=c("Market", "Target", "Portfolio", "Hedge"),
            pch=20,
            col=c("indianred","black", "steelblue", "lightsteelblue3"),
            horiz=TRUE, bty='n', cex=0.8)
-
-# for hedge area plot
-# https://github.com/VictoriaLynn/plotting-examples/blob/master/fill_between/fill_between.R
-# polygon(x,c(0,y[2:(length(y)-1)],0),col='skyblue')
 
 
 
@@ -79,7 +77,7 @@ mtext("Hedge %",side=4,line=3)
 # polygon(c(date[1],date,tail(date, 1)),
 #         c(0,hed,0),col='lightsteelblue3', border = NA)
 #par(bg = "grey")
-# rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
 # grid(nx = NULL, col = "white", lty =1)
 
 polygon(c(date[1],date,tail(date, 1)),
@@ -89,6 +87,6 @@ par(new=TRUE)
 plot(date, mar, col = "indianred", type = "l", ylab = "Price",xlab = "")
 lines(date,tar,col="black", lty =2)
 lines(date,por,col="steelblue")
-grid(nx = NULL)
+grid(nx = NULL, col = "white", lty =1)
 
 #legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
