@@ -25,7 +25,7 @@ plot(date,
      type="l",
      col = "gray",
      yaxt = "n",
-     xlab="Price",
+     xlab="",
      ylab="",
      main = "Strategy plot in base R")
 rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
