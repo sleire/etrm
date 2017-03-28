@@ -123,6 +123,8 @@ setMethod("summary",
                  ChurnRate=ChurnRate,Stats=Stats)
           })
 
+# http://stackoverflow.com/questions/37024814/ggplot-generate-facet-grid-plot-with-multiple-series
+
 #' S4 method for the plot generic
 #'
 #' @import ggplot2
@@ -133,14 +135,10 @@ setMethod("plot",
           definition = function(x, y = NULL, title="",
                                 xlab = "", ylab.1 = "Price",
                                 ylab.2 = "Hedge %",
-                                #ylab.3 = "Return %",
                                 legend= "top",...){
 
             x@Results$xaxis <- 1:length(x@Results$Price)
 #            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
-#             x@Results$MarRet <- c(0,diff(log(c14@Results$Price)))*100
-#             x@Results$PorRet <- c(0,diff(log(x@Results$PortfPrice)))*100
-
 
             PricePlot <- ggplot(x@Results, aes(x=xaxis,y=Price)) +
               geom_line(aes(y=Price,colour="Market"),size=0.5) +
@@ -156,14 +154,6 @@ setMethod("plot",
                     legend.key = element_rect(fill = "transparent",
                                               color = "transparent")
               )
-
-#             ReturnPlot <- ggplot(x@Results, aes(x=xaxis,y=MarRet)) +
-#               geom_line(aes(y=MarRet,colour="Market"),size=0.5) +
-#               geom_line(aes(y=PorRet,colour="Portfolio"),size=0.5) +
-#               theme(legend.position="",legend.title=element_blank()) +
-#               xlab(xlab) +  ylab(ylab.3) +
-#               theme(plot.margin=unit(c(0,1,0,0),"cm")) +
-#               theme(axis.title=element_text(size=12))
 
             HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
               geom_area(aes(y=HedgeRate*100),fill="gray75") +
