@@ -129,6 +129,7 @@ setMethod("summary",
 #'
 #' @import ggplot2
 #' @import gridExtra
+#' @import reshape2
 #' @export
 setMethod("plot",
           signature = "GenericStrat",
@@ -137,31 +138,46 @@ setMethod("plot",
                                 ylab.2 = "Hedge %",
                                 legend= "top",...){
 
-            x@Results$xaxis <- 1:length(x@Results$Price)
-#            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
+            pdat <- x@Result[c("Date","Price","HedgeRate","Target","PortfPrice")]
+            pdat.melt <- melt(pdat, id = "Date")
 
-            PricePlot <- ggplot(x@Results, aes(x=xaxis,y=Price)) +
-              geom_line(aes(y=Price,colour="Market"),size=0.5) +
-              geom_line(aes(y=PortfPrice,colour="Portfolio"),size=0.5) +
-              geom_line(aes(y=Target,colour="Target"),size=0.5) +
-              theme(legend.position=legend,legend.title=element_blank()) +
-              xlab(xlab) +  ylab(ylab.1) +
-              theme(plot.margin=unit(c(0.3,1,-0.4,0.2),"cm")) +
-              theme(axis.title=element_text(size=12)) +
-              theme(axis.ticks = element_blank(), axis.text.x = element_blank()) +
-              ggtitle(title) +
-              theme(legend.background = element_rect(fill = "transparent"),
-                    legend.key = element_rect(fill = "transparent",
-                                              color = "transparent")
-              )
+            # add new grouping variable for facetting
+            pdat.melt$var <- ifelse(pdat.melt$variable == "HedgeRate", "Hedge", "Price")
+            pdat.melt$var <- factor(pdat.melt$var, levels = c("Price", "Hedge"))
 
-            HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
-              geom_area(aes(y=HedgeRate*100),fill="gray75") +
-              theme(legend.position="top",legend.title=element_blank()) +
-              xlab(xlab) +  ylab(ylab.2) +
-              theme(plot.margin=unit(c(0,1,0,0),"cm")) +
-              theme(axis.title=element_text(size=12))
+            p <- ggplot(pdat.melt, aes(Date, value, col=variable, group=variable)) +
+              geom_line() +
+              facet_grid(var~., scale='free_y') +
+              scale_color_discrete(breaks=c("Price","HedgeRate","Target","PortfPrice"), guide = F)
+            p
 
-            grid.arrange(PricePlot,HedgePlot,ncol=1,heights=c(1.5,0.6))
+
+            # x@Results$xaxis <- 1:length(x@Results$Price)
+            # #            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
+            #
+            # PricePlot <- ggplot(x@Results, aes(x=xaxis,y=Price)) +
+            #   geom_line(aes(y=Price,colour="Market"),size=0.5) +
+            #   geom_line(aes(y=PortfPrice,colour="Portfolio"),size=0.5) +
+            #   geom_line(aes(y=Target,colour="Target"),size=0.5) +
+            #   theme(legend.position=legend,legend.title=element_blank()) +
+            #   xlab(xlab) +  ylab(ylab.1) +
+            #   theme(plot.margin=unit(c(0.3,1,-0.4,0.2),"cm")) +
+            #   theme(axis.title=element_text(size=12)) +
+            #   theme(axis.ticks = element_blank(), axis.text.x = element_blank()) +
+            #   ggtitle(title) +
+            #   theme(legend.background = element_rect(fill = "transparent"),
+            #         legend.key = element_rect(fill = "transparent",
+            #                                   color = "transparent")
+            #   )
+            #
+            # HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
+            #   geom_area(aes(y=HedgeRate*100),fill="gray75") +
+            #   theme(legend.position="top",legend.title=element_blank()) +
+            #   xlab(xlab) +  ylab(ylab.2) +
+            #   theme(plot.margin=unit(c(0,1,0,0),"cm")) +
+            #   theme(axis.title=element_text(size=12))
+            #
+            # grid.arrange(PricePlot,HedgePlot,ncol=1,heights=c(1.5,0.6))
+
 
           })
