@@ -18,8 +18,11 @@ add_legend <- function(...) {
   legend(...)
 }
 
-par(mar=c(5,4,4,5)+.1)
-# need to adjust ylim
+ymin <-min(c(mar,tar,por))
+ymax <- max(c(mar,tar,por))
+
+#par(mar=c(5,4,4,5)+.1)
+par(mar=c(4,4.5,3,4.5))
 plot(date,
      mar,
      type="l",
@@ -27,7 +30,8 @@ plot(date,
      yaxt = "n",
      xlab="",
      ylab="",
-     main = "Strategy plot in base R")
+     main = "Strategy plot in base R",
+     ylim = c(ymin, ymax))
 rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey90")
 grid(nx = NULL, col = "white", lty =1)
 opar <- par()
@@ -40,7 +44,7 @@ axis(4)
 par(opar)
 lines(date, mar, col = "indianred")
 lines(date,tar,col="black", lty =2)
-lines(date,por,col="steelblue")
+lines(date,por,col="steelblue4")
 axis(2)
 mtext("Price",side=2,line=3)
 mtext("Hedge %",side=4,line=3)
@@ -48,8 +52,10 @@ mtext("Hedge %",side=4,line=3)
 #legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
 #grid(nx = NULL, col = "white", lty =1)
 
-# add_legend("topleft",
+# add_legend("bottom",
 #            legend=c("Market", "Target", "Portfolio", "Hedge"),
 #            pch=20,
-#            col=c("indianred","black", "steelblue", "lightsteelblue3"),
+#            col=c("indianred","black", "steelblue4", "lightsteelblue3"),
 #            horiz=TRUE, bty='n', cex=0.8)
+
+#http://stackoverflow.com/questions/11794436/stacking-multiple-plots-vertically-with-the-same-x-axis-but-different-y-axes-inhttp://stackoverflow.com/questions/11794436/stacking-multiple-plots-vertically-with-the-same-x-axis-but-different-y-axes-in
