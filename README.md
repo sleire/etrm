@@ -1,4 +1,4 @@
-# hedgeR: Commodity Market Risk Management in R
+# CTRM: Commodity Trading Risk Management in R
 
 
 ### Maximum Smoothness Forward Curve function:
