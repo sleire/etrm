@@ -19,7 +19,7 @@ Futures trading strategies for price risk management, for commercial hedgers wit
 
 Output S4 objects of type "CPPI", "DPPI", "OBPI", "SHPI" and "SLPI", with methods "show", "summary" and "plot".
 
-### Use cases for the **CTRM** package
+### Use cases for the CTRM package
 - Forward curves for market representation and non-standard pricing
 - Trading strategies for price risk management (back testing, monte carlo experiments, trading)
 
