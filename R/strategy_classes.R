@@ -179,7 +179,7 @@ setMethod("plot",
               xlab(xlab) +  ylab(ylab.2) +
               #ylim(0,100) +
               theme(plot.margin=unit(c(0,1,0,0),"cm")) +
-              scale_y_continuous(breaks = c(0,50,100)) +
+              scale_y_continuous(breaks = c(0,50,100), limits = c(0, 100)) +
               theme(axis.title=element_text(size=8))
 
             gP <- ggplotGrob(PricePlot)
