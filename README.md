@@ -21,10 +21,7 @@ Output S4 objects of type "CPPI", "DPPI", "OBPI", "SHPI" and "SLPI", with method
 
 ### Use cases for the **CTRM** package
 - Forward curves for market representation and non-standard pricing
-- Trading strategies for price risk management
-  - Back testing 
-  - Monte carlo experiments
-  - Trading
+- Trading strategies for price risk management (back testing, monte carlo experiments, trading)
 
 ### Install from GitHub
 ```
