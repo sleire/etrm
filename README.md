@@ -1,16 +1,15 @@
 # CTRM: Commodity Trading Risk Management in R
 
 
-### Maximum Smoothness Forward Curve function:
-A typical characteristic of some energy markets (such as electricity and natural gas) is a delivery of the commodity over a period, instead of a delivery on a single date. A smooth forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period.
+### Maximum Smoothness Forward Curve.
+A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardised periods, such as "Day", "Week", "Month", "Season" or "Year". A smooth forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period.The function
 
-The function
 - mcfc() - Maximum Smoothness Forward Curve 
 
 outputs an S4 object of type "MSFC", with methods "show", "summary" and "plot".
 
-### Commodity portfolio insurance strategy functions:
-Futures trading strategies for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor).
+### Commodity portfolio insurance strategies.
+Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor). The functions
 
 - cppi() - Constant Proportion Portfolio Insurance   
 - dppi() - Dynamic Proportion Portfolio Insurance   
@@ -20,9 +19,12 @@ Futures trading strategies for commercial hedgers with long or short exposure. A
 
 Output S4 objects of type "CPPI", "DPPI", "OBPI", "SHPI" and "SLPI", with methods "show", "summary" and "plot".
 
-### Dynamic hedging strategies for
-- Long and short hedgers
-- Back testing and decision support for traded contracts
+### Use cases for the **CTRM** package
+- Forward curves for market representation and non-standard pricing
+- Trading strategies for price risk management
+  - Back testing 
+  - Monte carlo experiments
+  - Trading
 
 ### Install from GitHub
 ```
