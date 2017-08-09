@@ -8,8 +8,8 @@ A typical characteristic of energy commodities such as electricity and natural g
 
 outputs an S4 object of type "MSFC", with methods "show", "summary" and "plot".
 
-### Commodity portfolio insurance strategies.
-Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the commodity portfolio price, while preventing it from breaching a pre defined cap (floor). The functions
+### Energy portfolio insurance strategies.
+Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the unit price for the energy portfolio, while preventing it from breaching a pre defined cap (floor). The functions
 
 - cppi() - Constant Proportion Portfolio Insurance   
 - dppi() - Dynamic Proportion Portfolio Insurance   
@@ -19,9 +19,9 @@ Futures trading strategies for price risk management, for commercial hedgers wit
 
 Output S4 objects of type "CPPI", "DPPI", "OBPI", "SHPI" and "SLPI", with methods "show", "summary" and "plot".
 
-### Use cases for the CTRM package
+### Use cases for the etrm package
 - Forward curves for market representation and non-standard pricing
-- Trading strategies for price risk management (back testing, monte carlo experiments, trading)
+- Trading strategies for price risk management (trading, back testing, monte carlo experiments, risk assessment)
 
 ### Install from GitHub
 ```
