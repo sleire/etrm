@@ -1,4 +1,4 @@
-# CTRM: Commodity Trading Risk Management in R
+# etrm: Energy Trading and Risk Management in R
 
 
 ### Maximum Smoothness Forward Curve.
