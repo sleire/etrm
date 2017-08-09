@@ -1,11 +1,11 @@
-Package: hedgeR
+Package: etrm
 Type: Package
-Title: Commodity Market Risk Management in R
+Title: Energy Trading and Risk Management in R
 Version: 1.0
-Date: 2017-03-16
+Date: 2017-08-09
 Author: Anders D. Sleire
 Maintainer: Anders D. Sleire <sleire@gmail.com>
-Description: Tools for commodity market risk management, forward curves and trading strategies
+Description: Tools for energy market risk management; forward curves and trading strategies
 License:  GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
