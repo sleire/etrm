@@ -22,10 +22,3 @@ Output S4 objects of type "CPPI", "DPPI", "OBPI", "SHPI" and "SLPI", with method
 ### Use cases for the etrm package
 - Forward curves for market representation and non-standard pricing
 - Trading strategies for price risk management (trading, back testing, monte carlo experiments, risk assessment)
-
-### Install from GitHub
-```
-install.packages("devtools")  
-library(devtools)
-install_github("sleire/hedgeR")
-```
