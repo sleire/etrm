@@ -2,11 +2,11 @@ Package: etrm
 Type: Package
 Title: Energy Trading and Risk Management in R
 Version: 1.0
-Date: 2017-08-09
+Date: 2019-09-22
 Author: Anders D. Sleire
 Maintainer: Anders D. Sleire <sleire@gmail.com>
 Description: Tools for energy market risk management; forward curves and trading strategies
-License:  GPL-3
+License:  MIT
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports: ggplot2, lubridate, reshape2, gridExtra
