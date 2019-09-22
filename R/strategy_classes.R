@@ -1,7 +1,7 @@
 
 ######### classes #######
 
-#' An S4 VIRTUAL parent class for the hedging strategy classes in hedgeR
+#' An S4 VIRTUAL parent class for the hedging strategy classes in etrm
 #'
 #' @Name Object of type "character" containing hedging strategy name
 #' @Volume Object of type "numeric" with quantity to be hedged

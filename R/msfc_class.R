@@ -1,7 +1,7 @@
 
 ######### MSFC class #######
 
-#' An S4 class for the Maximum Smoothness Forward Curve (MSFC) in hedgeR
+#' An S4 class for the Maximum Smoothness Forward Curve (MSFC) in etrm
 #'
 #' @Name Object of type "character" containing hedging strategy name
 #' @TradeDate object of type "date"

@@ -50,6 +50,10 @@ msfc <- function(
   tce <- as.numeric((edate-tdate)/365)
   tc <- as.numeric((edate-sdate)/365)
 
+#  tcs <- as.numeric((sdate-tdate)/365)
+#  tce <- as.numeric((edate-tdate)/365)
+#  tc <- as.numeric((edate-sdate)/365)
+
   # # trigonometric prior function
   # trigprior <- function(x, prior_par){
   #   # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
@@ -165,7 +169,6 @@ msfc <- function(
    # MSFC <- append(MSFC,po)
   }
 
-
   if (length(Date > length(MSFC))){
     MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
   }
@@ -188,9 +191,7 @@ msfc <- function(
       Comp <- append(Comp, c)
     }
 
-
   bench <- cbind(bench,Comp)
-
 
   # create an instance of the MSFC class
   out <- new("MSFC",

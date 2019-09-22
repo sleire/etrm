@@ -3,13 +3,12 @@ library(ggplot2)
 library(reshape2)
 
 # MSFC source
-source("msfc_class.R")
-source("msfc.R")
+source("../etrm/R/msfc_class.R")
+source("../etrm/R/msfc.R")
 
 # data
-#
-load("../Data/Nasdaq130513.Rda")
-load("../Data/Nasdaq090914.Rda")
+load("../etrm/data/Nasdaq130513.Rda")
+load("../etrm/data/Nasdaq090914.Rda")
 
 # for testing with the Nasdaq bench sheets
  bench <- Nasdaq130513
@@ -32,7 +31,7 @@ res <- msfc(tdate,include,sdate,edate,f)
 res@Results$MSFC[length(res@Results$MSFC)] <- NA
 
 # plot res
-plot(res)
+plot(res, legent="")
 
 # summary res
 summary(res)
