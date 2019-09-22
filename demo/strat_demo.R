@@ -5,8 +5,6 @@ library(gtable)
 library(grid)
 
 # source
-#setwd("C:/Users/AndersS/Dropbox/sleire/hedgeR/R")
-setwd("/home/anders/Dropbox/sleire/etrm/R")
 source("strategy_classes.R")
 source("cppi_strategy.R")
 source("dppi_strategy.R")

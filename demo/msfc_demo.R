@@ -3,8 +3,6 @@ library(ggplot2)
 library(reshape2)
 
 # MSFC source
-setwd("~/Dropbox/sleire/etrm/R")
-#setwd("C:/Users/AndersS/Dropbox/sleire/hedgeR/R")
 source("msfc_class.R")
 source("msfc.R")
 
