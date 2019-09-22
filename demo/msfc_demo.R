@@ -7,6 +7,7 @@ source("msfc_class.R")
 source("msfc.R")
 
 # data
+#
 load("../Data/Nasdaq130513.Rda")
 load("../Data/Nasdaq090914.Rda")
 
