@@ -37,7 +37,7 @@ msfc <- function(
   Date <- seq(tdate,max(edate),by="day")
   #Date <- seq(min(sdate),max(edate),by="day")
   tv <- as.numeric((Date-tdate)/365)
-  k <- sort((c((sdate-tdate),(edate-tdate))))/365
+  k <- as.numeric(sort((c((sdate-tdate),(edate-tdate))))/365)
   k <- k[!duplicated(k)]
   k[1] <-0
 
