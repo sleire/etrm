@@ -50,10 +50,6 @@ msfc <- function(
   tce <- as.numeric((edate-tdate)/365)
   tc <- as.numeric((edate-sdate)/365)
 
-#  tcs <- as.numeric((sdate-tdate)/365)
-#  tce <- as.numeric((edate-tdate)/365)
-#  tc <- as.numeric((edate-sdate)/365)
-
   # # trigonometric prior function
   # trigprior <- function(x, prior_par){
   #   # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
@@ -149,25 +145,44 @@ msfc <- function(
   x <- S[1:(5*n)]
   a <- setdiff(S,x)
 
+  # (x1[1]/5*(tce[1]**5-tcs[1]**5)+x1[2]/4*(tce[1]**4-tcs[1]**4)+x1[3]/3*(tce[1]**3-tcs[1]**3)+x1[4]/2*(tce[1]**2-tcs[1]**2)+x1[5]*(tce[1]-tcs[1]))/(tce[1]-tcs[1])
+
   # construct the MSFC with n polynomials
   # time delta dtv, numeric equivalent of 0.0001 day
   # dtv <- as.numeric(Date[1]-(Date[1]+0.0001))/365
-  # dtv <- 0.00000027397259581841
+  dtv <- 0.00000027397259581841
+  tvo <- tv + dtv
   ki <- k*365
   MSFC <- vector(length(Date), mode = "numeric")
-  #MSFC <- NULL
   st <- ki[1] +1
   xi <- 1
   for (s in 1:n) {
-    MSFC[st:(ki[s+1])] <- (x[xi]*tv[(st):(ki[s+1])]**4
-             + x[xi+1]*tv[(st):(ki[s+1])]**3
-             + x[xi+2]*tv[(st):(ki[s+1])]**2
-             + x[xi+3]*tv[(st):(ki[s+1])]
-             + x[xi+4])
+    MSFC[st:(ki[s+1])] <-
+      (x[xi]*tv[(st):(ki[s+1])]**4
+       + x[xi+1]*tv[(st):(ki[s+1])]**3
+       + x[xi+2]*tv[(st):(ki[s+1])]**2
+       + x[xi+3]*tv[(st):(ki[s+1])]
+       + x[xi+4])
     st <- ki[s+1]
     xi <- xi + 5
-   # MSFC <- append(MSFC,po)
   }
+
+  # for (s in 1:n) {
+  #   MSFC[st:(ki[s+1])] <-
+  #               ((x[xi]/5*(tvo[(st):(ki[s+1])]**5 - tv[(st):(ki[s+1])]**5))
+  #            + (x[xi+1]/4*(tvo[(st):(ki[s+1])]**4 - tv[(st):(ki[s+1])]**4))
+  #            + (x[xi+2]/3*(tvo[(st):(ki[s+1])]**3 - tv[(st):(ki[s+1])]**3))
+  #            + (x[xi+3]/2*(tvo[(st):(ki[s+1])]**2 - tv[(st):(ki[s+1])]**2))
+  #            + (x[xi+4])*(tvo[(st):(ki[s+1])] - tv[(st):(ki[s+1])]))/dtv
+  #   st <- ki[s+1]
+  #   xi <- xi + 5
+  # }
+  #
+  # (x[11]/5*(tce[2]**5-tcs[2]**5)
+  # +x[12]/4*(tce[2]**4-tcs[2]**4)
+  # +x[13]/3*(tce[2]**3-tcs[2]**3)
+  # +x[14]/2*(tce[2]**2-tcs[2]**2)
+  # +x[15]*(tce[2]-tcs[2]))/(tce[2]-tcs[2])
 
   if (length(Date > length(MSFC))){
     MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
@@ -185,13 +200,30 @@ msfc <- function(
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
   # get computed prices for contracts used in bench
-    Comp <- NULL
-    for (i in 1:length(f)){
-      c <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
-      Comp <- append(Comp, c)
-    }
+  ns <- (match(tce,k)-1)*5-4
+  Comp <- NULL
+  CompAvg <- NULL
+  for (i in 1:m){
+    nsm <- ns[i]
+    c <-
+      (x[nsm]/5*(tce[i]**5-tcs[i]**5)
+      +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
+      +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
+      +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
+      +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
+    Comp <- c(Comp, c)
+    cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+    CompAvg <- c(CompAvg, cavg)
+  }
+    # for (i in 1:length(f)){
+    #   c <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+    #   Comp <- append(Comp, c)
+    # }
 
   bench <- cbind(bench,Comp)
+  bench <- cbind(bench,CompAvg)
+  CompAvgPer <- (CompAvg/Comp-1)*100
+  bench <- cbind(bench,CompAvgPer)
 
   # create an instance of the MSFC class
   out <- new("MSFC",
@@ -200,7 +232,8 @@ msfc <- function(
              BenchSheet = bench,
              Polynomials = n,
              PriorFunc = FALSE,
-             Results = Results
+             Results = Results,
+             x = x
   )
 
   # return MSFC object
@@ -213,6 +246,12 @@ msfc <- function(
 #        + x[3]/3*((tv[(st):(ki[s+1])]+dtv)**3-tv[(st):(ki[s+1])]**3)
 #        + x[4]/2*((tv[(st):(ki[s+1])]+dtv)**2-tv[(st):(ki[s+1])]**2)
 #        + x[5]*((tv[(st):(ki[s+1])]+dtv)-tv[(st):(ki[s+1])]))/dtv
+#
+# (x1[1]/5*(tce[1]**5-tcs[1]**5)
+# +x1[2]/4*(tce[1]**4-tcs[1]**4)
+# +x1[3]/3*(tce[1]**3-tcs[1]**3)
+# +x1[4]/2*(tce[1]**2-tcs[1]**2)
+# +x1[5]*(tce[1]-tcs[1]))/(tce[1]-tcs[1])
 #
 # ffc <- NULL
 # for (i in 2:93){

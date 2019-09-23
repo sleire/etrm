@@ -9,8 +9,11 @@ source("../etrm/R/msfc.R")
 # data
 load("../etrm/data/Nasdaq130513.Rda")
 load("../etrm/data/Nasdaq090914.Rda")
+load("../etrm/data/contracts.Rda")
 
 # for testing with the Nasdaq bench sheets
+# bench <- contracts
+# tdate <- as.Date("2016-11-03")
  bench <- Nasdaq130513
  tdate <- as.Date("2013-05-13")
 

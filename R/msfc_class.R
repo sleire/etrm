@@ -15,7 +15,8 @@ setClass("MSFC",
                    BenchSheet = "data.frame",
                    Polynomials = "numeric",
                    PriorFunc = "logical",
-                   Results = "data.frame")
+                   Results = "data.frame",
+                   x = "numeric")
 )
 
 
