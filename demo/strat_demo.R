@@ -5,15 +5,15 @@ library(gtable)
 library(grid)
 
 # source
-source("strategy_classes.R")
-source("cppi_strategy.R")
-source("dppi_strategy.R")
-source("shpi_strategy.R")
-source("obpi_strategy.R")
-source("slpi_strategy.R")
+source("../etrm/R/strategy_classes.R")
+source("../etrm/R/cppi_strategy.R")
+source("../etrm/R/dppi_strategy.R")
+source("../etrm/R/shpi_strategy.R")
+source("../etrm/R/obpi_strategy.R")
+source("../etrm/R/slpi_strategy.R")
 
 # load data
-load("Data/ENOYR.Rda")
+load("../etrm/data/ENOYR.Rda")
 
 ############# SHPI
 # y6
