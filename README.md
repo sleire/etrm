@@ -8,6 +8,8 @@ A typical characteristic of energy commodities such as electricity and natural g
 
 outputs an S4 object of type "MSFC", with methods "show", "summary" and "plot".
 
+![](https://github.com/sleire/etrm/blob/master/demo/msfc.png)
+
 ### Portfolio insurance strategies for energy price risk management.
 Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to reduce (increase) the unit price for the energy portfolio, while preventing it from breaching a pre defined cap (floor). The functions
 
