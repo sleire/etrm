@@ -16,8 +16,8 @@ msfc <- function(
   include,
   sdate,
   edate,
-  f
-  # prior_par = c(0,0,0,0,0)
+  f,
+  prior = 0
   ){
 
   BenchSheet <- data.frame(
@@ -215,10 +215,6 @@ msfc <- function(
     cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
     CompAvg <- c(CompAvg, cavg)
   }
-    # for (i in 1:length(f)){
-    #   c <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
-    #   Comp <- append(Comp, c)
-    # }
 
   bench <- cbind(bench,Comp)
   bench <- cbind(bench,CompAvg)
