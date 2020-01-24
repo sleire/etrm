@@ -64,23 +64,6 @@ setClass("SLPI",
          contains = "GenericStrat"
 )
 
-#' An S4 class for the VBPI hedging strategy
-#'
-#'@ConfLevel Object of type "numeric" with VaR confidence level
-#' @TargetPercent Object of type "numeric" with portfolio target price
-#' (cap or floor) set as a percentage of first trading day's market price
-#'@Mean Object of type "numeric" with mean in price process
-#'@StDev Object of type "numeric" with annualized volatility
-#'@Horizon Object of type "integer" with trading days left
-setClass("VBPI",
-         contains = "GenericStrat",
-         slots = c(ConfLevel = "numeric",
-                   TargetPercent= "numeric",
-                   Mean= "numeric",
-                   StDev= "numeric",
-                   Horizon= "numeric")
-)
-
 
 ######### methods #######
 
