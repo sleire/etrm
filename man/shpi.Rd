@@ -27,4 +27,3 @@ instance of the SHPI class
 \description{
 Implements SHPI strategy for commodity price risk management
 }
-

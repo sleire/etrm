@@ -7,4 +7,3 @@
 \description{
 An S4 class for the DPPI hedging strategy
 }
-

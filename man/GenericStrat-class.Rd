@@ -3,8 +3,7 @@
 \docType{class}
 \name{GenericStrat-class}
 \alias{GenericStrat-class}
-\title{An S4 VIRTUAL parent class for the hedging strategy classes in hedgeR}
+\title{An S4 VIRTUAL parent class for the hedging strategy classes in etrm}
 \description{
-An S4 VIRTUAL parent class for the hedging strategy classes in hedgeR
+An S4 VIRTUAL parent class for the hedging strategy classes in etrm
 }
-

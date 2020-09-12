@@ -25,4 +25,3 @@ instance of the SLPI class
 \description{
 Implements SLPI strategy for commodity price risk management
 }
-

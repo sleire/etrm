@@ -3,8 +3,7 @@
 \docType{class}
 \name{MSFC-class}
 \alias{MSFC-class}
-\title{An S4 class for the Maximum Smoothness Forward Curve (MSFC) in hedgeR}
+\title{An S4 class for the Maximum Smoothness Forward Curve (MSFC) in etrm}
 \description{
-An S4 class for the Maximum Smoothness Forward Curve (MSFC) in hedgeR
+An S4 class for the Maximum Smoothness Forward Curve (MSFC) in etrm
 }
-

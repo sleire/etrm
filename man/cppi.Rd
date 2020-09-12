@@ -27,4 +27,3 @@ instance of the CPPI class
 \description{
 Implements CPPI strategy for commodity price risk management
 }
-

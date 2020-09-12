@@ -4,7 +4,7 @@
 \alias{msfc}
 \title{Maximum Smoothness Forward Curve (MSFC)}
 \usage{
-msfc(tdate, include, sdate, edate, f)
+msfc(tdate, include, sdate, edate, f, prior = 0)
 }
 \arguments{
 \item{tdate}{trading date}
@@ -23,4 +23,3 @@ instance of the MSFC class
 \description{
 Creates a smooth forward curve from futures prices for a flow delivery
 }
-

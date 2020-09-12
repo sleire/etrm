@@ -4,8 +4,18 @@
 \alias{obpi}
 \title{Option Based Portfolio Insurance (OBPI)}
 \usage{
-obpi(q, tdate, f, k = f[1], vol, r = 0, tdays = 250, daysleft,
-  tcost = 0, int = TRUE)
+obpi(
+  q,
+  tdate,
+  f,
+  k = f[1],
+  vol,
+  r = 0,
+  tdays = 250,
+  daysleft,
+  tcost = 0,
+  int = TRUE
+)
 }
 \arguments{
 \item{q}{numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)}
@@ -34,4 +44,3 @@ instance of the OBPI class
 \description{
 Implements OBPI strategy for commodity price risk management
 }
-
