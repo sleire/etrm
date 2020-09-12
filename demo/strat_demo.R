@@ -99,3 +99,4 @@ d14 <- tail(ENO$Date[!is.na(ENO$ENOYR.14)],200)
 
 o14 <- obpi(q=100, f=y14,tdate=d14,vol=0.2,daysleft=length(y6))
 plot(o14)
+

@@ -121,18 +121,34 @@ setMethod("plot",
                                 ylab.2 = "Hedge %",
                                 legend= "",...){
 
-            # pdat <- x@Results[c("Date","Price","HedgeRate","Target","PortfPrice")]
-            # colnames(pdat) <- c("Date","Market","Hedge","Target","Portfolio")
-            # pdat.melt <- melt(pdat, id = "Date")
-            #
-            # # add new grouping variable for facetting
-            # pdat.melt$var <- ifelse(pdat.melt$variable == "Hedge", "Hedge", "Price")
-            # pdat.melt$var <- factor(pdat.melt$var, levels = c("Price", "Hedge"))
-            #
+            pdat <- x@Results[c("Date","Price","HedgeRate","Target","PortfPrice")]
+            colnames(pdat) <- c("Date","Market","Hedge","Target","Portfolio")
+            pdat.melt <- melt(pdat, id = "Date")
+
+            # add new grouping variable for facetting
+            pdat.melt$var <- ifelse(pdat.melt$variable == "Hedge", "Hedge", "Price")
+            pdat.melt$var <- factor(pdat.melt$var, levels = c("Price", "Hedge"))
+            #head(pdat.melt)
+# https://ggplot2.tidyverse.org/reference/facet_grid.html
+# https://sctyner.github.io/redoing-graphs.html
+# https://github.com/sctyner/geomnet
+
+            ggplot() +
+              geom_line(data = subset(pdat.melt, var == "Price"),
+                        aes(x = Date, y = value, color = variable), size = 0.5) +
+              geom_area(data = subset(pdat.melt, var == "Hedge"),
+                        aes(x = Date, y= value, fill = variable), size = 1.5) + #, position = "dodge")  +
+              scale_fill_manual(values=c("gray")) + #CC6666
+              scale_color_manual(values=c("firebrick", "seagreen", "deepskyblue4")) +
+              #scale_color_brewer(palette = "Paired") +
+              facet_grid(var~., scales = "free_y" ) + ylim(0)
+
             # p <- ggplot(pdat.melt, aes(Date, value, col=variable, group=variable)) +
             #   geom_line() +
             #   facet_grid(var~., scale='free_y') +
-            #   theme(strip.text.y = element_blank())
+            #   #facet_wrap(~var, nrow = 2, scales = "free_y" ) +
+            #   #facet_wrap(var~., scale='free_y') +
+            #   #theme(strip.text.y = element_blank())
             #   scale_color_discrete(breaks=c("Market","Target","Portfolio","Hedge"))
             # p
 
@@ -141,40 +157,44 @@ setMethod("plot",
            # x@Results$xaxis <- 1:length(x@Results$Price)
             #            x@Results$Target <- rep(x@TargetPrice,length(x@Results$Price))
 
-            PricePlot <- ggplot(x@Results, aes(x=Date,y=Price)) +
-              geom_line(aes(y=Price,colour="Market"),size=0.5) +
-              geom_line(aes(y=PortfPrice,colour="Portfolio"),size=0.5) +
-              geom_line(aes(y=Target,colour="Target"),size=0.5) +
-              theme(legend.position=legend,legend.title=element_blank()) +
-              xlab(xlab) +  ylab(ylab.1) +
-              theme(plot.margin=unit(c(0.3,1,-0.4,0.2),"cm")) +
-              theme(axis.title=element_text(size=8)) +
-              theme(axis.ticks = element_blank(), axis.text.x = element_blank()) +
-              ggtitle(title) +
-              theme(legend.background = element_rect(fill = "transparent"),
-                    legend.key = element_rect(fill = "transparent",
-                                              color = "transparent")
-              )
-
-            HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
-              geom_area(aes(y=HedgeRate*100),fill="gray75") +
-              theme(legend.position="top",legend.title=element_blank()) +
-              xlab(xlab) +  ylab(ylab.2) +
-              #ylim(0,100) +
-              theme(plot.margin=unit(c(0,1,0,0),"cm")) +
-              scale_y_continuous(breaks = c(0,50,100), limits = c(0, 100)) +
-              theme(axis.title=element_text(size=8))
-
-            gP <- ggplotGrob(PricePlot)
-            gH <- ggplotGrob(HedgePlot)
-            #g <- rbind(gP, gH)
-
-            g <-gtable:::rbind_gtable(gP, gH, "first")
-            # panels <- g$layout$t[grep("panel", g$layout$name)]
-            # g$heights[panels] <- unit(c(1,2), "null")
-
-            grid::grid.newpage()
-            grid::grid.draw(g)
+            ########################
+#
+#             PricePlot <- ggplot(x@Results, aes(x=Date,y=Price)) +
+#               geom_line(aes(y=Price,colour="Market"),size=0.5) +
+#               geom_line(aes(y=PortfPrice,colour="Portfolio"),size=0.5) +
+#               geom_line(aes(y=Target,colour="Target"),size=0.5) +
+#               theme(legend.position=legend,legend.title=element_blank()) +
+#               xlab(xlab) +  ylab(ylab.1) +
+#               theme(plot.margin=unit(c(0.3,1,-0.4,0.2),"cm")) +
+#               theme(axis.title=element_text(size=8)) +
+#               theme(axis.ticks = element_blank(), axis.text.x = element_blank()) +
+#               ggtitle(title) +
+#               theme(legend.background = element_rect(fill = "transparent"),
+#                     legend.key = element_rect(fill = "transparent",
+#                                               color = "transparent")
+#               )
+#
+#             HedgePlot <- ggplot(x@Results, aes(x=Date,y=HedgeRate*100)) +
+#               geom_area(aes(y=HedgeRate*100),fill="gray75") +
+#               theme(legend.position="top",legend.title=element_blank()) +
+#               xlab(xlab) +  ylab(ylab.2) +
+#               #ylim(0,100) +
+#               theme(plot.margin=unit(c(0,1,0,0),"cm")) +
+#               scale_y_continuous(breaks = c(0,50,100), limits = c(0, 100)) +
+#               theme(axis.title=element_text(size=8))
+#
+#             gP <- ggplotGrob(PricePlot)
+#             gH <- ggplotGrob(HedgePlot)
+#             #g <- rbind(gP, gH)
+#
+#             g <-gtable:::rbind_gtable(gP, gH, "first")
+#             # panels <- g$layout$t[grep("panel", g$layout$name)]
+#             # g$heights[panels] <- unit(c(1,2), "null")
+#
+#             grid::grid.newpage()
+#             grid::grid.draw(g)
+#
+            ##########################
 
             #grid.arrange(gP, gH, ncol=1, heights=c(1,0.4))
                          #layout_matrix = rbind(c(1,1), c(1,1)), c(2,2))
