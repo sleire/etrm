@@ -1,5 +1,7 @@
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/sleire/etrm.svg?branch=master)](https://travis-ci.org/sleire/etrm)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ---------
 
 # etrm: Energy Trading and Risk Management in R
