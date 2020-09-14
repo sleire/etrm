@@ -12,10 +12,10 @@ load("../etrm/data/Nasdaq090914.Rda")
 load("../etrm/data/contracts.Rda")
 
 # for testing with the Nasdaq bench sheets
-# bench <- contracts
-# tdate <- as.Date("2016-11-03")
- bench <- Nasdaq130513
- tdate <- as.Date("2013-05-13")
+bench <- contracts
+tdate <- as.Date("2017-01-01")
+ # bench <- Nasdaq130513
+ # tdate <- as.Date("2013-05-13")
 
 #bench <-Nasdaq090914
 #bench <- bench[18:25,]
@@ -34,7 +34,7 @@ res <- msfc(tdate,include,sdate,edate,f)
 res@Results$MSFC[length(res@Results$MSFC)] <- NA
 
 # plot res
-plot(res, legent="")
+plot(res, legend="")
 
 # summary res
 summary(res)

@@ -16,6 +16,8 @@ msfc(tdate, include, sdate, edate, f, prior = 0)
 \item{edate}{date vector with contract delivery end dates}
 
 \item{f}{numeric vector with futures contract prices}
+
+\item{prior}{numeric vector with prior forward price curve}
 }
 \value{
 instance of the MSFC class

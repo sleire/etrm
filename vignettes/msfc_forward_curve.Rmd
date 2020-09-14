@@ -1,0 +1,19 @@
+---
+title: "Maximum Smoothness Forward Curve"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{msfc_forward_curve}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(etrm)
+```

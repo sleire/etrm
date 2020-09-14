@@ -6,6 +6,7 @@
 #' @param sdate date vector with contract delivery start dates
 #' @param edate date vector with contract delivery end dates
 #' @param f numeric vector with futures contract prices
+#' @param prior numeric vector with prior forward price curve
 #' @return instance of the MSFC class
 #' @import lubridate
 #' @export
