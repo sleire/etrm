@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![Travis-CI Build Status] (https://travis-ci.org/GITHUB_USERNAME/REPO.svg?branch=master)] (https://travis-ci.org/sleire/etrm)
+[![Travis-CI Build Status] (https://travis-ci.org/sleire/etrm.svg?branch=master)] (https://travis-ci.org/sleire/etrm)
 ---------
 
 # etrm: Energy Trading and Risk Management in R
