@@ -40,6 +40,9 @@ shpi<-function(
   if (tper == 0)
     stop("Target price percentage cannot be zero")
 
+  if (daysleft <= 0)
+    stop("Number of trading days left must be a positive number")
+
   if (q < 0 & tper > 0)
     stop("A seller cannot set target price above current market")
 
