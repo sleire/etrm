@@ -6,3 +6,6 @@ warnings_are_errors: true
 os:
   - linux
   - osx
+environment:
+  global:
+    WARNINGS_ARE_ERRORS: 1
