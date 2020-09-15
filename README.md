@@ -1,8 +1,9 @@
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/sleire/etrm.svg?branch=master)](https://travis-ci.org/sleire/etrm)
+[![Build status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](https://ci.appveyor.com/project/sleire/etrm)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
----------
+<!-- badges: end -->
 
 # etrm: Energy Trading and Risk Management in R
 etrm is an R package with tools for trading and financial risk mannagement in energy markets
