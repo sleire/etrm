@@ -6,7 +6,7 @@
 <!-- badges: end -->
 
 # etrm: Energy Trading and Risk Management in R
-etrm is an R package with tools for trading and financial risk mannagement in energy markets
+etrm is an R package with tools for trading and financial risk management in energy markets
 
 ### Maximum Smoothness Forward Curve.
 A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardized periods, such as "Day", "Week", "Month", "Season" or "Year". A smooth forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period. The function
