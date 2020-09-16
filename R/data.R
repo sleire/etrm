@@ -63,7 +63,7 @@
 #'   \item{CAL-12}{the closing price for the 2012 futures contract}
 #'   \item{CAL-13}{the closing price for the 2013 futures contract}
 #'   \item{CAL-14}{the closing price for the 2014 futures contract}
-#'   \item{CAL-14}{the closing price for the 2015 futures contract}
+#'   \item{CAL-15}{the closing price for the 2015 futures contract}
 #'   \item{CAL-16}{the closing price for the 2016 futures contract}
 #' }
 "powcal"
