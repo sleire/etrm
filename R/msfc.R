@@ -8,7 +8,6 @@
 #' @param f numeric vector with futures contract prices
 #' @param prior numeric vector with prior forward price curve
 #' @return instance of the MSFC class
-#' @import lubridate
 #' @export
 
 
@@ -51,22 +50,9 @@ msfc <- function(
   tce <- as.numeric((edate-tdate)/365)
   tc <- as.numeric((edate-sdate)/365)
 
-  # # trigonometric prior function
-  # trigprior <- function(x, prior_par){
-  #   # ex prior_par <- c(35, 0.03, 2.437, 4.366, 2)
-  #   pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
-  #     prior_par[3] * sin(prior_par[5] * x * pi/365) +
-  #     prior_par[4] * cos(prior_par[5] * x * pi/365)
-  #   pri
-  # }
-  #
-  # # start numeric date vector for prior on tdate date's day number
-  # tfrom <-lubridate::yday(tdate)
-  # tpri <- tfrom:(tfrom + length(Date) -1)
-  # prior <- trigprior(tpri, prior_par)
-
   # build (5nx5n) matrix H
   H <- matrix(0,nrow=5*n,ncol=5*n)
+
   # create n hj matrices
   ix <- 1
   for (j in 1:n) {
@@ -134,7 +120,7 @@ msfc <- function(
   }
 
   # build (3n+m-2) vector B
-  # ta med sinuskurven her..
+  # TODO: include prior function
   B <- c(rep(0,3*(n-1)),0,f*tc)
 
   # solve equations with Lagrange: x'Hx + a'(Ax-B)
@@ -155,18 +141,57 @@ msfc <- function(
   tvo <- tv + dtv
   ki <- k*365
   MSFC <- vector(length(Date), mode = "numeric")
-  st <- ki[1] +1
+  st <- ki[1] + 1
   xi <- 1
+  ###################################
+
+  cdat <- data.frame(tv, tvo, a = NA, b = NA, c = NA, d = NA, e = NA)
+
+  # # TODO: add spline coefficients to cdat
+  spli_coef <- list()
   for (s in 1:n) {
-    MSFC[st:(ki[s+1])] <-
-      (x[xi]*tv[(st):(ki[s+1])]**4
-       + x[xi+1]*tv[(st):(ki[s+1])]**3
-       + x[xi+2]*tv[(st):(ki[s+1])]**2
-       + x[xi+3]*tv[(st):(ki[s+1])]
-       + x[xi+4])
-    st <- ki[s+1]
+    spli_coef[[s]] <- c(x[xi], x[xi+1], x[xi+2], x[xi+3], x[xi+4])
     xi <- xi + 5
   }
+
+  # add coefficients
+  spline_count <- n
+  for (i in length(k):2) {
+    cdat$a <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][1], cdat$a)
+    cdat$b <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][2], cdat$b)
+    cdat$c <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][3], cdat$c)
+    cdat$d <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][4], cdat$d)
+    cdat$e <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][5], cdat$e)
+    spline_count <- spline_count - 1
+  }
+
+  MSFC <- (cdat$a/5 * (cdat$tvo**5 - cdat$tv**5) +
+    cdat$b/4 * (cdat$tvo**4 - cdat$tv**4) +
+    cdat$c/3 * (cdat$tvo**3 - cdat$tv**3) +
+    cdat$d/2 * (cdat$tvo**2 - cdat$tv**2) +
+    cdat$e * (cdat$tvo - cdat$tv))/(cdat$tvo - cdat$tv)
+
+
+  # for (s in 1:n) {
+  #   MSFC[st:(ki[s+1])] <-
+  #     (x[xi]*tv[(st):(ki[s+1])]**4
+  #      + x[xi+1]*tv[(st):(ki[s+1])]**3
+  #      + x[xi+2]*tv[(st):(ki[s+1])]**2
+  #      + x[xi+3]*tv[(st):(ki[s+1])]
+  #      + x[xi+4])
+  #   st <- ki[s+1]
+  #   xi <- xi + 5
+  # }
+  #
+  # # update last element in MSFC
+  # # TODO: fix final day msfc price
+  # xi_fin <- n*5 - 5
+  # MSFC[length(MSFC)] <- (x[xi_fin]*dtv**4
+  #                       + x[xi_fin+1]*dtv**3
+  #                       + x[xi_fin+2]*dtv**2
+  #                       + x[xi_fin+3]*dtv
+  #                       + x[xi_fin+4])
+  ####################
 
   # for (s in 1:n) {
   #   MSFC[st:(ki[s+1])] <-
@@ -178,13 +203,8 @@ msfc <- function(
   #   st <- ki[s+1]
   #   xi <- xi + 5
   # }
-  #
-  # (x[11]/5*(tce[2]**5-tcs[2]**5)
-  # +x[12]/4*(tce[2]**4-tcs[2]**4)
-  # +x[13]/3*(tce[2]**3-tcs[2]**3)
-  # +x[14]/2*(tce[2]**2-tcs[2]**2)
-  # +x[15]*(tce[2]-tcs[2]))/(tce[2]-tcs[2])
 
+  # TODO: evaluate if length date vs msfc is redundant
   if (length(Date > length(MSFC))){
     MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
   }

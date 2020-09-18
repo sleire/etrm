@@ -18,3 +18,31 @@ knitr::opts_chunk$set(
 library(etrm)
 data("spreads161230")
 ```
+
+Inspect the spreads data
+```{r}
+spreads161230
+```
+
+Create an instance of the MSFC class
+```{r}
+fwd <- msfc(tdate = as.Date("2016-12-30"),
+            include = spreads161230$Include,
+            sdate = spreads161230$Start,
+            edate = spreads161230$End,
+            f = spreads161230$Closing)
+```
+
+Available methods are "summary", "plot" and "show"
+```{r}
+summary(fwd)
+```
+
+```{r, fig.dim=c(7, 4)}
+plot(fwd)
+```
+
+```{r}
+head(show(fwd))
+```
+
