@@ -3,6 +3,7 @@
 #' Creates a smooth forward curve from futures prices for a flow delivery
 #' @param tdate trading date
 #' @param include logical vector to determine if contracts should be included in calculation
+#' @param contract vector with contract names
 #' @param sdate date vector with contract delivery start dates
 #' @param edate date vector with contract delivery end dates
 #' @param f numeric vector with futures contract prices
@@ -14,6 +15,7 @@
 msfc <- function(
   tdate,
   include,
+  contract,
   sdate,
   edate,
   f,
@@ -22,6 +24,7 @@ msfc <- function(
 
   BenchSheet <- data.frame(
     Include = include,
+    Contract = contract,
     From = sdate,
     To = edate,
     Price = f
@@ -37,6 +40,7 @@ msfc <- function(
   Date <- seq(tdate,max(edate),by="day")
   #Date <- seq(min(sdate),max(edate),by="day")
   tv <- as.numeric((Date-tdate)/365)
+  # TODO: consider moving k below tcs, tce, tc (depend on those)
   k <- as.numeric(sort((c((sdate-tdate),(edate-tdate))))/365)
   k <- k[!duplicated(k)]
   k[1] <-0
@@ -46,6 +50,7 @@ msfc <- function(
   m <- length(f)
 
   # contract start/ end point and length in years
+  # TODO: evaluate tc vs tc+1
   tcs <- as.numeric((sdate-tdate)/365)
   tce <- as.numeric((edate-tdate)/365)
   tc <- as.numeric((edate-sdate)/365)
@@ -106,7 +111,7 @@ msfc <- function(
   for (i in 1:m){
     for (j in 2:(n+1)){
       if (tce[i] > k[j-1] & tcs[i] < k[j]){
-        # insert price contraints into contract periods only
+        # insert price constraints into contract periods only
         t1 <- max(tcs[i], k[j-1])
         t2 <- min(k[j], tce[i])
         A[ix,((j-2)*5+1):((j-2)*5+5)] <- c(1/5*(t2**5-t1**5),
@@ -120,7 +125,7 @@ msfc <- function(
   }
 
   # build (3n+m-2) vector B
-  # TODO: include prior function
+  # TODO: include prior function and reconsider tc length
   B <- c(rep(0,3*(n-1)),0,f*tc)
 
   # solve equations with Lagrange: x'Hx + a'(Ax-B)
@@ -131,8 +136,6 @@ msfc <- function(
   S <- solve(L,R)
   x <- S[1:(5*n)]
   a <- setdiff(S,x)
-
-  # (x1[1]/5*(tce[1]**5-tcs[1]**5)+x1[2]/4*(tce[1]**4-tcs[1]**4)+x1[3]/3*(tce[1]**3-tcs[1]**3)+x1[4]/2*(tce[1]**2-tcs[1]**2)+x1[5]*(tce[1]-tcs[1]))/(tce[1]-tcs[1])
 
   # construct the MSFC with n polynomials
   # time delta dtv, numeric equivalent of 0.0001 day
@@ -145,16 +148,17 @@ msfc <- function(
   xi <- 1
   ###################################
 
+  # data frame for daily msfc calculation
   cdat <- data.frame(tv, tvo, a = NA, b = NA, c = NA, d = NA, e = NA)
 
-  # # TODO: add spline coefficients to cdat
+  # add spline coefficient to list
   spli_coef <- list()
   for (s in 1:n) {
     spli_coef[[s]] <- c(x[xi], x[xi+1], x[xi+2], x[xi+3], x[xi+4])
     xi <- xi + 5
   }
 
-  # add coefficients
+  # add coefficients to cdat
   spline_count <- n
   for (i in length(k):2) {
     cdat$a <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][1], cdat$a)
@@ -165,44 +169,12 @@ msfc <- function(
     spline_count <- spline_count - 1
   }
 
+  # calculate daily msfc values
   MSFC <- (cdat$a/5 * (cdat$tvo**5 - cdat$tv**5) +
     cdat$b/4 * (cdat$tvo**4 - cdat$tv**4) +
     cdat$c/3 * (cdat$tvo**3 - cdat$tv**3) +
     cdat$d/2 * (cdat$tvo**2 - cdat$tv**2) +
     cdat$e * (cdat$tvo - cdat$tv))/(cdat$tvo - cdat$tv)
-
-
-  # for (s in 1:n) {
-  #   MSFC[st:(ki[s+1])] <-
-  #     (x[xi]*tv[(st):(ki[s+1])]**4
-  #      + x[xi+1]*tv[(st):(ki[s+1])]**3
-  #      + x[xi+2]*tv[(st):(ki[s+1])]**2
-  #      + x[xi+3]*tv[(st):(ki[s+1])]
-  #      + x[xi+4])
-  #   st <- ki[s+1]
-  #   xi <- xi + 5
-  # }
-  #
-  # # update last element in MSFC
-  # # TODO: fix final day msfc price
-  # xi_fin <- n*5 - 5
-  # MSFC[length(MSFC)] <- (x[xi_fin]*dtv**4
-  #                       + x[xi_fin+1]*dtv**3
-  #                       + x[xi_fin+2]*dtv**2
-  #                       + x[xi_fin+3]*dtv
-  #                       + x[xi_fin+4])
-  ####################
-
-  # for (s in 1:n) {
-  #   MSFC[st:(ki[s+1])] <-
-  #               ((x[xi]/5*(tvo[(st):(ki[s+1])]**5 - tv[(st):(ki[s+1])]**5))
-  #            + (x[xi+1]/4*(tvo[(st):(ki[s+1])]**4 - tv[(st):(ki[s+1])]**4))
-  #            + (x[xi+2]/3*(tvo[(st):(ki[s+1])]**3 - tv[(st):(ki[s+1])]**3))
-  #            + (x[xi+3]/2*(tvo[(st):(ki[s+1])]**2 - tv[(st):(ki[s+1])]**2))
-  #            + (x[xi+4])*(tvo[(st):(ki[s+1])] - tv[(st):(ki[s+1])]))/dtv
-  #   st <- ki[s+1]
-  #   xi <- xi + 5
-  # }
 
   # TODO: evaluate if length date vs msfc is redundant
   if (length(Date > length(MSFC))){
@@ -220,27 +192,36 @@ msfc <- function(
 
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
+  # TOD: remove CalcDat?
+  CalcDat <- cbind(Results$Date, cdat, Results[, 2:ncol(Results)])
+
   # get computed prices for contracts used in bench
+  # TODO: evaluate comp, see ns
+  #####################
   ns <- (match(tce,k)-1)*5-4
   Comp <- NULL
   CompAvg <- NULL
   for (i in 1:m){
     nsm <- ns[i]
-    c <-
+    cc <-
       (x[nsm]/5*(tce[i]**5-tcs[i]**5)
       +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
       +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
       +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
       +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
-    Comp <- c(Comp, c)
+    Comp <- c(Comp, cc)
     cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
     CompAvg <- c(CompAvg, cavg)
   }
+  #####################
+
+  # TODO:reconsider rounding of Comp and CompAvg
+  Comp <- round(Comp, 2)
+  CompAvg <- round(CompAvg, 2)
 
   bench <- cbind(bench,Comp)
   bench <- cbind(bench,CompAvg)
-  CompAvgPer <- (CompAvg/Comp-1)*100
-  bench <- cbind(bench,CompAvgPer)
+  bench$CompAvgDiff <- bench$Price - round(bench$CompAvg, 2)
 
   # create an instance of the MSFC class
   out <- new("MSFC",
@@ -248,35 +229,12 @@ msfc <- function(
              TradeDate = tdate,
              BenchSheet = bench,
              Polynomials = n,
-             PriorFunc = FALSE,
+             PriorFunc = prior, # TODO: consider returning value in (0, curve)
              Results = Results,
-             x = x
+             SplineCoef = spli_coef,
+             CalcDat = CalcDat
   )
 
   # return MSFC object
   return(out)
 }
-
-# s <-1
-# po <- (x[1]/5*((tv[(st):(ki[s+1])]+dtv)**5-tv[(st):(ki[s+1])]**5)
-#        + x[2]/4*((tv[(st):(ki[s+1])]+dtv)**4-tv[(st):(ki[s+1])]**4)
-#        + x[3]/3*((tv[(st):(ki[s+1])]+dtv)**3-tv[(st):(ki[s+1])]**3)
-#        + x[4]/2*((tv[(st):(ki[s+1])]+dtv)**2-tv[(st):(ki[s+1])]**2)
-#        + x[5]*((tv[(st):(ki[s+1])]+dtv)-tv[(st):(ki[s+1])]))/dtv
-#
-# (x1[1]/5*(tce[1]**5-tcs[1]**5)
-# +x1[2]/4*(tce[1]**4-tcs[1]**4)
-# +x1[3]/3*(tce[1]**3-tcs[1]**3)
-# +x1[4]/2*(tce[1]**2-tcs[1]**2)
-# +x1[5]*(tce[1]-tcs[1]))/(tce[1]-tcs[1])
-#
-# ffc <- NULL
-# for (i in 2:93){
-#   d <- (x[1]/5*((tv[i]+dtv)**5-tv[i]**5) +
-#     x[2]/4*((tv[i]+dtv)**4-tv[i]**4) +
-#     x[3]/3*((tv[i]+dtv)**3-tv[i]**3) +
-#     x[4]/2*((tv[i]+dtv)**2-tv[i]**2) +
-#     x[5]*((tv[i]+dtv)-tv[i]))/(dtv)
-#   ffc <- append(ffc, d)
-#
-# }

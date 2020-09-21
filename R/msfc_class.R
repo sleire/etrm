@@ -14,9 +14,10 @@ setClass("MSFC",
                    TradeDate ="Date",
                    BenchSheet = "data.frame",
                    Polynomials = "numeric",
-                   PriorFunc = "logical",
+                   PriorFunc = "numeric",
                    Results = "data.frame",
-                   x = "numeric")
+                   SplineCoef = "list",
+                   CalcDat = "data.frame")
 )
 
 
@@ -48,7 +49,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- object@PriorFunc
+            PriorFunc <- head(object@PriorFunc)
 
             BenchSheet <- object@BenchSheet
 
