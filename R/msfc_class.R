@@ -3,12 +3,14 @@
 
 #' An S4 class for the Maximum Smoothness Forward Curve (MSFC) in etrm
 #'
-#' @Name Object of type "character" containing hedging strategy name
+#' @Name Object of type "character" containing forward curve name "MSFC"
 #' @TradeDate object of type "date"
 #' @BenchSheet Object of type "data frame" with futures contracts
 #' @Polynomials Object of type "numeric" with number of polynomials in the spline
-#' @PriorFunc Object of type "logical", prior function or not
+#' @PriorFunc Object of type "numeric" with prior function values
 #' @Results Object of type "data frame" with MSFC and contracts
+#' @SplineCoef List with spline coefficients for the msfc calculation
+#' @CalcDat Data frame with daily values for splines and msfc
 setClass("MSFC",
          slots = c(Name = "character",
                    TradeDate ="Date",
