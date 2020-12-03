@@ -114,13 +114,13 @@ shpi<-function(
              TradeisInt=int,
              Results=data.frame(
                Date=tdate,
-               Price=f,
-               Traded=tr,
+               Market=f,
+               Trade=tr,
                Exposed=exp,
-               Hedged=h,
-               HedgeRate=hper,
+               Position=h,
+               Hedge=hper,
                Target = HP,
-               PortfPrice=pp
+               Portfolio=pp
              )
   )
 

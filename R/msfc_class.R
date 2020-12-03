@@ -51,7 +51,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- head(object@PriorFunc)
+            PriorFunc <- head(object@PriorFunc) # TODO: consider returning complete prior
 
             BenchSheet <- object@BenchSheet
 

@@ -132,13 +132,13 @@ cppi <- function(
              TradeisInt=int,
              Results=data.frame(
                Date=tdate,
-               Price=f,
-               Traded=tr,
+               Market=f,
+               Trade=tr,
                Exposed=exp,
-               Hedged=h,
-               HedgeRate=hper,
+               Position=h,
+               Hedge=hper,
                Target = rep(tp,length(f)),
-               PortfPrice=pp
+               Portfolio=pp
                )
              )
 

@@ -7,11 +7,12 @@
 \S4method{plot}{GenericStrat}(
   x,
   y = NULL,
-  title = "",
-  xlab = "",
+  title = "Strategy plot",
   ylab.1 = "Price",
   ylab.2 = "Hedge \%",
-  legend = "",
+  pcols = c("deepskyblue4", "seagreen", "firebrick", "gray"),
+  legend = "bottom",
+  ggtheme = theme_gray(),
   ...
 )
 }

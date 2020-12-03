@@ -4,12 +4,14 @@
 \alias{msfc}
 \title{Maximum Smoothness Forward Curve (MSFC)}
 \usage{
-msfc(tdate, include, sdate, edate, f, prior = 0)
+msfc(tdate, include, contract, sdate, edate, f, prior = 0)
 }
 \arguments{
 \item{tdate}{trading date}
 
 \item{include}{logical vector to determine if contracts should be included in calculation}
+
+\item{contract}{vector with contract names}
 
 \item{sdate}{date vector with contract delivery start dates}
 

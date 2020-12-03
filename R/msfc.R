@@ -229,7 +229,7 @@ msfc <- function(
              TradeDate = tdate,
              BenchSheet = bench,
              Polynomials = n,
-             PriorFunc = prior, # TODO: consider returning value in (0, curve)
+             PriorFunc = prior,
              Results = Results,
              SplineCoef = spli_coef,
              CalcDat = CalcDat

@@ -28,6 +28,7 @@ Create an instance of the MSFC class
 ```{r}
 fwd <- msfc(tdate = as.Date("2016-12-30"),
             include = spreads161230$Include,
+            contract = spreads161230$Contract,
             sdate = spreads161230$Start,
             edate = spreads161230$End,
             f = spreads161230$Closing)
