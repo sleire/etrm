@@ -39,3 +39,5 @@ debug_fwd4 <- function(){
                edate = shdat$End,
                f = shdat$Closing)
 }
+
+

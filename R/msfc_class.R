@@ -66,19 +66,29 @@ setMethod("summary",
 #' @export
 setMethod("plot",
           signature = "MSFC",
-          definition = function(x, y = NULL, title="",
-                                xlab = "", ylab = "Price",
-                                legend= "top",...){
-
+          definition = function(x,
+                                y = NULL,
+                                title="Maximum smoothness forward curve",
+                                xlab = "Date",
+                                ylab = "Price",
+                                legend= "right",
+                                ggtheme = theme_gray(),
+                                ...){
+            # reshape
             x_melt <- melt(x@Results, id = "Date")
-            x_meltNA <- na.omit(x_melt)
+            x_melt <- na.omit(x_melt)
 
-            p <- ggplot(x_meltNA, aes(x = Date,y = value, color = variable)) +
+            ggplot(x_melt, aes(x = Date,y = value, color = variable)) +
             geom_line() +
             xlab(xlab) +
             ylab(ylab) +
-            theme(legend.title=element_blank())
 
-            p
+            # allow user to select ggplot theme
+            ggtheme +
+
+            theme(legend.title=element_blank(),
+                  legend.position = legend) +
+
+              ggtitle(title)
 
           })

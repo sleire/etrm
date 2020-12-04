@@ -192,7 +192,7 @@ msfc <- function(
 
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
-  # TOD: remove CalcDat?
+  # TODO: remove CalcDat?
   CalcDat <- cbind(Results$Date, cdat, Results[, 2:ncol(Results)])
 
   # get computed prices for contracts used in bench
