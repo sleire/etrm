@@ -2,7 +2,7 @@
 title: "Maximum Smoothness Forward Curve"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{msfc_forward_curve}
+  %\VignetteIndexEntry{Maximum Smoothness Forward Curve}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

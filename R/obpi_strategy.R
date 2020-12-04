@@ -69,6 +69,7 @@ obpi <- function(
 
   # remaining time in years, d1 and d2 from Black76
   t<-(daysleft:1)/tdays
+  t <- t[1:length(f)] # for contracts still traded
   d1<-(log(f/k)+(0.5*vol^2*t))/(vol*sqrt(t))
   d2 <- d1-vol*sqrt(t)
 
