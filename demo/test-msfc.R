@@ -1,5 +1,24 @@
 ov <- powfutures130513[c(21,22,23,24,29), ]
 
+
+trigprior <- function(tdate, edate, prior_par = c(0,0,0,0,0)){
+
+  # get day of year for tdate
+  yr <- format(tdate, "%Y")
+  doyr <- length(seq(as.Date(paste(yr, "01", "01", sep = "-")), tdate, by = "day"))
+  x <- doyr:(doyr + length(seq(tdate, edate, by = "day")) - 1)
+
+  # default prior is zero
+  pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
+    prior_par[3] * sin(prior_par[5] * x * pi/365) +
+    prior_par[4] * cos(prior_par[5] * x * pi/365)
+  data.frame(Date = seq(tdate, edate, by = "day"), prior = pri)
+}
+
+viz_par <- c(15, 0.03, 2.437, 4.366, 2)
+
+################################################################################
+
 debug_fwdov <- function(){
   fwdov <- msfc(tdate = as.Date("2013-05-13"),
                 include = c(FALSE,TRUE,FALSE,TRUE,TRUE),
@@ -15,7 +34,9 @@ debug_fwd1 <- function(){
               contract = spreads161230$Contract,
               sdate = spreads161230$Start,
               edate = spreads161230$End,
-              f = spreads161230$Closing)
+              f = spreads161230$Closing
+              #prior = trigprior(as.Date("2016-11-03"), max(edate), viz_par)
+  )
 }
 
 debug_fwd2 <- function(){

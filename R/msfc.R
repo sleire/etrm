@@ -22,6 +22,48 @@ msfc <- function(
   prior = 0
   ){
 
+  # validation of arguments
+
+  # missing arguments
+  if (missing(tdate))
+    stop("No trading date specified")
+
+  if (missing(include))
+    stop("No include vector specified")
+
+  if (missing(contract))
+    stop("No contract vector specified")
+
+  if (missing(sdate))
+    stop("No sdate vector specified")
+
+  if (missing(edate))
+    stop("No edate vector specified")
+
+  if (missing(f))
+    stop("No price vector f specified")
+
+  # invalid arguments
+  if (length(tdate) != 1)
+    stop("Trading date tdate must be single date")
+
+  if (class(tdate) != "Date")
+    stop("Trading date tdate must be of type date")
+
+  vlist <- list(include, contract, sdate, edate, f)
+  if (length(unique(lengths(vlist))) != 1)
+    stop("Vectors include, contract, sdate, edate, and f must be of equal length")
+
+  if(any(class(sdate)!="Date"))
+    stop("Elements in vector sdate must be of type date")
+
+  if(any(class(edate)!="Date"))
+    stop("Elements in vector edate must be of type date")
+
+  if(!any(edate < sdate))
+    stop("Contract edate cannot be smaller than sdate")
+
+
   BenchSheet <- data.frame(
     Include = include,
     Contract = contract,
@@ -45,8 +87,6 @@ msfc <- function(
   k <- k[!duplicated(k)]
   #k[1] <-0
   k <- c(0, k)
-
-
 
   # contract start/ end point and length in years
   # TODO: evaluate tc vs tc+1
@@ -243,27 +283,6 @@ msfc <- function(
     cavg <- mean(Results$MSFC[Results$Date >= sdate[c] & Results$Date <= edate[c]])
     CompAvg <- c(CompAvg, cavg)
   }
-
-
-
-  # # TODO: evaluate comp, see ns
-  # #####################
-  # ns <- (match(tce,k)-1)*5-4
-  # Comp <- NULL
-  # CompAvg <- NULL
-  # for (i in 1:m){
-  #   nsm <- ns[i]
-  #   cc <-
-  #     (x[nsm]/5*(tce[i]**5-tcs[i]**5)
-  #     +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
-  #     +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
-  #     +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
-  #     +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
-  #   Comp <- c(Comp, cc)
-  #   cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
-  #   CompAvg <- c(CompAvg, cavg)
-  # }
-  # #####################
 
   Comp <- round(Comp, 2)
   CompAvg <- round(CompAvg, 2)
