@@ -10,6 +10,7 @@
 #' @PriorFunc Object of type "numeric" with prior function values
 #' @Results Object of type "data frame" with MSFC and contracts
 #' @SplineCoef List with spline coefficients for the msfc calculation
+#' @KnotPoints Vector with spline knot points
 #' @CalcDat Data frame with daily values for splines and msfc
 setClass("MSFC",
          slots = c(Name = "character",
@@ -19,6 +20,7 @@ setClass("MSFC",
                    PriorFunc = "numeric",
                    Results = "data.frame",
                    SplineCoef = "list",
+                   KnotPoints = "numeric",
                    CalcDat = "data.frame")
 )
 

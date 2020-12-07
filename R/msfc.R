@@ -38,22 +38,33 @@ msfc <- function(
 
   # date vector, time vector (in years) and knots
   Date <- seq(tdate,max(edate),by="day")
-  #Date <- seq(min(sdate),max(edate),by="day")
   tv <- as.numeric((Date-tdate)/365)
+
   # TODO: consider moving k below tcs, tce, tc (depend on those)
   k <- as.numeric(sort((c((sdate-tdate),(edate-tdate))))/365)
   k <- k[!duplicated(k)]
-  k[1] <-0
+  #k[1] <-0
+  k <- c(0, k)
 
-  # number of polynomials (n) and contracts (m)
-  n <- length(k) - 1
-  m <- length(f)
+
 
   # contract start/ end point and length in years
   # TODO: evaluate tc vs tc+1
   tcs <- as.numeric((sdate-tdate)/365)
-  tce <- as.numeric((edate-tdate)/365)
+  tce <- as.numeric((edate-tdate)/365) #+ 0.00000027397259581841
   tc <- as.numeric((edate-sdate)/365)
+
+  #####################3
+  # for daily contracts
+  # TODO: consider removing
+  #tc <- ifelse(tc==0, 0.00000027397259581841, tc)
+  #k <- sort(c(tcs, tce))
+  #k[1] <- 0 # alternatively k <- c(0, k)
+  ########################
+
+  # number of polynomials (n) and contracts (m)
+  n <- length(k) - 1
+  m <- length(f)
 
   # build (5nx5n) matrix H
   H <- matrix(0,nrow=5*n,ncol=5*n)
@@ -149,7 +160,7 @@ msfc <- function(
   ###################################
 
   # data frame for daily msfc calculation
-  cdat <- data.frame(tv, tvo, a = NA, b = NA, c = NA, d = NA, e = NA)
+  cdat <- data.frame(tv, tvo) #, a = NA, b = NA, c = NA, d = NA, e = NA)
 
   # add spline coefficient to list
   spli_coef <- list()
@@ -158,9 +169,10 @@ msfc <- function(
     xi <- xi + 5
   }
 
-  # add coefficients to cdat
+  # add spline nr and spline coefficients to cdat
   spline_count <- n
   for (i in length(k):2) {
+    cdat$spline <- ifelse(cdat$tv <= k[i], i - 1, cdat$spline)
     cdat$a <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][1], cdat$a)
     cdat$b <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][2], cdat$b)
     cdat$c <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][3], cdat$c)
@@ -192,36 +204,74 @@ msfc <- function(
 
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
-  # TOD: remove CalcDat?
+  # calculation details to CalcDat data frame
   CalcDat <- cbind(Results$Date, cdat, Results[, 2:ncol(Results)])
 
   # get computed prices for contracts used in bench
-  # TODO: evaluate comp, see ns
-  #####################
-  ns <- (match(tce,k)-1)*5-4
+  # all splines to be used in comp for all contracts
+  adat <- CalcDat[CalcDat$tv %in% k, ]
+
+  # find subset for contract c from tcs and tce
   Comp <- NULL
   CompAvg <- NULL
-  for (i in 1:m){
-    nsm <- ns[i]
-    cc <-
-      (x[nsm]/5*(tce[i]**5-tcs[i]**5)
-      +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
-      +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
-      +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
-      +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
-    Comp <- c(Comp, cc)
-    cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+  for (c in 1:m){
+    cadat <- adat[adat$tv >= tcs[c] & adat$tv <= tce[c], ]
+    rows <- dim(cadat)[1]
+    tcs_ <- cadat$tv[1:(rows - 1)]
+    tce_ <- cadat$tv[2:rows]
+
+    c_comp <- NULL
+    for (i in 1:length(tcs_)){
+
+      # pick spline
+      c_spline <- cadat[(i + 1), 5:9]
+
+      # computed price from spline i
+      cc <-
+        as.numeric((c_spline[1]/5*(tce_[i]**5-tcs_[i]**5)
+                    +c_spline[2]/4*(tce_[i]**4-tcs_[i]**4)
+                    +c_spline[3]/3*(tce_[i]**3-tcs_[i]**3)
+                    +c_spline[4]/2*(tce_[i]**2-tcs_[i]**2)
+                    +c_spline[5]*(tce_[i]-tcs_[i]))) #/(tce_[i]-tcs_[i])
+
+      c_comp <- c(c_comp, cc)
+    }
+
+    c_comp <- sum(c_comp)/(tce[c] - tcs[c])
+    Comp <- c(Comp, c_comp)
+
+    cavg <- mean(Results$MSFC[Results$Date >= sdate[c] & Results$Date <= edate[c]])
     CompAvg <- c(CompAvg, cavg)
   }
-  #####################
 
-  # TODO:reconsider rounding of Comp and CompAvg
+
+
+  # # TODO: evaluate comp, see ns
+  # #####################
+  # ns <- (match(tce,k)-1)*5-4
+  # Comp <- NULL
+  # CompAvg <- NULL
+  # for (i in 1:m){
+  #   nsm <- ns[i]
+  #   cc <-
+  #     (x[nsm]/5*(tce[i]**5-tcs[i]**5)
+  #     +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
+  #     +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
+  #     +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
+  #     +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
+  #   Comp <- c(Comp, cc)
+  #   cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+  #   CompAvg <- c(CompAvg, cavg)
+  # }
+  # #####################
+
   Comp <- round(Comp, 2)
   CompAvg <- round(CompAvg, 2)
 
   bench <- cbind(bench,Comp)
   bench <- cbind(bench,CompAvg)
   bench$CompAvgDiff <- bench$Price - round(bench$CompAvg, 2)
+  bench$CompDiff <- bench$Price - round(bench$Comp, 2)
 
   # create an instance of the MSFC class
   out <- new("MSFC",
@@ -232,6 +282,7 @@ msfc <- function(
              PriorFunc = prior,
              Results = Results,
              SplineCoef = spli_coef,
+             KnotPoints = k,
              CalcDat = CalcDat
   )
 
