@@ -60,8 +60,8 @@ msfc <- function(
   if(any(class(edate)!="Date"))
     stop("Elements in vector edate must be of type date")
 
-  if(!any(edate < sdate))
-    stop("Contract edate cannot be smaller than sdate")
+  # if(!any(edate < sdate))
+  #   stop("Contract edate cannot be smaller than sdate")
 
 
   BenchSheet <- data.frame(
@@ -82,6 +82,21 @@ msfc <- function(
   Date <- seq(tdate,max(edate),by="day")
   tv <- as.numeric((Date-tdate)/365)
 
+  # prior function evaluation
+  if (length(prior) > 1 & length(prior) < length(tv)){
+    # return error when prior is not constant and prior length < necessary time period for calculation
+    stop("Prior vector cannot be shorter than time interval [tdate, max(edate)] for included contracts")
+
+  } else if (length(prior) > 1 & length(prior) >= length(tv)){
+    # select subset of provided prior relevant for contracts that are included in calculation
+    prior = head(prior, length(tv))
+
+  } else {
+    # constant prior, ex. default = 0
+    prior = rep(prior, length(tv))
+
+  }
+
   # TODO: consider moving k below tcs, tce, tc (depend on those)
   k <- as.numeric(sort((c((sdate-tdate),(edate-tdate))))/365)
   k <- k[!duplicated(k)]
@@ -94,7 +109,7 @@ msfc <- function(
   tce <- as.numeric((edate-tdate)/365) #+ 0.00000027397259581841
   tc <- as.numeric((edate-sdate)/365)
 
-  #####################3
+  #####################
   # for daily contracts
   # TODO: consider removing
   #tc <- ifelse(tc==0, 0.00000027397259581841, tc)
@@ -175,9 +190,24 @@ msfc <- function(
    ix <- ix + 1
   }
 
-  # build (3n+m-2) vector B
-  # TODO: include prior function and reconsider tc length
+  # build initial (3n+m-2) vector B
   B <- c(rep(0,3*(n-1)),0,f*tc)
+
+  ##############################################################################
+
+  # create pri_dat data frame for prior function calc for contracts to adjust B
+  pri_dat <- data.frame(tv = tv, prior = prior)
+
+  con_pri <- NULL
+  for (c in 1:m){
+    con_pri <- c(con_pri, mean(pri_dat[pri_dat$tv >= tcs[c] & pri_dat$tv <= tce[c],]$prior)*tc[c])
+  }
+  con_pri <- c(rep(0,3*(n-1)),0,con_pri)
+
+  # adjust initial B
+  B <- B - con_pri
+
+  ##############################################################################
 
   # solve equations with Lagrange: x'Hx + a'(Ax-B)
   # |2H A'| |x| = |0|
@@ -233,6 +263,9 @@ msfc <- function(
     MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
   }
 
+  # add the prior function
+  MSFC <- MSFC + prior
+
   Results <- data.frame(Date,MSFC)
 
   # add futures contracts to the results data frame
@@ -245,7 +278,7 @@ msfc <- function(
   colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
   # calculation details to CalcDat data frame
-  CalcDat <- cbind(Results$Date, cdat, Results[, 2:ncol(Results)])
+  CalcDat <- cbind(Date = Results$Date, cdat, Results[, 2:ncol(Results)])
 
   # get computed prices for contracts used in bench
   # all splines to be used in comp for all contracts
@@ -277,7 +310,12 @@ msfc <- function(
       c_comp <- c(c_comp, cc)
     }
 
+    # do calculation on all splines for the contract
     c_comp <- sum(c_comp)/(tce[c] - tcs[c])
+
+    # add the prior
+    c_comp <- c_comp + mean(pri_dat[pri_dat$tv >= tcs[c] & pri_dat$tv <= tce[c],]$prior)
+
     Comp <- c(Comp, c_comp)
 
     cavg <- mean(Results$MSFC[Results$Date >= sdate[c] & Results$Date <= edate[c]])
@@ -291,6 +329,11 @@ msfc <- function(
   bench <- cbind(bench,CompAvg)
   bench$CompAvgDiff <- bench$Price - round(bench$CompAvg, 2)
   bench$CompDiff <- bench$Price - round(bench$Comp, 2)
+
+  # for debugging
+  bench$tcs <- tcs
+  bench$tce <- tce
+  bench$tc <- tc
 
   # create an instance of the MSFC class
   out <- new("MSFC",

@@ -25,8 +25,30 @@ debug_fwdov <- function(){
                 contract = ov$Contract,
                 sdate = ov$Start,
                 edate = ov$End,
-                f = ov$Closing)
+                f = ov$Closing,
+                #prior = 0
+                #prior = c(1, 2)
+                prior = trigprior(as.Date("2013-05-13"), max(ov$End), viz_par)$prior
+                )
 }
+
+#################
+
+B <- c(0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  8.233151,  9.536301, 36.330192)
+m <- 3
+n <- 5
+pri_dat <- data.frame(tv = fwdov@CalcDat$tv, prior = fwdov@PriorFunc)
+tcs <- fwdov@BenchSheet$tcs
+tce <- fwdov@BenchSheet$tce
+
+con_pri <- NULL
+for (c in 1:m){
+  con_pri <- c(con_pri, mean(pri_dat[pri_dat$tv >= tcs[c] & pri_dat$tv <= tce[c],]$prior))
+}
+con_pri <- c(rep(0,3*(n-1)),0,con_pri)
+B <- B - con_pri
+
+#####################
 
 debug_fwd1 <- function(){
   fwd <- msfc(tdate = as.Date("2016-11-03"),
@@ -34,9 +56,8 @@ debug_fwd1 <- function(){
               contract = spreads161230$Contract,
               sdate = spreads161230$Start,
               edate = spreads161230$End,
-              f = spreads161230$Closing
-              #prior = trigprior(as.Date("2016-11-03"), max(edate), viz_par)
-  )
+              f = spreads161230$Closing)
+              #prior = trigprior(as.Date("2016-1-03"), max(spreads161230$End), viz_par)$prior)
 }
 
 debug_fwd2 <- function(){
@@ -55,7 +76,8 @@ fwd3 <- msfc(tdate = as.Date("2014-09-09"),
              contract = powfutures140909$Contract,
              sdate = powfutures140909$Start,
              edate = powfutures140909$End,
-             f = powfutures140909$Closing)
+             f = powfutures140909$Closing,
+             prior = trigprior(as.Date("2014-09-09"), max(powfutures140909$End), viz_par)$prior)
 }
 
 shdat <- head(powfutures140909, 17)

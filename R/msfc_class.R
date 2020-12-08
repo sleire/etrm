@@ -45,7 +45,7 @@ setMethod("summary",
           definition=function(object, ...) {
 
             Description <- paste(object@Name,
-                                 "object of length",
+                                 "of length",
                                  length(object@Results$MSFC),
                                  "built with",
                                  object@Polynomials,
@@ -53,7 +53,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- head(object@PriorFunc) # TODO: consider returning complete prior
+            PriorFunc <- object@PriorFunc # TODO: consider not returning complete prior
 
             BenchSheet <- object@BenchSheet
 
@@ -68,9 +68,13 @@ setMethod("summary",
 #' @export
 setMethod("plot",
           signature = "MSFC",
-          definition = function(x, y = NULL, title="",
-                                xlab = "", ylab = "Price",
-                                legend= "top",...){
+          definition = function(x,
+                                y = NULL,
+                                title="",
+                                xlab = "",
+                                ylab = "Price",
+                                legend= "top",
+                                ...){
 
             x_melt <- melt(x@Results, id = "Date")
             x_meltNA <- na.omit(x_melt)
