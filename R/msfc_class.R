@@ -89,6 +89,7 @@ setMethod("plot",
               x@Results$Prior <- x@PriorFunc
             }
 
+            # reshape
             x_melt <- melt(x@Results, id = "Date")
             x_meltNA <- na.omit(x_melt)
 
