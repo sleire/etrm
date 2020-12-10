@@ -53,7 +53,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- object@PriorFunc # TODO: consider not returning complete prior
+            PriorFunc <- head(object@PriorFunc) # TODO: consider not returning complete prior
 
             BenchSheet <- object@BenchSheet
 
@@ -65,26 +65,46 @@ setMethod("summary",
 #'
 #' @import ggplot2
 #' @import reshape2
+#' @importFrom stats na.omit
+#' @param x instance of the MSFC class created by the msfc function
+#' @param plot.prior TRUE/FALSE for incuding prior function in plot
+#' @param title plot title
+#' @param xlab x-axis title
+#' @param ylab y-axis title
+#' @param legend position of legend, as implemented in ggplot2
+#' @param ggtheme ggplot2 theme to be used in plot
 #' @export
 setMethod("plot",
           signature = "MSFC",
           definition = function(x,
                                 y = NULL,
+                                plot.prior = FALSE,
                                 title="",
                                 xlab = "",
                                 ylab = "Price",
-                                legend= "top",
+                                legend= "right",
                                 ...){
+
+            if (plot.prior){
+              x@Results$Prior <- x@PriorFunc
+            }
 
             x_melt <- melt(x@Results, id = "Date")
             x_meltNA <- na.omit(x_melt)
 
-            p <- ggplot(x_meltNA, aes(x = Date,y = value, color = variable)) +
-            geom_line() +
-            xlab(xlab) +
-            ylab(ylab) +
-            theme(legend.title=element_blank())
+            ggplot(x_meltNA, aes(x = Date,y = value, color = variable)) +
 
-            p
+            geom_line() +
+
+            xlab(xlab) +
+
+            ylab(ylab) +
+
+            # restrict theme for plot
+            theme(legend.title=element_blank(),
+                  legend.position = legend) +
+
+            ggtitle(title)
+
 
           })

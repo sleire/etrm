@@ -9,6 +9,8 @@
 #' @param f numeric vector with futures contract prices
 #' @param prior numeric vector with prior forward price curve
 #' @return instance of the MSFC class
+#' @importFrom utils head
+#' @importFrom methods new
 #' @export
 
 
@@ -60,8 +62,6 @@ msfc <- function(
   if(any(class(edate)!="Date"))
     stop("Elements in vector edate must be of type date")
 
-  # if(!any(edate < sdate))
-  #   stop("Contract edate cannot be smaller than sdate")
 
 
   BenchSheet <- data.frame(
@@ -77,6 +77,10 @@ msfc <- function(
   sdate <- bench$From
   edate <- bench$To
   f <- bench$Price
+
+  # do not allow contracts that have edate-sdate < 1
+  if(any(as.numeric(edate-sdate) < 1))
+    stop("Contract edate cannot be smaller than sdate")
 
   # date vector, time vector (in years) and knots
   Date <- seq(tdate,max(edate),by="day")
@@ -275,7 +279,8 @@ msfc <- function(
     Results <- cbind(Results,fut)
   }
 
-  colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
+  colnames(Results) <- c("Date","MSFC", bench$Contract)
+  #colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
   # calculation details to CalcDat data frame
   CalcDat <- cbind(Date = Results$Date, cdat, Results[, 2:ncol(Results)])
@@ -322,18 +327,9 @@ msfc <- function(
     CompAvg <- c(CompAvg, cavg)
   }
 
+  # add computed prices to bench
   Comp <- round(Comp, 2)
-  CompAvg <- round(CompAvg, 2)
-
   bench <- cbind(bench,Comp)
-  bench <- cbind(bench,CompAvg)
-  bench$CompAvgDiff <- bench$Price - round(bench$CompAvg, 2)
-  bench$CompDiff <- bench$Price - round(bench$Comp, 2)
-
-  # for debugging
-  bench$tcs <- tcs
-  bench$tce <- tce
-  bench$tc <- tc
 
   # create an instance of the MSFC class
   out <- new("MSFC",

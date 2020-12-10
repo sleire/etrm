@@ -1,0 +1,2 @@
+demo-msfc   Create forward curves with msfc function on spreads and power futures data
+demo-strat  Perform a backtest of etrm package strategies on the powcal data set

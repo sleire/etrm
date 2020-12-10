@@ -8,6 +8,7 @@
 #' @param rper numeric risk factor as a percentage of the price on the first trading day
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
+#' @importFrom methods new
 #' @return instance of the DPPI class
 #' @export
 

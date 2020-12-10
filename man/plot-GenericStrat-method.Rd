@@ -10,9 +10,8 @@
   title = "Strategy plot",
   ylab.1 = "Price",
   ylab.2 = "Hedge \%",
-  pcols = c("deepskyblue4", "seagreen", "firebrick", "gray"),
+  pcols = c("#F8766D", "steelblue3", "gray60", "gray80"),
   legend = "bottom",
-  ggtheme = theme_gray(),
   ...
 )
 }
