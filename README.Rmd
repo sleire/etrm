@@ -1,0 +1,197 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# etrm: Energy Trading and Risk Management in R
+
+<!-- badges: start -->
+[![Build Status](https://travis-ci.org/sleire/etrm.svg?branch=master)](https://travis-ci.org/sleire/etrm)
+[![Build status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](https://ci.appveyor.com/project/sleire/etrm)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
+
+`etrm` is an R package with tools for trading and financial risk management in energy markets
+
+## Installation
+
+The development version of can be installed from [GitHub](https://github.com/sleire/etrm) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("sleire/etrm")
+```
+## Examples
+
+The `etrm` package currently offer tools for two main activities:
+
+1. Construction of forward market curves
+2. Implementation of trading strategies for energy price risk management
+
+The following sections will provide examples using some of the synthetic data sets included in the package. Please see the `demo` section for a more detailed analysis.
+
+### 1. The Maximum Smoothness Forward Curve
+A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardized periods, such as "Week", "Month", "Quarter", "Season" or "Year". The forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period. An example of such standard energy market contracts can be found in the package data set `powfutures130513`.
+
+
+```{r example, echo=FALSE, , out.width = "70%"}
+library(etrm)
+powfutures130513[7:38, ]
+```
+
+The function `msfc()` will create an instance of the S4 class `MSFC` with generic methods `plot()`, `summary()` and `show()`.
+In addition to the arguments from the list of contracts, the user may also provide a prior function to the calculation. This is relevant for markets with strong seasonality, such as power markets. The default value is `prior = 0`, but the user can provide any vector expressing a belief regarding the market to be combined with the observed prices. In the example below we have used a simple trigonometric prior with higher price level during the winter season, and lower during summer.
+
+```{r prior_funcion, echo=FALSE}
+# simple trigonometric prior function describing seasonality in power prices
+trigprior <- function(tdate, edate, prior_par = c(30, 0.03, 2.437, 4.366, 2)){
+
+  # get day of year for tdate
+  yr <- format(tdate, "%Y")
+  doyr <- length(seq(as.Date(paste(yr, "01", "01", sep = "-")), tdate, by = "day"))
+  x <- doyr:(doyr + length(seq(tdate, edate, by = "day")) - 1)
+
+  # default prior is zero
+  pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
+    prior_par[3] * sin(prior_par[5] * x * pi/365) +
+    prior_par[4] * cos(prior_par[5] * x * pi/365)
+  data.frame(Date = seq(tdate, edate, by = "day"), prior = pri)
+}
+
+simple_trig_prior <- trigprior(as.Date("2013-05-13"), max(powfutures130513$End))$prior
+```
+
+
+```{r msfc_fut_wpri, out.width = "90%"}
+fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
+                     include = powfutures130513$Include,     # vector with TRUE/FALSE, include contract?
+                     contract = powfutures130513$Contract,   # vector with contract names
+                     sdate = powfutures130513$Start,         # vector with contract start dates
+                     edate = powfutures130513$End,           # vector with contract end dates
+                     f = powfutures130513$Closing,           # vector with contract closing prices
+                     prior = simple_trig_prior               # prior function
+                     )
+
+plot(fwd_fut_wpri, legend = "", title = "MSFC with prior for power futures 2013-05-13")
+```
+
+
+The `msfc()` creates the smoothest possible forward curve by minimizing the mean squared value of a forward curve spline function, while ensuring that the average value of the curve is equal to contract prices used in the calculation for the respective time intervals. The number of polynomials used in the spline along with `head(prior)` and computed prices based on the curve are available with the `summary()` method:
+```{r msfc_show}
+summary(fwd_fut_wpri)
+```
+
+
+The calculation without prior function, for comparison:
+```{r msfc_fut_npri, out.width = "90%"}
+fwd_fut_npri <- msfc(tdate = as.Date("2013-05-13"),         # trading date
+                     include = powfutures130513$Include,    # vector with TRUE/FALSE, include contract?
+                     contract = powfutures130513$Contract,  # vector with contract names
+                     sdate = powfutures130513$Start,        # vector with contract start dates
+                     edate = powfutures130513$End,          # vector with contract end dates
+                     f = powfutures130513$Closing,          # vector with contract closing prices
+                     prior = 0                              # no prior function
+                     )
+
+plot(fwd_fut_npri, legend = "", title = "MSFC excluding prior for power futures 2013-05-13")
+```
+
+
+The daily forward curve values can be found along with the prior function and contracts used in the calculation with the `show()` method.
+An instance of `MSFC` is a rather rich object, and further details regarding the calculation, spline coefficients, etc. can be found in the slots:
+
+```{r msfc_slots}
+slotNames(fwd_fut_wpri)
+```
+
+
+
+### 2. Portfolio Insurance Strategies for Energy Price Risk Management
+
+Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to achieve a favorable unit price for the energy portfolio, while preventing it from breaching a pre defined cap (floor). 
+
+The functions
+
+- `cppi()` - Constant Proportion Portfolio Insurance   
+- `dppi()` - Dynamic Proportion Portfolio Insurance   
+- `obpi()` - Option Based Portfolio Insurance         
+- `shpi()` - Step Hedge Portfolio Insurance            
+- `slpi()` - Stop Loss Portfolio insurance             
+
+implement alternative approaches to achieve this goal. They return S4 objects of type `CPPI`, `DPPI`, `OBPI`, `SHPI` and `SLPI` respectively, with methods `plot()`, `summary()` and `show()`.
+
+
+In our example, we will consider the CAL-06 contract in the synthetic `powcal` data set, and start trading 500 days prior to the contract expiry. For the `OBPI`strategy presented below, the target price is calculated as an expected cap (floor) given by the option premium-adjusted strike price selected for the delta hedging scheme within a standard Black-76 option pricing framework. The default strike price is set at-the-money. The user may express a view regarding future market development by deviating from this level.
+
+```{r powcal_06, echo=FALSE, out.width = "90%"}
+day06 <- powcal$Date[!is.na(powcal$`CAL-06`)]
+cal06 <- powcal$`CAL-06`[!is.na(powcal$`CAL-06`)]
+dat06 <- data.frame(Date = day06, CAL06 = cal06)
+dat06 <- tail(dat06, 500)
+#head(dat06)
+#ggplot2::ggplot(dat06, ggplot2::aes(x = Date, y = CAL06)) + ggplot2::geom_line(color = "#F8766D") + ggplot2::ylab("Price") + ggplot2::xlab("")
+```
+
+
+```{r cal06_obpi_long, out.width = "95%"}
+cal06_obpi_b <- obpi(q = 30,               # volume 30 MW (buyer)
+                     tdate = dat06$Date,   # vector with trading days until expiry
+                     f = dat06$CAL06,      # vector with futures price
+                     k = dat06$CAL06[1],   # default option strike price at-the-money
+                     vol = 0.2,            # annualized volatility, for the Black-76 delta hedging
+                     r = 0,                # default assumed risk free rate of interest
+                     tdays = 250,          # assumed trading days per year
+                     daysleft = 500,       # number of days to expiry
+                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     int = TRUE            # integer restriction, smallest transacted unit = 1
+                   )
+
+plot(cal06_obpi_b, legend = "bottom", title = "OBPI strategy buyer CAL-06")
+```
+
+The `summary()` method:
+
+```{r cal06_obpi_b_sumary}
+summary(cal06_obpi_b)
+```
+
+The `show()`method provide details regarding daily values for market price, transactions, exposed volume, futures contract position, the target price and the calculated portfolio price. Further details for a specific instance of a trading strategy can be found in the slots, see for example:
+
+```{r cal06_obpi_b_slots}
+slotNames(cal06_obpi_b)
+```
+
+
+The strategy CAL-06 OBPI strategy from a sellers point of view:
+
+```{r cal_obpi_short, out.width = "95%"}
+cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
+                     tdate = dat06$Date,   # vector with trading days until expiry
+                     f = dat06$CAL06,      # vector with futures price
+                     k = dat06$CAL06[1],   # default option strike price at-the-money
+                     vol = 0.2,            # annualized volatility, for the Black-76 delta hedging
+                     r = 0,                # default assumed risk free rate of interest
+                     tdays = 250,          # assumed trading days per year
+                     daysleft = 500,       # number of days to expiry
+                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     int = TRUE            # integer restriction, smallest transacted unit = 1
+                   )
+
+plot(cal06_obpi_s, legend = "bottom", title = "OBPI strategy seller CAL-06")
+```
+
+
+
+
+

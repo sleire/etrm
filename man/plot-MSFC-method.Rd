@@ -4,7 +4,31 @@
 \alias{plot,MSFC-method}
 \title{S4 method for the plot generic}
 \usage{
-\S4method{plot}{MSFC}(x, y = NULL, title = "", xlab = "", ylab = "Price", legend = "top", ...)
+\S4method{plot}{MSFC}(
+  x,
+  y = NULL,
+  plot.prior = FALSE,
+  title = "",
+  xlab = "",
+  ylab = "Price",
+  legend = "right",
+  ...
+)
+}
+\arguments{
+\item{x}{instance of the MSFC class created by the msfc function}
+
+\item{plot.prior}{TRUE/FALSE for incuding prior function in plot}
+
+\item{title}{plot title}
+
+\item{xlab}{x-axis title}
+
+\item{ylab}{y-axis title}
+
+\item{legend}{position of legend, as implemented in ggplot2}
+
+\item{ggtheme}{ggplot2 theme to be used in plot}
 }
 \description{
 S4 method for the plot generic

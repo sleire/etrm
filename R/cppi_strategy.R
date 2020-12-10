@@ -9,6 +9,7 @@
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
 #' @return instance of the CPPI class
+#' @importFrom methods new
 #' @export
 
 cppi <- function(

@@ -9,6 +9,7 @@
 #' @TransCost Object of type "numeric" with transaction costs pr unit
 #' @TradeisInt Object of type "logical" with integer restriction on tradable volume
 #' @Results Object of type "data frame" with strategy results
+#' @importFrom utils tail
 setClass("GenericStrat",
          contains = "VIRTUAL",
          slots = c(Name = "character",
@@ -113,6 +114,7 @@ setMethod("summary",
 #'
 #' @import ggplot2
 #' @import reshape2
+#' @importFrom ggplot2 theme_light
 #' @export
 setMethod("plot",
           signature = "GenericStrat",
@@ -121,9 +123,8 @@ setMethod("plot",
                                 title="Strategy plot",
                                 ylab.1 = "Price",
                                 ylab.2 = "Hedge %",
-                                pcols = c("deepskyblue4", "seagreen", "firebrick", "gray"),
+                                pcols = c("#F8766D", "steelblue3", "gray60", "gray80"),
                                 legend = "bottom",
-                                ggtheme = theme_gray(),
                                 ...){
 
             # reshape and add grouping variable
@@ -160,9 +161,6 @@ setMethod("plot",
                          strip.position = "left",
                          labeller = as_labeller(c(Price = ylab.1, Hedge = ylab.2))) +
               ylab(NULL) +
-
-              # allow user to select ggplot theme
-              ggtheme +
 
               # restrict theme for plot
               theme(strip.background = element_blank(),

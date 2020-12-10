@@ -7,6 +7,7 @@
 #' @param tper numeric target price markup/down to the price on the first trading day
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
+#' @importFrom methods new
 #' @return instance of the SLPI class
 #' @export
 

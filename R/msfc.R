@@ -9,6 +9,8 @@
 #' @param f numeric vector with futures contract prices
 #' @param prior numeric vector with prior forward price curve
 #' @return instance of the MSFC class
+#' @importFrom utils head
+#' @importFrom methods new
 #' @export
 
 
@@ -21,6 +23,46 @@ msfc <- function(
   f,
   prior = 0
   ){
+
+  # validation of arguments
+
+  # missing arguments
+  if (missing(tdate))
+    stop("No trading date specified")
+
+  if (missing(include))
+    stop("No include vector specified")
+
+  if (missing(contract))
+    stop("No contract vector specified")
+
+  if (missing(sdate))
+    stop("No sdate vector specified")
+
+  if (missing(edate))
+    stop("No edate vector specified")
+
+  if (missing(f))
+    stop("No price vector f specified")
+
+  # invalid arguments
+  if (length(tdate) != 1)
+    stop("Trading date tdate must be single date")
+
+  if (class(tdate) != "Date")
+    stop("Trading date tdate must be of type date")
+
+  vlist <- list(include, contract, sdate, edate, f)
+  if (length(unique(lengths(vlist))) != 1)
+    stop("Vectors include, contract, sdate, edate, and f must be of equal length")
+
+  if(any(class(sdate)!="Date"))
+    stop("Elements in vector sdate must be of type date")
+
+  if(any(class(edate)!="Date"))
+    stop("Elements in vector edate must be of type date")
+
+
 
   BenchSheet <- data.frame(
     Include = include,
@@ -36,24 +78,52 @@ msfc <- function(
   edate <- bench$To
   f <- bench$Price
 
+  # do not allow contracts that have edate-sdate < 1
+  if(any(as.numeric(edate-sdate) < 1))
+    stop("Contract edate cannot be smaller than sdate")
+
   # date vector, time vector (in years) and knots
   Date <- seq(tdate,max(edate),by="day")
-  #Date <- seq(min(sdate),max(edate),by="day")
   tv <- as.numeric((Date-tdate)/365)
+
+  # prior function evaluation
+  if (length(prior) > 1 & length(prior) < length(tv)){
+    # return error when prior is not constant and prior length < necessary time period for calculation
+    stop("Prior vector cannot be shorter than time interval [tdate, max(edate)] for included contracts")
+
+  } else if (length(prior) > 1 & length(prior) >= length(tv)){
+    # select subset of provided prior relevant for contracts that are included in calculation
+    prior = head(prior, length(tv))
+
+  } else {
+    # constant prior, ex. default = 0
+    prior = rep(prior, length(tv))
+
+  }
+
   # TODO: consider moving k below tcs, tce, tc (depend on those)
   k <- as.numeric(sort((c((sdate-tdate),(edate-tdate))))/365)
   k <- k[!duplicated(k)]
-  k[1] <-0
-
-  # number of polynomials (n) and contracts (m)
-  n <- length(k) - 1
-  m <- length(f)
+  #k[1] <-0
+  k <- c(0, k)
 
   # contract start/ end point and length in years
   # TODO: evaluate tc vs tc+1
   tcs <- as.numeric((sdate-tdate)/365)
-  tce <- as.numeric((edate-tdate)/365)
+  tce <- as.numeric((edate-tdate)/365) #+ 0.00000027397259581841
   tc <- as.numeric((edate-sdate)/365)
+
+  #####################
+  # for daily contracts
+  # TODO: consider removing
+  #tc <- ifelse(tc==0, 0.00000027397259581841, tc)
+  #k <- sort(c(tcs, tce))
+  #k[1] <- 0 # alternatively k <- c(0, k)
+  ########################
+
+  # number of polynomials (n) and contracts (m)
+  n <- length(k) - 1
+  m <- length(f)
 
   # build (5nx5n) matrix H
   H <- matrix(0,nrow=5*n,ncol=5*n)
@@ -124,9 +194,24 @@ msfc <- function(
    ix <- ix + 1
   }
 
-  # build (3n+m-2) vector B
-  # TODO: include prior function and reconsider tc length
+  # build initial (3n+m-2) vector B
   B <- c(rep(0,3*(n-1)),0,f*tc)
+
+  ##############################################################################
+
+  # create pri_dat data frame for prior function calc for contracts to adjust B
+  pri_dat <- data.frame(tv = tv, prior = prior)
+
+  con_pri <- NULL
+  for (c in 1:m){
+    con_pri <- c(con_pri, mean(pri_dat[pri_dat$tv >= tcs[c] & pri_dat$tv <= tce[c],]$prior)*tc[c])
+  }
+  con_pri <- c(rep(0,3*(n-1)),0,con_pri)
+
+  # adjust initial B
+  B <- B - con_pri
+
+  ##############################################################################
 
   # solve equations with Lagrange: x'Hx + a'(Ax-B)
   # |2H A'| |x| = |0|
@@ -149,7 +234,7 @@ msfc <- function(
   ###################################
 
   # data frame for daily msfc calculation
-  cdat <- data.frame(tv, tvo, a = NA, b = NA, c = NA, d = NA, e = NA)
+  cdat <- data.frame(tv, tvo) #, a = NA, b = NA, c = NA, d = NA, e = NA)
 
   # add spline coefficient to list
   spli_coef <- list()
@@ -158,9 +243,10 @@ msfc <- function(
     xi <- xi + 5
   }
 
-  # add coefficients to cdat
+  # add spline nr and spline coefficients to cdat
   spline_count <- n
   for (i in length(k):2) {
+    cdat$spline <- ifelse(cdat$tv <= k[i], i - 1, cdat$spline)
     cdat$a <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][1], cdat$a)
     cdat$b <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][2], cdat$b)
     cdat$c <- ifelse(cdat$tv <= k[i], spli_coef[[spline_count]][3], cdat$c)
@@ -181,6 +267,9 @@ msfc <- function(
     MSFC <- c(MSFC, rep(NA,(length(Date)-length(MSFC))))
   }
 
+  # add the prior function
+  MSFC <- MSFC + prior
+
   Results <- data.frame(Date,MSFC)
 
   # add futures contracts to the results data frame
@@ -190,38 +279,57 @@ msfc <- function(
     Results <- cbind(Results,fut)
   }
 
-  colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
+  colnames(Results) <- c("Date","MSFC", bench$Contract)
+  #colnames(Results) <- c("Date","MSFC",paste0("F",1:m))
 
-  # TODO: remove CalcDat?
-  CalcDat <- cbind(Results$Date, cdat, Results[, 2:ncol(Results)])
+  # calculation details to CalcDat data frame
+  CalcDat <- cbind(Date = Results$Date, cdat, Results[, 2:ncol(Results)])
 
   # get computed prices for contracts used in bench
-  # TODO: evaluate comp, see ns
-  #####################
-  ns <- (match(tce,k)-1)*5-4
+  # all splines to be used in comp for all contracts
+  adat <- CalcDat[CalcDat$tv %in% k, ]
+
+  # find subset for contract c from tcs and tce
   Comp <- NULL
   CompAvg <- NULL
-  for (i in 1:m){
-    nsm <- ns[i]
-    cc <-
-      (x[nsm]/5*(tce[i]**5-tcs[i]**5)
-      +x[nsm+1]/4*(tce[i]**4-tcs[i]**4)
-      +x[nsm+2]/3*(tce[i]**3-tcs[i]**3)
-      +x[nsm+3]/2*(tce[i]**2-tcs[i]**2)
-      +x[nsm+4]*(tce[i]-tcs[i]))/(tce[i]-tcs[i])
-    Comp <- c(Comp, cc)
-    cavg <- mean(Results$MSFC[Results$Date >= sdate[i] & Results$Date <= edate[i]])
+  for (c in 1:m){
+    cadat <- adat[adat$tv >= tcs[c] & adat$tv <= tce[c], ]
+    rows <- dim(cadat)[1]
+    tcs_ <- cadat$tv[1:(rows - 1)]
+    tce_ <- cadat$tv[2:rows]
+
+    c_comp <- NULL
+    for (i in 1:length(tcs_)){
+
+      # pick spline
+      c_spline <- cadat[(i + 1), 5:9]
+
+      # computed price from spline i
+      cc <-
+        as.numeric((c_spline[1]/5*(tce_[i]**5-tcs_[i]**5)
+                    +c_spline[2]/4*(tce_[i]**4-tcs_[i]**4)
+                    +c_spline[3]/3*(tce_[i]**3-tcs_[i]**3)
+                    +c_spline[4]/2*(tce_[i]**2-tcs_[i]**2)
+                    +c_spline[5]*(tce_[i]-tcs_[i]))) #/(tce_[i]-tcs_[i])
+
+      c_comp <- c(c_comp, cc)
+    }
+
+    # do calculation on all splines for the contract
+    c_comp <- sum(c_comp)/(tce[c] - tcs[c])
+
+    # add the prior
+    c_comp <- c_comp + mean(pri_dat[pri_dat$tv >= tcs[c] & pri_dat$tv <= tce[c],]$prior)
+
+    Comp <- c(Comp, c_comp)
+
+    cavg <- mean(Results$MSFC[Results$Date >= sdate[c] & Results$Date <= edate[c]])
     CompAvg <- c(CompAvg, cavg)
   }
-  #####################
 
-  # TODO:reconsider rounding of Comp and CompAvg
+  # add computed prices to bench
   Comp <- round(Comp, 2)
-  CompAvg <- round(CompAvg, 2)
-
   bench <- cbind(bench,Comp)
-  bench <- cbind(bench,CompAvg)
-  bench$CompAvgDiff <- bench$Price - round(bench$CompAvg, 2)
 
   # create an instance of the MSFC class
   out <- new("MSFC",
@@ -232,6 +340,7 @@ msfc <- function(
              PriorFunc = prior,
              Results = Results,
              SplineCoef = spli_coef,
+             KnotPoints = k,
              CalcDat = CalcDat
   )
 

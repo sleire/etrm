@@ -11,6 +11,8 @@
 #' @param daysleft integer with days left to option expiry
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/ FALSE integer restriction on tradable volume
+#' @importFrom methods new
+#' @importFrom stats pnorm
 #' @return instance of the OBPI class
 #' @export
 

@@ -10,6 +10,7 @@
 #' @PriorFunc Object of type "numeric" with prior function values
 #' @Results Object of type "data frame" with MSFC and contracts
 #' @SplineCoef List with spline coefficients for the msfc calculation
+#' @KnotPoints Vector with spline knot points
 #' @CalcDat Data frame with daily values for splines and msfc
 setClass("MSFC",
          slots = c(Name = "character",
@@ -19,6 +20,7 @@ setClass("MSFC",
                    PriorFunc = "numeric",
                    Results = "data.frame",
                    SplineCoef = "list",
+                   KnotPoints = "numeric",
                    CalcDat = "data.frame")
 )
 
@@ -43,7 +45,7 @@ setMethod("summary",
           definition=function(object, ...) {
 
             Description <- paste(object@Name,
-                                 "object of length",
+                                 "of length",
                                  length(object@Results$MSFC),
                                  "built with",
                                  object@Polynomials,
@@ -51,7 +53,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- head(object@PriorFunc) # TODO: consider returning complete prior
+            PriorFunc <- head(object@PriorFunc) # TODO: consider not returning complete prior
 
             BenchSheet <- object@BenchSheet
 
@@ -63,32 +65,47 @@ setMethod("summary",
 #'
 #' @import ggplot2
 #' @import reshape2
+#' @importFrom stats na.omit
+#' @param x instance of the MSFC class created by the msfc function
+#' @param plot.prior TRUE/FALSE for incuding prior function in plot
+#' @param title plot title
+#' @param xlab x-axis title
+#' @param ylab y-axis title
+#' @param legend position of legend, as implemented in ggplot2
+#' @param ggtheme ggplot2 theme to be used in plot
 #' @export
 setMethod("plot",
           signature = "MSFC",
           definition = function(x,
                                 y = NULL,
-                                title="Maximum smoothness forward curve",
-                                xlab = "Date",
+                                plot.prior = FALSE,
+                                title="",
+                                xlab = "",
                                 ylab = "Price",
                                 legend= "right",
-                                ggtheme = theme_gray(),
                                 ...){
+
+            if (plot.prior){
+              x@Results$Prior <- x@PriorFunc
+            }
+
             # reshape
             x_melt <- melt(x@Results, id = "Date")
-            x_melt <- na.omit(x_melt)
+            x_meltNA <- na.omit(x_melt)
 
-            ggplot(x_melt, aes(x = Date,y = value, color = variable)) +
+            ggplot(x_meltNA, aes(x = Date,y = value, color = variable)) +
+
             geom_line() +
+
             xlab(xlab) +
+
             ylab(ylab) +
 
-            # allow user to select ggplot theme
-            ggtheme +
-
+            # restrict theme for plot
             theme(legend.title=element_blank(),
                   legend.position = legend) +
 
-              ggtitle(title)
+            ggtitle(title)
+
 
           })
