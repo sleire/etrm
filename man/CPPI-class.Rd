@@ -7,3 +7,9 @@
 \description{
 An S4 class for the CPPI hedging strategy
 }
+\section{Slots}{
+
+\describe{
+\item{\code{RiskFactor}}{The risk factor (cushion) used in the CPPI model}
+}}
+

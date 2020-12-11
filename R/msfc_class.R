@@ -3,15 +3,15 @@
 
 #' An S4 class for the Maximum Smoothness Forward Curve (MSFC) in etrm
 #'
-#' @Name Object of type "character" containing forward curve name "MSFC"
-#' @TradeDate object of type "date"
-#' @BenchSheet Object of type "data frame" with futures contracts
-#' @Polynomials Object of type "numeric" with number of polynomials in the spline
-#' @PriorFunc Object of type "numeric" with prior function values
-#' @Results Object of type "data frame" with MSFC and contracts
-#' @SplineCoef List with spline coefficients for the msfc calculation
-#' @KnotPoints Vector with spline knot points
-#' @CalcDat Data frame with daily values for splines and msfc
+#' @slot Name A string with the acronym for Maximum Smoothness Forward Curve, "MSFC"
+#' @slot TradeDate The trading date
+#' @slot BenchSheet A data frame with futures contracts selected for calculation with MSFC computed prices
+#' @slot Polynomials The number of polynomials in the MSFC spline
+#' @slot PriorFunc A numeric vector with the prior function values
+#' @slot Results A data frame with daily values for the calculated MSFC and contracts in "BenchSheet"
+#' @slot SplineCoef List with coefficients for the polynomials in the MSFC spline
+#' @slot KnotPoints Vector with spline knot points
+#' @slot CalcDat Data frame extending "Results" with daily values for time vectors and polynomial coefficients used in calculation
 setClass("MSFC",
          slots = c(Name = "character",
                    TradeDate ="Date",

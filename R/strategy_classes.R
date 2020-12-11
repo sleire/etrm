@@ -3,12 +3,12 @@
 
 #' An S4 VIRTUAL parent class for the hedging strategy classes in etrm
 #'
-#' @Name Object of type "character" containing hedging strategy name
-#' @Volume Object of type "numeric" with quantity to be hedged
-#' @TargetPrice Object of type "numeric" with portfolio target price (cap or floor)
-#' @TransCost Object of type "numeric" with transaction costs pr unit
-#' @TradeisInt Object of type "logical" with integer restriction on tradable volume
-#' @Results Object of type "data frame" with strategy results
+#' @slot Name A string with the portfolio insurance strategy name
+#' @slot Volume The quantity to be hedged
+#' @slot TargetPrice The target price(s) for the portfolio (cap or floor)
+#' @slot TransCost Transaction costs pr unit traded
+#' @slot TradeisInt TUE/FALSE integer restriction on tradable volume, TRUE sets smallest transacted unit to 1
+#' @slot Results Data frame with strategy results, daily values for market price, transactions, exposure, position, hedge and portfolio price
 #' @importFrom utils tail
 setClass("GenericStrat",
          contains = "VIRTUAL",
@@ -22,7 +22,7 @@ setClass("GenericStrat",
 
 #' An S4 class for the CPPI hedging strategy
 #'
-#' @RiskFactor Object of type "numeric" with risk factor in CPPI model
+#' @slot RiskFactor The risk factor (cushion) used in the CPPI model
 setClass("CPPI",
          contains = "GenericStrat",
          slots = c(RiskFactor = "numeric")
@@ -30,9 +30,8 @@ setClass("CPPI",
 
 #' An S4 class for the DPPI hedging strategy
 #'
-#' @TargetPercent Object of type "numeric" with portfolio target price
-#' (cap or floor) set as a percentage of first trading day's market price
-#' @RiskFactor Object of type "numeric" with risk factor in CPPI model
+#' @slot TargetPercent A percentage of first trading day's market price used to set target price (cap or floor)
+#' @slot RiskFactor The risk factor (cushion) used in the DPPI model
 setClass("DPPI",
          contains = "GenericStrat",
          slots = c(TargetPercent = "numeric",
@@ -41,10 +40,10 @@ setClass("DPPI",
 
 #' An S4 class for the OBPI hedging strategy
 #'
-#'@StrikePrice Object of type "numeric" with strike price for the synthetic option
-#'@AnnVol Object of type "numeric" with annualized volatility
-#'@InterestRate Object of type "numeric" with interest rate
-#'@TradingDays Object of type "integer" with assumed number of trading days per year
+#'@slot StrikePrice Strike price for the synthetic option hedging
+#'@slot AnnVol Annualized volatility for the contract to be traded
+#'@slot InterestRate Risk-free rate of interest
+#'@slot TradingDays The number of trading days per year
 setClass("OBPI",
          contains = "GenericStrat",
          slots = c(StrikePrice = "numeric",

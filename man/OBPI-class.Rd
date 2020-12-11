@@ -7,3 +7,15 @@
 \description{
 An S4 class for the OBPI hedging strategy
 }
+\section{Slots}{
+
+\describe{
+\item{\code{StrikePrice}}{Strike price for the synthetic option hedging}
+
+\item{\code{AnnVol}}{Annualized volatility for the contract to be traded}
+
+\item{\code{InterestRate}}{Risk-free rate of interest}
+
+\item{\code{TradingDays}}{The number of trading days per year}
+}}
+

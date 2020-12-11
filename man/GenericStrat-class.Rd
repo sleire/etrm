@@ -7,3 +7,19 @@
 \description{
 An S4 VIRTUAL parent class for the hedging strategy classes in etrm
 }
+\section{Slots}{
+
+\describe{
+\item{\code{Name}}{A string with the portfolio insurance strategy name}
+
+\item{\code{Volume}}{The quantity to be hedged}
+
+\item{\code{TargetPrice}}{The target price(s) for the portfolio (cap or floor)}
+
+\item{\code{TransCost}}{Transaction costs pr unit traded}
+
+\item{\code{TradeisInt}}{TUE/FALSE integer restriction on tradable volume, TRUE sets smallest transacted unit to 1}
+
+\item{\code{Results}}{Data frame with strategy results, daily values for market price, transactions, exposure, position, hedge and portfolio price}
+}}
+

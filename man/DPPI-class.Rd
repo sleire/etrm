@@ -7,3 +7,11 @@
 \description{
 An S4 class for the DPPI hedging strategy
 }
+\section{Slots}{
+
+\describe{
+\item{\code{TargetPercent}}{A percentage of first trading day's market price used to set target price (cap or floor)}
+
+\item{\code{RiskFactor}}{The risk factor (cushion) used in the DPPI model}
+}}
+
