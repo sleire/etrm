@@ -3,7 +3,7 @@
 \docType{data}
 \name{powfutures130513}
 \alias{powfutures130513}
-\title{Closing prices for power futures contracts at trading date 2015-13-13}
+\title{Closing prices for power futures contracts at trading date 2013-05-13}
 \format{
 A data frame with 38 rows and 5 columns:
 \describe{

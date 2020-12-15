@@ -53,7 +53,7 @@ names(portf_results)
 # inspect one of the 110 strategy objects in the list and the generic class methods "plot", "summary", "show"
 str(portf_results[[10]])
 
-plot(portf_results[[10]], title = names(portf_results)[10], legend = "right")
+plot(portf_results[[10]], title = "", legend = "right")
 summary(portf_results[[10]])
 head(show(portf_results[[10]]))
 tail(show(portf_results[[10]]))

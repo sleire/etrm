@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-The development version of can be installed from [GitHub](https://github.com/sleire/etrm) with:
+The development version can be installed from [GitHub](https://github.com/sleire/etrm) with:
 
 ``` r
 # install.packages("devtools")
@@ -47,31 +47,11 @@ A typical characteristic of energy commodities such as electricity and natural g
 
 ```{r example, echo=FALSE, , out.width = "70%"}
 library(etrm)
-powfutures130513[7:38, ]
+powfutures130513
 ```
 
 The function `msfc()` will create an instance of the S4 class `MSFC` with generic methods `plot()`, `summary()` and `show()`.
-In addition to the arguments from the list of contracts, the user may also provide a prior function to the calculation. This is relevant for markets with strong seasonality, such as power markets. The default value is `prior = 0`, but the user can provide any vector expressing a belief regarding the market to be combined with the observed prices. In the example below we have used a simple trigonometric prior with higher price level during the winter season, and lower during summer.
-
-```{r prior_funcion, echo=FALSE}
-# simple trigonometric prior function describing seasonality in power prices
-trigprior <- function(tdate, edate, prior_par = c(30, 0.03, 2.437, 4.366, 2)){
-
-  # get day of year for tdate
-  yr <- format(tdate, "%Y")
-  doyr <- length(seq(as.Date(paste(yr, "01", "01", sep = "-")), tdate, by = "day"))
-  x <- doyr:(doyr + length(seq(tdate, edate, by = "day")) - 1)
-
-  # default prior is zero
-  pri <-  prior_par[1] * exp(prior_par[2]/365 * x) +
-    prior_par[3] * sin(prior_par[5] * x * pi/365) +
-    prior_par[4] * cos(prior_par[5] * x * pi/365)
-  data.frame(Date = seq(tdate, edate, by = "day"), prior = pri)
-}
-
-simple_trig_prior <- trigprior(as.Date("2013-05-13"), max(powfutures130513$End))$prior
-```
-
+In addition to the arguments from the list of contracts, the user may also provide a prior function to the calculation. This is relevant for markets with strong seasonality, such as power markets. The default value is `prior = 0`, but the user can provide any vector expressing a belief regarding the market to be combined with the observed prices. In the example below we have used a simple seasonal prior from the package `powpriors130513` data set.
 
 ```{r msfc_fut_wpri, out.width = "90%"}
 fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
@@ -80,14 +60,18 @@ fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
                      sdate = powfutures130513$Start,         # vector with contract start dates
                      edate = powfutures130513$End,           # vector with contract end dates
                      f = powfutures130513$Closing,           # vector with contract closing prices
-                     prior = simple_trig_prior               # prior function
+                     prior = powpriors130513$mod.prior       # prior function
                      )
 
 plot(fwd_fut_wpri, legend = "", title = "MSFC with prior for power futures 2013-05-13")
 ```
 
 
-The `msfc()` creates the smoothest possible forward curve by minimizing the mean squared value of a forward curve spline function, while ensuring that the average value of the curve is equal to contract prices used in the calculation for the respective time intervals. The number of polynomials used in the spline along with `head(prior)` and computed prices based on the curve are available with the `summary()` method:
+The forward curve is calculated with the function
+
+$f(t) = \lambda(t) + \epsilon(t)$
+
+where $\lambda(t)$ is the prior supplied by the user and $\epsilon(t)$ is an adjustment function taking the observed prices into account. The `msfc()` function finds the smoothest possible adjustment function by minimizing the mean squared value of a spline function, while ensuring that the average value of the curve $f(t)$ is equal to contract prices used in the calculation for the respective time intervals. The number of polynomials used in the spline along with `head(prior)` and computed prices based on the curve are available with the `summary()` method:
 ```{r msfc_show}
 summary(fwd_fut_wpri)
 ```

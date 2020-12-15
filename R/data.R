@@ -14,23 +14,7 @@
 "spreads161230"
 
 
-#' Closing prices for power futures contracts at trading date 2014-09-09
-#'
-#' A synthetic dataset containing the closing prices and other attributes of 36
-#'  power futures contracts. The variables are as follows:
-#'
-#' @format A data frame with 36 rows and 5 columns:
-#' \describe{
-#'   \item{Include}{boolean variable to determine if contract should be included in forward curve calculation}
-#'   \item{Contract}{the name of the futures contract}
-#'   \item{Start}{delivery start date for the futures contract}
-#'   \item{End}{delivery start date for the futures contract}
-#'   \item{Closing}{the futures contract closing price}
-#' }
-"powfutures140909"
-
-
-#' Closing prices for power futures contracts at trading date 2015-13-13
+#' Closing prices for power futures contracts at trading date 2013-05-13
 #'
 #' A synthetic dataset containing the closing prices and other attributes of 38
 #'  power futures contracts. The variables are as follows:
@@ -44,6 +28,20 @@
 #'   \item{Closing}{the futures contract closing price}
 #' }
 "powfutures130513"
+
+
+#' Example priors at trading date 2015-05-13
+#'
+#' An example of two simple priors for forward market price to be used with powfutures130513
+#' The variables are as follows:
+#'
+#' @format A data frame with 3885 rows and 3 columns:
+#' \describe{
+#'   \item{Date}{vector of dates ranging from 2013-05-13 to final end date of contracts in powfutures130513}
+#'   \item{trig.prior}{a simple smooth trigonometric prior describing power price seasonality}
+#'   \item{mod.prior}{a trigonometric prior adjusted for typical calendar effects}
+#' }
+"powpriors130513"
 
 
 #' Historical daily closing prices for 11 calendar year power futures contracts

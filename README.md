@@ -19,7 +19,7 @@ management in energy markets
 
 ## Installation
 
-The development version of can be installed from
+The development version can be installed from
 [GitHub](https://github.com/sleire/etrm) with:
 
 ``` r
@@ -50,38 +50,38 @@ settlement period. An example of such standard energy market contracts
 can be found in the package data set `powfutures130513`.
 
     #>    Include Contract      Start        End Closing
-    #> 7     TRUE   W21-13 2013-05-20 2013-05-26   33.65
-    #> 8     TRUE   W22-13 2013-05-27 2013-06-02   35.77
-    #> 9     TRUE   W23-13 2013-06-03 2013-06-09   36.58
-    #> 10    TRUE   W24-13 2013-06-10 2013-06-16   35.93
-    #> 11    TRUE   W25-13 2013-06-17 2013-06-23   33.14
-    #> 12    TRUE   W26-13 2013-06-24 2013-06-30   34.16
-    #> 13   FALSE  MJUN-13 2013-06-01 2013-06-30   35.35
-    #> 14    TRUE  MJUL-13 2013-07-01 2013-07-31   33.14
-    #> 15    TRUE  MAUG-13 2013-08-01 2013-08-31   35.72
-    #> 16    TRUE  MSEP-13 2013-09-01 2013-09-30   38.41
-    #> 17    TRUE  MOCT-13 2013-10-01 2013-10-31   38.81
-    #> 18    TRUE  MNOV-13 2013-11-01 2013-11-30   40.94
-    #> 19   FALSE    Q3-13 2013-07-01 2013-09-30   35.72
-    #> 20    TRUE    Q4-13 2013-10-01 2013-12-31   40.53
-    #> 21    TRUE    Q1-14 2014-01-01 2014-03-31   42.40
-    #> 22    TRUE    Q2-14 2014-04-01 2014-06-30   33.39
-    #> 23    TRUE    Q3-14 2014-07-01 2014-09-30   31.78
-    #> 24    TRUE    Q4-14 2014-10-01 2014-12-31   38.25
-    #> 25    TRUE    Q1-15 2015-01-01 2015-03-31   40.73
-    #> 26    TRUE    Q2-15 2015-04-01 2015-06-30   32.64
-    #> 27    TRUE    Q3-15 2015-07-01 2015-09-30   30.87
-    #> 28    TRUE    Q4-15 2015-10-01 2015-12-31   37.22
-    #> 29   FALSE   CAL-14 2014-01-01 2014-12-31   36.43
-    #> 30   FALSE   CAL-15 2015-01-01 2015-12-31   35.12
-    #> 31    TRUE   CAL-16 2016-01-01 2016-12-31   34.10
-    #> 32    TRUE   CAL-17 2017-01-01 2017-12-31   35.22
-    #> 33    TRUE   CAL-18 2018-01-01 2018-12-31   36.36
-    #> 34   FALSE   CAL-19 2019-01-01 2019-12-31   37.44
-    #> 35   FALSE   CAL-20 2020-01-01 2020-12-31   38.58
-    #> 36   FALSE   CAL-21 2021-01-01 2021-12-31   39.73
-    #> 37   FALSE   CAL-22 2022-01-01 2022-12-31   40.93
-    #> 38   FALSE   CAL-23 2023-01-01 2023-12-31   42.15
+    #> 1     TRUE   W21-13 2013-05-20 2013-05-26   33.65
+    #> 2     TRUE   W22-13 2013-05-27 2013-06-02   35.77
+    #> 3     TRUE   W23-13 2013-06-03 2013-06-09   36.58
+    #> 4     TRUE   W24-13 2013-06-10 2013-06-16   35.93
+    #> 5     TRUE   W25-13 2013-06-17 2013-06-23   33.14
+    #> 6     TRUE   W26-13 2013-06-24 2013-06-30   34.16
+    #> 7    FALSE  MJUN-13 2013-06-01 2013-06-30   35.35
+    #> 8     TRUE  MJUL-13 2013-07-01 2013-07-31   33.14
+    #> 9     TRUE  MAUG-13 2013-08-01 2013-08-31   35.72
+    #> 10    TRUE  MSEP-13 2013-09-01 2013-09-30   38.41
+    #> 11    TRUE  MOCT-13 2013-10-01 2013-10-31   38.81
+    #> 12    TRUE  MNOV-13 2013-11-01 2013-11-30   40.94
+    #> 13   FALSE    Q3-13 2013-07-01 2013-09-30   35.72
+    #> 14    TRUE    Q4-13 2013-10-01 2013-12-31   40.53
+    #> 15    TRUE    Q1-14 2014-01-01 2014-03-31   42.40
+    #> 16    TRUE    Q2-14 2014-04-01 2014-06-30   33.39
+    #> 17    TRUE    Q3-14 2014-07-01 2014-09-30   31.78
+    #> 18    TRUE    Q4-14 2014-10-01 2014-12-31   38.25
+    #> 19    TRUE    Q1-15 2015-01-01 2015-03-31   40.73
+    #> 20    TRUE    Q2-15 2015-04-01 2015-06-30   32.64
+    #> 21    TRUE    Q3-15 2015-07-01 2015-09-30   30.87
+    #> 22    TRUE    Q4-15 2015-10-01 2015-12-31   37.22
+    #> 23   FALSE   CAL-14 2014-01-01 2014-12-31   36.43
+    #> 24   FALSE   CAL-15 2015-01-01 2015-12-31   35.12
+    #> 25    TRUE   CAL-16 2016-01-01 2016-12-31   34.10
+    #> 26   FALSE   CAL-17 2017-01-01 2017-12-31   35.22
+    #> 27   FALSE   CAL-18 2018-01-01 2018-12-31   36.36
+    #> 28   FALSE   CAL-19 2019-01-01 2019-12-31   37.44
+    #> 29   FALSE   CAL-20 2020-01-01 2020-12-31   38.58
+    #> 30   FALSE   CAL-21 2021-01-01 2021-12-31   39.73
+    #> 31   FALSE   CAL-22 2022-01-01 2022-12-31   40.93
+    #> 32   FALSE   CAL-23 2023-01-01 2023-12-31   42.15
 
 The function `msfc()` will create an instance of the S4 class `MSFC`
 with generic methods `plot()`, `summary()` and `show()`. In addition to
@@ -90,8 +90,8 @@ prior function to the calculation. This is relevant for markets with
 strong seasonality, such as power markets. The default value is `prior
 = 0`, but the user can provide any vector expressing a belief regarding
 the market to be combined with the observed prices. In the example below
-we have used a simple trigonometric prior with higher price level during
-the winter season, and lower during summer.
+we have used a simple seasonal prior from the package `powpriors130513`
+data set.
 
 ``` r
 fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
@@ -100,7 +100,7 @@ fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
                      sdate = powfutures130513$Start,         # vector with contract start dates
                      edate = powfutures130513$End,           # vector with contract end dates
                      f = powfutures130513$Closing,           # vector with contract closing prices
-                     prior = simple_trig_prior               # prior function
+                     prior = powpriors130513$mod.prior       # prior function
                      )
 
 plot(fwd_fut_wpri, legend = "", title = "MSFC with prior for power futures 2013-05-13")
@@ -108,46 +108,51 @@ plot(fwd_fut_wpri, legend = "", title = "MSFC with prior for power futures 2013-
 
 <img src="man/figures/README-msfc_fut_wpri-1.png" width="90%" />
 
-The `msfc()` creates the smoothest possible forward curve by minimizing
-the mean squared value of a forward curve spline function, while
-ensuring that the average value of the curve is equal to contract prices
-used in the calculation for the respective time intervals. The number of
-polynomials used in the spline along with `head(prior)` and computed
-prices based on the curve are available with the `summary()` method:
+The forward curve is calculated with the function
+
+\(f(t) = \lambda(t) + \epsilon(t)\)
+
+where \(\lambda(t)\) is the prior supplied by the user and
+\(\epsilon(t)\) is an adjustment function taking the observed prices
+into account. The `msfc()` function finds the smoothest possible
+adjustment function by minimizing the mean squared value of a spline
+function, while ensuring that the average value of the curve \(f(t)\) is
+equal to contract prices used in the calculation for the respective time
+intervals. The number of polynomials used in the spline along with
+`head(prior)` and computed prices based on the curve are available with
+the `summary()` method:
 
 ``` r
 summary(fwd_fut_wpri)
 #> $Description
-#> [1] "MSFC of length 2059 built with 45 polynomials at trade date 2013-05-13"
+#> [1] "MSFC of length 1329 built with 41 polynomials at trade date 2013-05-13"
 #> 
 #> $PriorFunc
-#> [1] 29.28941 29.20787 29.12667 29.04582 28.96536 28.88530
+#> [1] 30.10842 30.16396 30.19572 30.16144 29.06268 28.93272
 #> 
 #> $BenchSheet
 #>    Include Contract       From         To Price  Comp
-#> 7     TRUE   W21-13 2013-05-20 2013-05-26 33.65 33.65
-#> 8     TRUE   W22-13 2013-05-27 2013-06-02 35.77 35.77
-#> 9     TRUE   W23-13 2013-06-03 2013-06-09 36.58 36.58
-#> 10    TRUE   W24-13 2013-06-10 2013-06-16 35.93 35.93
-#> 11    TRUE   W25-13 2013-06-17 2013-06-23 33.14 33.14
-#> 12    TRUE   W26-13 2013-06-24 2013-06-30 34.16 34.16
-#> 14    TRUE  MJUL-13 2013-07-01 2013-07-31 33.14 33.14
-#> 15    TRUE  MAUG-13 2013-08-01 2013-08-31 35.72 35.72
-#> 16    TRUE  MSEP-13 2013-09-01 2013-09-30 38.41 38.41
-#> 17    TRUE  MOCT-13 2013-10-01 2013-10-31 38.81 38.81
-#> 18    TRUE  MNOV-13 2013-11-01 2013-11-30 40.94 40.94
-#> 20    TRUE    Q4-13 2013-10-01 2013-12-31 40.53 40.53
-#> 21    TRUE    Q1-14 2014-01-01 2014-03-31 42.40 42.40
-#> 22    TRUE    Q2-14 2014-04-01 2014-06-30 33.39 33.39
-#> 23    TRUE    Q3-14 2014-07-01 2014-09-30 31.78 31.78
-#> 24    TRUE    Q4-14 2014-10-01 2014-12-31 38.25 38.25
-#> 25    TRUE    Q1-15 2015-01-01 2015-03-31 40.73 40.73
-#> 26    TRUE    Q2-15 2015-04-01 2015-06-30 32.64 32.64
-#> 27    TRUE    Q3-15 2015-07-01 2015-09-30 30.87 30.87
-#> 28    TRUE    Q4-15 2015-10-01 2015-12-31 37.22 37.22
-#> 31    TRUE   CAL-16 2016-01-01 2016-12-31 34.10 34.10
-#> 32    TRUE   CAL-17 2017-01-01 2017-12-31 35.22 35.22
-#> 33    TRUE   CAL-18 2018-01-01 2018-12-31 36.36 36.36
+#> 1     TRUE   W21-13 2013-05-20 2013-05-26 33.65 33.65
+#> 2     TRUE   W22-13 2013-05-27 2013-06-02 35.77 35.77
+#> 3     TRUE   W23-13 2013-06-03 2013-06-09 36.58 36.58
+#> 4     TRUE   W24-13 2013-06-10 2013-06-16 35.93 35.93
+#> 5     TRUE   W25-13 2013-06-17 2013-06-23 33.14 33.14
+#> 6     TRUE   W26-13 2013-06-24 2013-06-30 34.16 34.16
+#> 8     TRUE  MJUL-13 2013-07-01 2013-07-31 33.14 33.14
+#> 9     TRUE  MAUG-13 2013-08-01 2013-08-31 35.72 35.72
+#> 10    TRUE  MSEP-13 2013-09-01 2013-09-30 38.41 38.41
+#> 11    TRUE  MOCT-13 2013-10-01 2013-10-31 38.81 38.81
+#> 12    TRUE  MNOV-13 2013-11-01 2013-11-30 40.94 40.94
+#> 14    TRUE    Q4-13 2013-10-01 2013-12-31 40.53 40.53
+#> 15    TRUE    Q1-14 2014-01-01 2014-03-31 42.40 42.40
+#> 16    TRUE    Q2-14 2014-04-01 2014-06-30 33.39 33.39
+#> 17    TRUE    Q3-14 2014-07-01 2014-09-30 31.78 31.78
+#> 18    TRUE    Q4-14 2014-10-01 2014-12-31 38.25 38.25
+#> 19    TRUE    Q1-15 2015-01-01 2015-03-31 40.73 40.73
+#> 20    TRUE    Q2-15 2015-04-01 2015-06-30 32.64 32.64
+#> 21    TRUE    Q3-15 2015-07-01 2015-09-30 30.87 30.87
+#> 22    TRUE    Q4-15 2015-10-01 2015-12-31 37.22 37.22
+#> 25    TRUE   CAL-16 2016-01-01 2016-12-31 34.10 34.10
 ```
 
 The calculation without prior function, for comparison:
