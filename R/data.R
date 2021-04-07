@@ -1,18 +1,3 @@
-#' Closing prices for spread contracts at trading date 2016-12-30
-#'
-#' A synthetic dataset containing the closing prices and other attributes of 8
-#'  spread contracts. The variables are as follows:
-#'
-#' @format A data frame with 8 rows and 5 columns:
-#' \describe{
-#'   \item{Include}{boolean variable to determine if contract should be included in forward curve calculation}
-#'   \item{Contract}{the name of the futures contract}
-#'   \item{Start}{delivery start date for the futures contract}
-#'   \item{End}{delivery start date for the futures contract}
-#'   \item{Closing}{the futures contract closing price}
-#' }
-"spreads161230"
-
 
 #' Closing prices for power futures contracts at trading date 2013-05-13
 #'

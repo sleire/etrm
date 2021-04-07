@@ -4,7 +4,7 @@
 \alias{shpi}
 \title{Step Hedge Portfolio Insurance (SHPI)}
 \usage{
-shpi(q, tdate, f, daysleft, tper = 0.1, tcost = 0, int = TRUE)
+shpi(q, tdate, f, daysleft, tper, tcost = 0, int = TRUE)
 }
 \arguments{
 \item{q}{numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)}

@@ -27,8 +27,6 @@
 \item{ylab}{y-axis title}
 
 \item{legend}{position of legend, as implemented in ggplot2}
-
-\item{ggtheme}{ggplot2 theme to be used in plot}
 }
 \description{
 S4 method for the plot generic

@@ -4,7 +4,7 @@
 #' @param q numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)
 #' @param tdate date vector with trading days
 #' @param f numeric futures price vector
-#' @param tper numeric target price markup/down to the price on the first trading day
+#' @param tper numeric target price factor, markup/down to the price on the first trading day
 #' @param rper numeric risk factor as a percentage of the price on the first trading day
 #' @param tcost numeric transaction costs pr unit
 #' @param int TRUE/FALSE integer restriction on tradable volume
@@ -16,8 +16,8 @@ dppi <- function(
   q,
   tdate,
   f,
-  tper = 0.1,
-  rper = 0.2,
+  tper,
+  rper,
   tcost = 0,
   int = TRUE
   ){
@@ -33,6 +33,12 @@ dppi <- function(
 
   if (missing(f))
     stop("No price vector specified")
+
+  if (missing(tper))
+    stop("No target price factor specified")
+
+  if (missing(rper))
+    stop("No risk factor specified")
 
   # invalid arguments
   if (tcost < 0)

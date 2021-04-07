@@ -72,7 +72,6 @@ setMethod("summary",
 #' @param xlab x-axis title
 #' @param ylab y-axis title
 #' @param legend position of legend, as implemented in ggplot2
-#' @param ggtheme ggplot2 theme to be used in plot
 #' @export
 setMethod("plot",
           signature = "MSFC",

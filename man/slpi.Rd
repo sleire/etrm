@@ -4,7 +4,7 @@
 \alias{slpi}
 \title{Stop Loss Portfolio Insurance (SLPI)}
 \usage{
-slpi(q, tdate, f, tper = 0.1, tcost = 0, int = TRUE)
+slpi(q, tdate, f, tper, tcost = 0, int = TRUE)
 }
 \arguments{
 \item{q}{numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)}

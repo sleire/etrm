@@ -22,7 +22,7 @@ for (j in 2:ncol(powcal)){
     shpi_seller = shpi(-q, f = f, tdate = d, tper =  - tper, daysleft = length(f)),
     slpi_seller = slpi(-q, f, tdate = d, tper = -  tper),
     cppi_seller = cppi(-q, f, tdate = d, tper = -  tper),
-    dppi_seller = dppi(-q, f, tdate = d, tper = -  tper),
+    dppi_seller = dppi(-q, f, tdate = d, tper = -  tper, rper = rep(0.2, 500)),
     obpi_seller = obpi(-q, f, tdate = d, vol = vol, daysleft = length(f))
   )
 
@@ -31,7 +31,7 @@ for (j in 2:ncol(powcal)){
     shpi_buyer = shpi(q, f, tdate = d, tper = tper, daysleft = length(f)),
     slpi_buyer = slpi(q, f, tdate = d, tper = tper,),
     cppi_buyer = cppi(q, f, tdate = d, tper = tper),
-    dppi_buyer = dppi(q, f, tdate = d, tper = tper),
+    dppi_buyer = dppi(q, f, tdate = d, tper = tper, rper = rep(0.2, 500)),
     obpi_buyer = obpi(q, f, tdate = d, vol = vol, daysleft = length(f))
   )
 

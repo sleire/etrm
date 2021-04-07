@@ -15,7 +15,7 @@ slpi<-function(
   q,
   tdate,
   f,
-  tper = 0.1,
+  tper,
   tcost = 0,
   int = TRUE
   ){
@@ -31,6 +31,9 @@ slpi<-function(
 
   if (missing(f))
     stop("No price vector specified")
+
+  if (missing(tper))
+    stop("No target price factor specified")
 
   # invalid arguments
   if (tcost < 0)

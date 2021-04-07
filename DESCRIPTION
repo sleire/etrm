@@ -6,7 +6,7 @@ Date: 2020-12-08
 Author: Anders D. Sleire
 Maintainer: Anders D. Sleire <sleire@gmail.com>
 Description: Tools for energy market risk management (forward curves and trading strategies).
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1

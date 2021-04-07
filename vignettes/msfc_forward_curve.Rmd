@@ -16,34 +16,35 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(etrm)
-data("spreads161230")
+data("powfutures130513")
 ```
 
-Inspect the spreads data
+Inspect the powfutures130513 data
 ```{r}
-spreads161230
+powfutures130513
 ```
 
 Create an instance of the MSFC class
 ```{r}
-fwd <- msfc(tdate = as.Date("2016-12-30"),
-            include = spreads161230$Include,
-            contract = spreads161230$Contract,
-            sdate = spreads161230$Start,
-            edate = spreads161230$End,
-            f = spreads161230$Closing)
+fwd.fut.npri <- msfc(tdate = as.Date("2013-05-13"),
+                  include = powfutures130513$Include,
+                  contract = powfutures130513$Contract,
+                  sdate = powfutures130513$Start,
+                  edate = powfutures130513$End,
+                  f = powfutures130513$Closing,
+                  prior = 0)
 ```
 
 Available methods are "summary", "plot" and "show"
 ```{r}
-summary(fwd)
+summary(fwd.fut.npri)
 ```
 
 ```{r, fig.dim=c(7, 4)}
-plot(fwd)
+plot(fwd.fut.npri)
 ```
 
 ```{r}
-head(show(fwd))
+head(show(fwd.fut.npri))
 ```
 

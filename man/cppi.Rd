@@ -4,7 +4,7 @@
 \alias{cppi}
 \title{Constant Proportion Portfolio Insurance (CPPI)}
 \usage{
-cppi(q, tdate, f, tper, rper = 0.2, tcost = 0, int = TRUE)
+cppi(q, tdate, f, tper, rper, tcost = 0, int = TRUE)
 }
 \arguments{
 \item{q}{numeric value for quantity to be hedged, either positive (net buyer) or negative (net seller)}

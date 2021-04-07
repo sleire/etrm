@@ -17,7 +17,7 @@ cppi <- function(
   tdate,
   f,
   tper,
-  rper = 0.2,
+  rper,
   tcost = 0,
   int = TRUE
   ){
@@ -33,6 +33,12 @@ cppi <- function(
 
   if (missing(f))
     stop("No price vector specified")
+
+  if (missing(tper))
+    stop("No target price factor specified")
+
+  if (missing(rper))
+    stop("No risk factor specified")
 
   # invalid arguments
   if (tcost < 0)
