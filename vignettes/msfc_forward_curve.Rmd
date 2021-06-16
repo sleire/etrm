@@ -14,37 +14,72 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardized periods, such as "Week", "Month", "Quarter", "Season" or "Year". The forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period. 
+
+An example of such standard energy market contracts can be found in the package data set `powfutures130513`.
+
+```{r setup, echo=FALSE}
 library(etrm)
 data("powfutures130513")
 ```
 
-Inspect the powfutures130513 data
 ```{r}
 powfutures130513
 ```
 
-Create an instance of the MSFC class
+The data set contains closing prices for a set of synthetic futures contracts on the trading date 2013-05-13. It can be used to create an instance of the MSFC class with:
 ```{r}
-fwd.fut.npri <- msfc(tdate = as.Date("2013-05-13"),
+fwd_npri <- msfc(tdate = as.Date("2013-05-13"),
+                  include = powfutures130513$Include,
+                  contract = powfutures130513$Contract,
+                  sdate = powfutures130513$Start,
+                  edate = powfutures130513$End,
+                  f = powfutures130513$Closing)
+```
+
+In addition to the arguments from the list of contracts, the user may also provide a prior function to the calculation. This is relevant for markets with strong seasonality, such as power markets. The default value for the `msfc()` function is `prior = 0`, but the user can provide any vector expressing a belief regarding the market to be combined with the observed prices. We create a new `MSFC` instance, this time including a simple seasonal prior collected from the package data set `powpriors130513`: 
+```{r}
+fwd_wpri <- msfc(tdate = as.Date("2013-05-13"),
                   include = powfutures130513$Include,
                   contract = powfutures130513$Contract,
                   sdate = powfutures130513$Start,
                   edate = powfutures130513$End,
                   f = powfutures130513$Closing,
-                  prior = 0)
+                  prior = powpriors130513$mod.prior)
 ```
 
-Available methods are "summary", "plot" and "show"
-```{r}
-summary(fwd.fut.npri)
+Available methods for the objects `fwd_npri` and `fwd_wpri` are `plot()`, `summary()` and `show()`. The effect from the prior curve can be visually inspected by comparing the two plots:
+
+
+```{r, fig.dim=c(7, 4)}
+plot(fwd_npri, title = "Forward curve without prior")
 ```
 
 ```{r, fig.dim=c(7, 4)}
-plot(fwd.fut.npri)
+plot(fwd_wpri, title = "Forward curve with prior")
 ```
 
+ As shown in the plots, the shorter contracts close in time to the trading date clearly reflect a seasonal pattern. This is typical in power markets, where weather and calendar effects have strong influence on transacted volume and price formation.  On a longer horizon however, this information is not observable in market prices, as the quoted contracts cover longer time spans.  This is where price data may be supplemented with prior knowledge in order to create a representation of the market consistent with both the underlying fundamentals and the listed contracts.
+
+In `etrm`, the forward curve is calculated with the function $f(t) = \lambda(t) + \epsilon(t)$ where $\lambda(t)$ is the prior supplied by the user and $\epsilon(t)$ is an adjustment function taking the observed prices into account. The `msfc()` function finds the smoothest possible adjustment function $\epsilon(t)$ by minimizing the mean squared value of a spline function, while ensuring that the average value of the curve $f(t)$ is equal to contract prices used in the calculation for the respective time intervals. The number of polynomials used in the spline along with `head(prior)` and computed prices based on the curve are available with the `summary()` method:
+
 ```{r}
-head(show(fwd.fut.npri))
+summary(fwd_npri)
+```
+
+For comparison, the calculation including prior:
+```{r}
+summary(fwd_wpri)
+```
+
+The forward curve values can be extracted along with daily prices for the contracts used in the calculation with the `show()` method:
+```{r}
+head(show(fwd_npri), 15)[1:8]
+```
+
+We have excluded columns from the data frame for the sake of presentation. Further details regarding the calculation such as spline coefficients and knot points can be found in the slots:
+
+```{r}
+slotNames(fwd_npri)
 ```
 

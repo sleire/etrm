@@ -13,8 +13,15 @@ Stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecy
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
+## Overview
+
 `etrm` is an R package with tools for trading and financial risk
-management in energy markets
+management in energy markets. The package currently offer tools for two
+main activities:
+
+1.  Construction of forward market curves
+2.  Portfolio insurance trading strategies for energy price risk
+    management
 
 ## Installation
 
@@ -22,23 +29,15 @@ The development version can be installed from
 [GitHub](https://github.com/sleire/etrm) with:
 
 ``` r
-# install.packages("devtools")
 devtools::install_github("sleire/etrm")
 ```
 
-## Examples
-
-The `etrm` package currently offer tools for two main activities:
-
-1.  Construction of forward market curves
-2.  Implementation of trading strategies for energy price risk
-    management
+## Examples of use
 
 The following sections will provide examples using some of the synthetic
-data sets included in the package. Please see the `demo` section for a
-more detailed analysis.
+data sets included in the package.
 
-### 1. The Maximum Smoothness Forward Curve
+#### 1. The Maximum Smoothness Forward Curve
 
 A typical characteristic of energy commodities such as electricity and
 natural gas is that delivery takes place over a period in time, not on a
@@ -182,7 +181,7 @@ slotNames(fwd_fut_wpri)
 #> [6] "Results"     "SplineCoef"  "KnotPoints"  "CalcDat"
 ```
 
-### 2. Portfolio Insurance Strategies for Energy Price Risk Management
+#### 2. Portfolio Insurance Trading Strategies for Energy Price Risk Management
 
 Futures trading strategies for price risk management, for commercial
 hedgers with long or short exposure. All models below aim to achieve a

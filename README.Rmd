@@ -22,26 +22,25 @@ knitr::opts_chunk$set(
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-`etrm` is an R package with tools for trading and financial risk management in energy markets
+## Overview
+
+`etrm` is an R package with tools for trading and financial risk management in energy markets. The package currently offer tools for two main activities:
+
+1. Construction of forward market curves
+2. Portfolio insurance trading strategies for energy price risk management
 
 ## Installation
 
 The development version can be installed from [GitHub](https://github.com/sleire/etrm) with:
 
 ``` r
-# install.packages("devtools")
 devtools::install_github("sleire/etrm")
 ```
-## Examples
+## Examples of use
 
-The `etrm` package currently offer tools for two main activities:
+The following sections will provide examples using some of the synthetic data sets included in the package.
 
-1. Construction of forward market curves
-2. Implementation of trading strategies for energy price risk management
-
-The following sections will provide examples using some of the synthetic data sets included in the package. Please see the `demo` section for a more detailed analysis.
-
-### 1. The Maximum Smoothness Forward Curve
+#### 1. The Maximum Smoothness Forward Curve
 A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardized periods, such as "Week", "Month", "Quarter", "Season" or "Year". The forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period. An example of such standard energy market contracts can be found in the package data set `powfutures130513`.
 
 
@@ -101,7 +100,7 @@ slotNames(fwd_fut_wpri)
 
 
 
-### 2. Portfolio Insurance Strategies for Energy Price Risk Management
+#### 2. Portfolio Insurance Trading Strategies for Energy Price Risk Management
 
 Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to achieve a favorable unit price for the energy portfolio, while preventing it from breaching a pre defined cap (floor). 
 
