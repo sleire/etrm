@@ -30,6 +30,8 @@ setClass("MSFC",
 #' S4 method for the show generic
 #'
 #'@export
+#'@importFrom methods show
+#'@param object instance of the MSFC class
 setMethod("show",
           signature ="MSFC",
           definition=function(object) {
@@ -40,9 +42,10 @@ setMethod("show",
 #' S4 method for the summary generic
 #'
 #'@export
+#'@param object instance of the MSFC class
 setMethod("summary",
           signature ="MSFC",
-          definition=function(object, ...) {
+          definition=function(object) {
 
             Description <- paste(object@Name,
                                  "of length",
@@ -53,7 +56,7 @@ setMethod("summary",
                                  "trade date",
                                  object@TradeDate, sep=" ")
 
-            PriorFunc <- head(object@PriorFunc) # TODO: consider not returning complete prior
+            PriorFunc <- head(object@PriorFunc)
 
             BenchSheet <- object@BenchSheet
 
@@ -67,6 +70,7 @@ setMethod("summary",
 #' @import reshape2
 #' @importFrom stats na.omit
 #' @param x instance of the MSFC class created by the msfc function
+#' @param y NULL
 #' @param plot.prior TRUE/FALSE for incuding prior function in plot
 #' @param title plot title
 #' @param xlab x-axis title
@@ -81,8 +85,8 @@ setMethod("plot",
                                 title="",
                                 xlab = "",
                                 ylab = "Price",
-                                legend= "right",
-                                ...){
+                                legend= "right"
+                                ){
 
             if (plot.prior){
               x@Results$Prior <- x@PriorFunc

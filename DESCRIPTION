@@ -2,7 +2,7 @@ Package: etrm
 Type: Package
 Title: Energy Trading and Risk Management in R
 Version: 1.0
-Date: 2020-12-08
+Date: 2021-06-16
 Author: Anders D. Sleire
 Maintainer: Anders D. Sleire <sleire@gmail.com>
 Description: Tools for energy market risk management (forward curves and trading strategies).

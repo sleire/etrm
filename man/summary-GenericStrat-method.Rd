@@ -4,7 +4,10 @@
 \alias{summary,GenericStrat-method}
 \title{S4 method for the summary generic}
 \usage{
-\S4method{summary}{GenericStrat}(object, ...)
+\S4method{summary}{GenericStrat}(object)
+}
+\arguments{
+\item{object}{instance of a strategy class}
 }
 \description{
 S4 method for the summary generic

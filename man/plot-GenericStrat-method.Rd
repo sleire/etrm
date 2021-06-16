@@ -12,9 +12,25 @@
   ylab.1 = "Price",
   ylab.2 = "Hedge \%",
   pcols = c("#F8766D", "steelblue3", "gray60", "gray80"),
-  legend = "bottom",
-  ...
+  legend = "bottom"
 )
+}
+\arguments{
+\item{x}{instance of the strategy class created by the corresponding strategy function}
+
+\item{y}{NULL}
+
+\item{title}{plot title}
+
+\item{xlab}{label for x-axis}
+
+\item{ylab.1}{label for y-axis on price plot in top panel}
+
+\item{ylab.2}{label for y-axis on hedge plot in bottom panel}
+
+\item{pcols}{vector with four color codes for plot}
+
+\item{legend}{legend position in c("top", "bottom")}
 }
 \description{
 S4 method for the plot generic

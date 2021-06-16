@@ -70,6 +70,7 @@ setClass("SLPI",
 #' S4 method for the show generic
 #'
 #'@export
+#'@param object instance of a strategy class
 setMethod("show",
           signature ="GenericStrat",
           definition=function(object) {
@@ -80,9 +81,10 @@ setMethod("show",
 #' S4 method for the summary generic
 #'
 #'@export
+#'@param object instance of a strategy class
 setMethod("summary",
           signature ="GenericStrat",
-          definition=function(object, ...) {
+          definition=function(object) {
 
             Description <- paste("Hedging strategy of type",
                                  object@Name,
@@ -113,7 +115,14 @@ setMethod("summary",
 #'
 #' @import ggplot2
 #' @import reshape2
-#' @importFrom ggplot2 theme_light
+#' @param x instance of the strategy class created by the corresponding strategy function
+#' @param y NULL
+#' @param title plot title
+#' @param xlab label for x-axis
+#' @param ylab.1 label for y-axis on price plot in top panel
+#' @param ylab.2 label for y-axis on hedge plot in bottom panel
+#' @param pcols vector with four color codes for plot
+#' @param legend legend position in c("top", "bottom")
 #' @export
 setMethod("plot",
           signature = "GenericStrat",
@@ -124,8 +133,8 @@ setMethod("plot",
                                 ylab.1 = "Price",
                                 ylab.2 = "Hedge %",
                                 pcols = c("#F8766D", "steelblue3", "gray60", "gray80"),
-                                legend = "bottom",
-                                ...){
+                                legend = "bottom"
+                                ){
 
             # reshape and add grouping variable
             pdat <- x@Results[c("Date","Market","Hedge","Target","Portfolio")]

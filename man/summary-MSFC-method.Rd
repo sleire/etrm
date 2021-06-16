@@ -4,7 +4,10 @@
 \alias{summary,MSFC-method}
 \title{S4 method for the summary generic}
 \usage{
-\S4method{summary}{MSFC}(object, ...)
+\S4method{summary}{MSFC}(object)
+}
+\arguments{
+\item{object}{instance of the MSFC class}
 }
 \description{
 S4 method for the summary generic

@@ -6,6 +6,9 @@
 \usage{
 \S4method{show}{GenericStrat}(object)
 }
+\arguments{
+\item{object}{instance of a strategy class}
+}
 \description{
 S4 method for the show generic
 }

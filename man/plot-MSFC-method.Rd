@@ -11,12 +11,13 @@
   title = "",
   xlab = "",
   ylab = "Price",
-  legend = "right",
-  ...
+  legend = "right"
 )
 }
 \arguments{
 \item{x}{instance of the MSFC class created by the msfc function}
+
+\item{y}{NULL}
 
 \item{plot.prior}{TRUE/FALSE for incuding prior function in plot}
 

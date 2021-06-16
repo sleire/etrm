@@ -10,7 +10,7 @@ Status](https://travis-ci.org/sleire/etrm.svg?branch=master)](https://travis-ci.
 [![Build
 status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](https://ci.appveyor.com/project/sleire/etrm)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+Stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
@@ -39,7 +39,7 @@ The following sections will provide examples using some of the synthetic
 data sets included in the package. Please see the `demo` section for a
 more detailed analysis.
 
-### 1\. The Maximum Smoothness Forward Curve
+### 1. The Maximum Smoothness Forward Curve
 
 A typical characteristic of energy commodities such as electricity and
 natural gas is that delivery takes place over a period in time, not on a
@@ -87,11 +87,11 @@ The function `msfc()` will create an instance of the S4 class `MSFC`
 with generic methods `plot()`, `summary()` and `show()`. In addition to
 the arguments from the list of contracts, the user may also provide a
 prior function to the calculation. This is relevant for markets with
-strong seasonality, such as power markets. The default value is `prior
-= 0`, but the user can provide any vector expressing a belief regarding
-the market to be combined with the observed prices. In the example below
-we have used a simple seasonal prior from the package `powpriors130513`
-data set.
+strong seasonality, such as power markets. The default value is
+`prior = 0`, but the user can provide any vector expressing a belief
+regarding the market to be combined with the observed prices. In the
+example below we have used a simple seasonal prior from the package
+`powpriors130513` data set.
 
 ``` r
 fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
@@ -110,17 +110,16 @@ plot(fwd_fut_wpri, legend = "", title = "MSFC with prior for power futures 2013-
 
 The forward curve is calculated with the function
 
-\(f(t) = \lambda(t) + \epsilon(t)\)
+*f*(*t*) = *λ*(*t*) + *ϵ*(*t*)
 
-where \(\lambda(t)\) is the prior supplied by the user and
-\(\epsilon(t)\) is an adjustment function taking the observed prices
-into account. The `msfc()` function finds the smoothest possible
-adjustment function by minimizing the mean squared value of a spline
-function, while ensuring that the average value of the curve \(f(t)\) is
-equal to contract prices used in the calculation for the respective time
-intervals. The number of polynomials used in the spline along with
-`head(prior)` and computed prices based on the curve are available with
-the `summary()` method:
+where *λ*(*t*) is the prior supplied by the user and *ϵ*(*t*) is an
+adjustment function taking the observed prices into account. The
+`msfc()` function finds the smoothest possible adjustment function by
+minimizing the mean squared value of a spline function, while ensuring
+that the average value of the curve *f*(*t*) is equal to contract prices
+used in the calculation for the respective time intervals. The number of
+polynomials used in the spline along with `head(prior)` and computed
+prices based on the curve are available with the `summary()` method:
 
 ``` r
 summary(fwd_fut_wpri)
@@ -184,7 +183,7 @@ slotNames(fwd_fut_wpri)
 #> [6] "Results"     "SplineCoef"  "KnotPoints"  "CalcDat"
 ```
 
-### 2\. Portfolio Insurance Strategies for Energy Price Risk Management
+### 2. Portfolio Insurance Strategies for Energy Price Risk Management
 
 Futures trading strategies for price risk management, for commercial
 hedgers with long or short exposure. All models below aim to achieve a
@@ -193,11 +192,11 @@ breaching a pre defined cap (floor).
 
 The functions
 
-  - `cppi()` - Constant Proportion Portfolio Insurance  
-  - `dppi()` - Dynamic Proportion Portfolio Insurance  
-  - `obpi()` - Option Based Portfolio Insurance  
-  - `shpi()` - Step Hedge Portfolio Insurance  
-  - `slpi()` - Stop Loss Portfolio insurance
+-   `cppi()` - Constant Proportion Portfolio Insurance  
+-   `dppi()` - Dynamic Proportion Portfolio Insurance  
+-   `obpi()` - Option Based Portfolio Insurance  
+-   `shpi()` - Step Hedge Portfolio Insurance  
+-   `slpi()` - Stop Loss Portfolio insurance
 
 implement alternative approaches to achieve this goal. They return S4
 objects of type `CPPI`, `DPPI`, `OBPI`, `SHPI` and `SLPI` respectively,
