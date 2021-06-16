@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![Build
-Status](https://travis-ci.org/sleire/etrm.svg?branch=master)](https://travis-ci.org/sleire/etrm)
+[![R-CMD-check](https://github.com/sleire/etrm/workflows/R-CMD-check/badge.svg)](https://github.com/sleire/etrm/actions)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](https://ci.appveyor.com/project/sleire/etrm)
 [![Lifecycle:
