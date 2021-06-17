@@ -27,3 +27,42 @@ instance of the CPPI class
 \description{
 Implements CPPI strategy for commodity price risk management
 }
+\examples{
+# CPPI for a buyer (seller), where stop loss is set 10\% above (below) initial market price.
+
+set.seed(5)
+# GBM price process parameters
+mu <- 0.2
+sigma <- 0.1
+S0 <- 100
+
+# time
+Y <- 2
+N <- 500
+delta <- Y/N
+t <- seq (0, 1, length = N + 1)
+
+# price process and date vector
+W <- c(0, cumsum ( sqrt(delta) * rnorm (N)))
+f_gbm <- S0 * exp(mu * t + sigma * W)
+tr_dates <- seq(Sys.Date(), Sys.Date()+500, by = "day")
+
+# implement cppi strategy for buyer
+cppi_b <- cppi(q = 10,
+tdate = tr_dates,
+f = f_gbm,
+tper = 0.1,
+rper = 0.1,
+tcost = 0,
+int = TRUE)
+
+# implement cppi strategy for seller
+cppi_s <- cppi(q = - 10,
+tdate = tr_dates,
+f = f_gbm,
+tper = - 0.1,
+rper = 0.1,
+tcost = 0,
+int = TRUE)
+
+}
