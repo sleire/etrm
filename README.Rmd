@@ -38,7 +38,7 @@ devtools::install_github("sleire/etrm")
 ```
 ## Examples of use
 
-The following sections will provide examples using some of the synthetic data sets included in the package.
+The following sections provide examples using some of the synthetic data sets included in the package.
 
 #### 1. The Maximum Smoothness Forward Curve
 A typical characteristic of energy commodities such as electricity and natural gas is that delivery takes place over a period in time, not on a single date. Listed futures contracts cover standardized periods, such as "Week", "Month", "Quarter", "Season" or "Year". The forward curve is an essential tool for pricing non-standard OTC contracts having any settlement period. An example of such standard energy market contracts can be found in the package data set `powfutures130513`.
@@ -136,7 +136,7 @@ cal06_obpi_b <- obpi(q = 30,               # volume 30 MW (buyer)
                      r = 0,                # default assumed risk free rate of interest
                      tdays = 250,          # assumed trading days per year
                      daysleft = 500,       # number of days to expiry
-                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     tcost = 0,            # transaction cost
                      int = TRUE            # integer restriction, smallest transacted unit = 1
                    )
 
@@ -167,7 +167,7 @@ cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
                      r = 0,                # default assumed risk free rate of interest
                      tdays = 250,          # assumed trading days per year
                      daysleft = 500,       # number of days to expiry
-                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     tcost = 0,            # transaction cost
                      int = TRUE            # integer restriction, smallest transacted unit = 1
                    )
 

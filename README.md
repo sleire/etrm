@@ -34,8 +34,8 @@ devtools::install_github("sleire/etrm")
 
 ## Examples of use
 
-The following sections will provide examples using some of the synthetic
-data sets included in the package.
+The following sections provide examples using some of the synthetic data
+sets included in the package.
 
 #### 1. The Maximum Smoothness Forward Curve
 
@@ -218,7 +218,7 @@ cal06_obpi_b <- obpi(q = 30,               # volume 30 MW (buyer)
                      r = 0,                # default assumed risk free rate of interest
                      tdays = 250,          # assumed trading days per year
                      daysleft = 500,       # number of days to expiry
-                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     tcost = 0,            # transaction cost
                      int = TRUE            # integer restriction, smallest transacted unit = 1
                    )
 
@@ -274,7 +274,7 @@ cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
                      r = 0,                # default assumed risk free rate of interest
                      tdays = 250,          # assumed trading days per year
                      daysleft = 500,       # number of days to expiry
-                     tcost = 0,            # transaction cost, percentage of daily quoted price
+                     tcost = 0,            # transaction cost
                      int = TRUE            # integer restriction, smallest transacted unit = 1
                    )
 

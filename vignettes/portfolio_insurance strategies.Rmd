@@ -1,0 +1,97 @@
+---
+title: "Portfolio Insurance Trading Strategies"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Portfolio Insurance Trading Strategies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Futures trading strategies for price risk management, for commercial hedgers with long or short exposure. All models below aim to achieve a favorable unit price for the energy portfolio, while preventing it from breaching a pre defined cap (floor). 
+
+The functions
+
+- `cppi()` - Constant Proportion Portfolio Insurance   
+- `dppi()` - Dynamic Proportion Portfolio Insurance   
+- `obpi()` - Option Based Portfolio Insurance         
+- `shpi()` - Step Hedge Portfolio Insurance            
+- `slpi()` - Stop Loss Portfolio insurance             
+
+implement alternative approaches to achieve this goal. They return S4 objects of type `CPPI`, `DPPI`, `OBPI`, `SHPI` and `SLPI` respectively, with methods `plot()`, `summary()` and `show()`.
+
+We will illustrate with some examples using the synthetic `powcal` data set, which is included in `etrm`. The data set contains daily closing prices for a set of yearly baseload power futures contracts:
+
+
+```{r, out.width="70%"}
+library(etrm)
+data(powcal)
+
+# the first five contracts
+head(powcal[1:6])
+```
+
+In our example, we will consider the CAL-06 contract, and start trading 500 days prior to the contract expiry. 
+
+
+```{r powcal_06}
+day06 <- powcal$Date[!is.na(powcal$`CAL-06`)]
+cal06 <- powcal$`CAL-06`[!is.na(powcal$`CAL-06`)]
+dat06 <- data.frame(Date = day06, CAL06 = cal06)
+dat06 <- tail(dat06, 500)
+```
+
+We will use the `obpi()` function to implement option-based portfolio insurance, e.g. we synthesize an option via a delta hedging scheme. For the `OBPI`strategy, the target price is calculated as an expected cap (floor) given by the option premium-adjusted strike price selected for the delta hedging scheme within a standard Black-76 option pricing framework. The default strike price is set at-the-money. The user may express a view regarding future market development by deviating from this level.
+
+```{r cal06_obpi_long, fig.width=7, fig.height=5}
+cal06_obpi_b <- obpi(q = 30,               # volume 30 MW (buyer)
+                     tdate = dat06$Date,   # vector with trading days until expiry
+                     f = dat06$CAL06,      # vector with futures price
+                     k = dat06$CAL06[1],   # default option strike price at-the-money
+                     vol = 0.2,            # annualized volatility, for the Black-76 delta hedging
+                     r = 0,                # default assumed risk free rate of interest
+                     tdays = 250,          # assumed trading days per year
+                     daysleft = 500,       # number of days to expiry
+                     tcost = 0,            # transaction cost
+                     int = TRUE            # integer restriction, smallest transacted unit = 1
+                   )
+
+plot(cal06_obpi_b, legend = "bottom", title = "OBPI strategy buyer CAL-06")
+```
+
+The `summary()` method:
+
+```{r cal06_obpi_b_sumary}
+summary(cal06_obpi_b)
+```
+
+The `show()`method provide details regarding daily values for market price, transactions, exposed volume, futures contract position, the target price and the calculated portfolio price. Further details for a specific instance of a trading strategy can be found in the slots, see for example:
+
+```{r cal06_obpi_b_slots}
+slotNames(cal06_obpi_b)
+```
+
+
+The strategy CAL-06 OBPI strategy from a sellers point of view:
+
+```{r cal_obpi_short, fig.width=7, fig.height=5}
+cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
+                     tdate = dat06$Date,   # vector with trading days until expiry
+                     f = dat06$CAL06,      # vector with futures price
+                     k = dat06$CAL06[1],   # default option strike price at-the-money
+                     vol = 0.2,            # annualized volatility, for the Black-76 delta hedging
+                     r = 0,                # default assumed risk free rate of interest
+                     tdays = 250,          # assumed trading days per year
+                     daysleft = 500,       # number of days to expiry
+                     tcost = 0,            # transaction cost
+                     int = TRUE            # integer restriction, smallest transacted unit = 1
+                   )
+
+plot(cal06_obpi_s, legend = "bottom", title = "OBPI strategy seller CAL-06")
+```
