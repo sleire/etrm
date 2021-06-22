@@ -2,13 +2,19 @@
 % Please edit documentation in R/strategy_classes.R
 \name{summary,GenericStrat-method}
 \alias{summary,GenericStrat-method}
-\title{S4 method for the summary generic}
+\title{S4 method for the summary generic for portfolio insurance strategy classes}
 \usage{
 \S4method{summary}{GenericStrat}(object)
 }
 \arguments{
 \item{object}{instance of a strategy class}
 }
+\value{
+a list with five elements. 1) A string describing the type of portfolio
+insurance trading strategy and number of observations, 2) volume to be hedged,
+calculated churn rate (numer of times volume to be hedged has been traded) and
+5) a data frame with summary statistics for achieved results
+}
 \description{
-S4 method for the summary generic
+S4 method for the summary generic for portfolio insurance strategy classes
 }

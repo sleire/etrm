@@ -67,10 +67,12 @@ setClass("SLPI",
 
 ######### methods #######
 
-#' S4 method for the show generic
+#' S4 method for the show generic for portfolio insurance strategy classes
 #'
 #'@export
 #'@param object instance of a strategy class
+#'@return a data frame with daily observations for market price, transactions,
+#'exposed volume, forward positions, hedge rate, target price and portfolio price
 setMethod("show",
           signature ="GenericStrat",
           definition=function(object) {
@@ -78,10 +80,14 @@ setMethod("show",
             Results
           })
 
-#' S4 method for the summary generic
+#' S4 method for the summary generic for portfolio insurance strategy classes
 #'
 #'@export
 #'@param object instance of a strategy class
+#'@return a list with five elements. 1) A string describing the type of portfolio
+#' insurance trading strategy and number of observations, 2) volume to be hedged,
+#' calculated churn rate (numer of times volume to be hedged has been traded) and
+#' 5) a data frame with summary statistics for achieved results
 setMethod("summary",
           signature ="GenericStrat",
           definition=function(object) {
@@ -111,7 +117,7 @@ setMethod("summary",
           })
 
 
-#' S4 method for the plot generic
+#' S4 method for the plot generic for portfolio insurance strategy classes
 #'
 #' @import ggplot2
 #' @import reshape2
@@ -124,6 +130,8 @@ setMethod("summary",
 #' @param pcols vector with four color codes for plot
 #' @param legend legend position in c("top", "bottom")
 #' @export
+#' @return a two-panel chart with daily values for (top panel) target price,
+#' market price and portfolio price and (bottom) portfolio hedge rate
 setMethod("plot",
           signature = "GenericStrat",
           definition = function(x,

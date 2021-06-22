@@ -19,6 +19,6 @@ powfutures130513
 }
 \description{
 A synthetic dataset containing the closing prices and other attributes of 38
- power futures contracts. The variables are as follows:
+ power futures contracts.
 }
 \keyword{datasets}

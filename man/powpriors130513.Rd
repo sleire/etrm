@@ -17,6 +17,5 @@ powpriors130513
 }
 \description{
 An example of two simple priors for forward market price to be used with powfutures130513
-The variables are as follows:
 }
 \keyword{datasets}

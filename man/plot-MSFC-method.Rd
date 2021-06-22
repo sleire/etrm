@@ -2,7 +2,7 @@
 % Please edit documentation in R/msfc_class.R
 \name{plot,MSFC-method}
 \alias{plot,MSFC-method}
-\title{S4 method for the plot generic}
+\title{S4 method for the plot generic for class "MSFC"}
 \usage{
 \S4method{plot}{MSFC}(
   x,
@@ -29,6 +29,9 @@
 
 \item{legend}{position of legend, as implemented in ggplot2}
 }
+\value{
+a chart with daily values for the forward curve and contracts used in calculation
+}
 \description{
-S4 method for the plot generic
+S4 method for the plot generic for class "MSFC"
 }

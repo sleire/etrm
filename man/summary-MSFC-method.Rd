@@ -2,13 +2,19 @@
 % Please edit documentation in R/msfc_class.R
 \name{summary,MSFC-method}
 \alias{summary,MSFC-method}
-\title{S4 method for the summary generic}
+\title{S4 method for the summary generic for class "MSFC"}
 \usage{
 \S4method{summary}{MSFC}(object)
 }
 \arguments{
 \item{object}{instance of the MSFC class}
 }
+\value{
+a list with three elements. 1) A string describing length of forward
+curve, number of polynomials used in spline and trading date, 2) a vector with a
+sample of the prior used via head(prior) and 3) a data frame with all forward
+contracts used in the calculation along with computed forward curve prices
+}
 \description{
-S4 method for the summary generic
+S4 method for the summary generic for class "MSFC"
 }

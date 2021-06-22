@@ -27,11 +27,12 @@ setClass("MSFC",
 
 ######### methods #######
 
-#' S4 method for the show generic
+#' S4 method for the show generic for class "MSFC"
 #'
 #'@export
 #'@importFrom methods show
 #'@param object instance of the MSFC class
+#'@return data frame with daily values for forward curve and forward contracts used in calculation
 setMethod("show",
           signature ="MSFC",
           definition=function(object) {
@@ -39,10 +40,14 @@ setMethod("show",
             Results
           })
 
-#' S4 method for the summary generic
+#' S4 method for the summary generic for class "MSFC"
 #'
 #'@export
 #'@param object instance of the MSFC class
+#'@return a list with three elements. 1) A string describing length of forward
+#'curve, number of polynomials used in spline and trading date, 2) a vector with a
+#'sample of the prior used via head(prior) and 3) a data frame with all forward
+#'contracts used in the calculation along with computed forward curve prices
 setMethod("summary",
           signature ="MSFC",
           definition=function(object) {
@@ -64,7 +69,7 @@ setMethod("summary",
                  BenchSheet = BenchSheet)
           })
 
-#' S4 method for the plot generic
+#' S4 method for the plot generic for class "MSFC"
 #'
 #' @import ggplot2
 #' @import reshape2
@@ -77,6 +82,7 @@ setMethod("summary",
 #' @param ylab y-axis title
 #' @param legend position of legend, as implemented in ggplot2
 #' @export
+#' @return a chart with daily values for the forward curve and contracts used in calculation
 setMethod("plot",
           signature = "MSFC",
           definition = function(x,

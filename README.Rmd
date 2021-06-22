@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# etrm: Energy Trading and Risk Management in R
+# etrm: Energy Trading and Risk Management
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sleire/etrm/workflows/R-CMD-check/badge.svg)](https://github.com/sleire/etrm/actions)
@@ -110,7 +110,7 @@ The functions
 - `dppi()` - Dynamic Proportion Portfolio Insurance   
 - `obpi()` - Option Based Portfolio Insurance         
 - `shpi()` - Step Hedge Portfolio Insurance            
-- `slpi()` - Stop Loss Portfolio insurance             
+- `slpi()` - Stop Loss Portfolio Insurance             
 
 implement alternative approaches to achieve this goal. They return S4 objects of type `CPPI`, `DPPI`, `OBPI`, `SHPI` and `SLPI` respectively, with methods `plot()`, `summary()` and `show()`.
 
@@ -156,7 +156,7 @@ slotNames(cal06_obpi_b)
 ```
 
 
-The strategy CAL-06 OBPI strategy from a sellers point of view:
+The CAL-06 OBPI strategy from a sellers point of view:
 
 ```{r cal_obpi_short, out.width = "95%"}
 cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
@@ -173,8 +173,5 @@ cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)
 
 plot(cal06_obpi_s, legend = "bottom", title = "OBPI strategy seller CAL-06")
 ```
-
-
-
 
 

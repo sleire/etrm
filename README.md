@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# etrm: Energy Trading and Risk Management in R
+# etrm: Energy Trading and Risk Management
 
 <!-- badges: start -->
 
@@ -194,7 +194,7 @@ The functions
 -   `dppi()` - Dynamic Proportion Portfolio Insurance  
 -   `obpi()` - Option Based Portfolio Insurance  
 -   `shpi()` - Step Hedge Portfolio Insurance  
--   `slpi()` - Stop Loss Portfolio insurance
+-   `slpi()` - Stop Loss Portfolio Insurance
 
 implement alternative approaches to achieve this goal. They return S4
 objects of type `CPPI`, `DPPI`, `OBPI`, `SHPI` and `SLPI` respectively,
@@ -263,7 +263,7 @@ slotNames(cal06_obpi_b)
 #>  [6] "Volume"       "TargetPrice"  "TransCost"    "TradeisInt"   "Results"
 ```
 
-The strategy CAL-06 OBPI strategy from a sellers point of view:
+The CAL-06 OBPI strategy from a sellers point of view:
 
 ``` r
 cal06_obpi_s <- obpi(q = - 30,             # volume -30 MW (seller)

@@ -8,7 +8,7 @@
 A data frame with 3253 rows and 12 columns:
 \describe{
   \item{Date}{the trading date}
-  \item{CAL-06}{the closing price for the 20016 futures contract}
+  \item{CAL-06}{the closing price for the 2006 futures contract}
   \item{CAL-07}{the closing price for the 2007 futures contract}
   \item{CAL-08}{the closing price for the 2008 futures contract}
   \item{CAL-09}{the closing price for the 2009 futures contract}
@@ -26,6 +26,6 @@ powcal
 }
 \description{
 A synthetic dataset containing the closing prices and other attributes of 11
- power futures contracts for calendar year delivery for 2006 - 2016. The variables are as follows:
+ power futures contracts for calendar year delivery for 2006 - 2016.
 }
 \keyword{datasets}

@@ -2,13 +2,17 @@
 % Please edit documentation in R/strategy_classes.R
 \name{show,GenericStrat-method}
 \alias{show,GenericStrat-method}
-\title{S4 method for the show generic}
+\title{S4 method for the show generic for portfolio insurance strategy classes}
 \usage{
 \S4method{show}{GenericStrat}(object)
 }
 \arguments{
 \item{object}{instance of a strategy class}
 }
+\value{
+a data frame with daily observations for market price, transactions,
+exposed volume, forward positions, hedge rate, target price and portfolio price
+}
 \description{
-S4 method for the show generic
+S4 method for the show generic for portfolio insurance strategy classes
 }

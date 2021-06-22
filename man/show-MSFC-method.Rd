@@ -2,13 +2,16 @@
 % Please edit documentation in R/msfc_class.R
 \name{show,MSFC-method}
 \alias{show,MSFC-method}
-\title{S4 method for the show generic}
+\title{S4 method for the show generic for class "MSFC"}
 \usage{
 \S4method{show}{MSFC}(object)
 }
 \arguments{
 \item{object}{instance of the MSFC class}
 }
+\value{
+data frame with daily values for forward curve and forward contracts used in calculation
+}
 \description{
-S4 method for the show generic
+S4 method for the show generic for class "MSFC"
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/strategy_classes.R
 \name{plot,GenericStrat-method}
 \alias{plot,GenericStrat-method}
-\title{S4 method for the plot generic}
+\title{S4 method for the plot generic for portfolio insurance strategy classes}
 \usage{
 \S4method{plot}{GenericStrat}(
   x,
@@ -32,6 +32,10 @@
 
 \item{legend}{legend position in c("top", "bottom")}
 }
+\value{
+a two-panel chart with daily values for (top panel) target price,
+market price and portfolio price and (bottom) portfolio hedge rate
+}
 \description{
-S4 method for the plot generic
+S4 method for the plot generic for portfolio insurance strategy classes
 }
