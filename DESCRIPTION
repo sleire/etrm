@@ -8,12 +8,12 @@ Maintainer: Anders D. Sleire <sleire@gmail.com>
 Description: Provides a collection of functions to perform core tasks within
     Energy Trading and Risk Management (ETRM). Calculation of maximum smoothness 
     forward price curves for electricity and natural gas contracts with flow delivery, as presented in
-    F. E. Benth, S. Koekkebakker, and F. Ollmar (2007) <doi:https://doi.org/10.3905/jod.2007.694791>
-    and F. E. Benth,  J. S. Benth,  and S. Koekebakker (2008) <doi:https://doi.org/10.1142/6811>.
+    F. E. Benth, S. Koekebakker, and F. Ollmar (2007) <doi:10.3905/jod.2007.694791>
+    and F. E. Benth,  J. S. Benth,  and S. Koekebakker (2008) <doi:10.1142/6811>.
     Portfolio insurance trading strategies for price risk management in the forward market, see
-    F. Black (1976) <https://doi.org/10.1016/0304-405X(76)90024-6>, 
+    F. Black (1976) <doi:10.1016/0304-405X(76)90024-6>, 
     T. Bjork (2009) <https://EconPapers.repec.org/RePEc:oxp:obooks:9780199574742>,  
-    F. Black and R. W. Jones (1987) <doi:https://doi.org/10.3905/jpm.1987.409131> and
+    F. Black and R. W. Jones (1987) <doi:10.3905/jpm.1987.409131> and
     H. E. Leland (1980) <http://www.jstor.org/stable/2327419>.
 License: MIT + file LICENSE
 Encoding: UTF-8
