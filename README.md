@@ -25,6 +25,13 @@ main activities:
 
 ## Installation
 
+The stable version can be installed from
+[CRAN](https://cran.r-project.org/web/packages/etrm/index.html) with:
+
+``` r
+install.packages('etrm', dependencies = TRUE)
+```
+
 The development version can be installed from
 [GitHub](https://github.com/sleire/etrm) with:
 
