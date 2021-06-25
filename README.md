@@ -286,9 +286,21 @@ summary(cal06_obpi_b)
 
 The `show()`method provide details regarding daily values for market
 price, transactions, exposed volume, futures contract position, the
-target price and the calculated portfolio price. Further details for a
-specific instance of a trading strategy can be found in the slots, see
-for example:
+target price and the calculated portfolio price:
+
+``` r
+head(show(cal06_obpi_b))
+#>         Date Market Trade Exposed Position     Hedge   Target Portfolio
+#> 1 2004-01-02  26.82    17      13       17 0.5666667 29.83626  26.82000
+#> 2 2004-01-05  26.63    -1      14       16 0.5333333 29.83626  26.73767
+#> 3 2004-01-07  26.31     0      14       16 0.5333333 29.83626  26.58833
+#> 4 2004-01-08  26.31     0      14       16 0.5333333 29.83626  26.58833
+#> 5 2004-01-09  26.54     0      14       16 0.5333333 29.83626  26.69567
+#> 6 2004-01-12  26.32     0      14       16 0.5333333 29.83626  26.59300
+```
+
+Further details for a specific instance of a trading strategy can be
+found in the slots, see for example:
 
 ``` r
 slotNames(cal06_obpi_b)

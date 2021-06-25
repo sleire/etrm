@@ -162,7 +162,15 @@ The `summary()` method:
 summary(cal06_obpi_b)
 ```
 
-The `show()`method provide details regarding daily values for market price, transactions, exposed volume, futures contract position, the target price and the calculated portfolio price. Further details for a specific instance of a trading strategy can be found in the slots, see for example:
+The `show()`method provide details regarding daily values for market price, transactions, exposed volume, futures contract position, the target price and the calculated portfolio price:
+
+
+```{r}
+head(show(cal06_obpi_b))
+```
+
+
+Further details for a specific instance of a trading strategy can be found in the slots, see for example:
 
 ```{r cal06_obpi_b_slots}
 slotNames(cal06_obpi_b)
