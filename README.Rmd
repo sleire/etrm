@@ -77,7 +77,7 @@ The forward curve is calculated with the function
 $f(t) = \lambda(t) + \epsilon(t)$
 
 where $\lambda(t)$ is the prior supplied by the user and $\epsilon(t)$ is an adjustment function taking the observed prices into account. The `msfc()` function finds the smoothest possible adjustment function by minimizing the mean squared value of a spline function, while ensuring that the average value of the curve $f(t)$ is equal to contract prices used in the calculation for the respective time intervals. The number of polynomials used in the spline along with `head(prior)` and computed prices based on the curve are available with the `summary()` method:
-```{r msfc_show}
+```{r msfc_summary}
 summary(fwd_fut_wpri)
 ```
 
@@ -97,7 +97,14 @@ plot(fwd_fut_npri, legend = "", title = "MSFC excluding prior for power futures 
 ```
 
 
-The daily forward curve values can be found along with the prior function and contracts used in the calculation with the `show()` method.
+The daily forward curve values can be found along with the prior function and contracts used in the calculation with the `show()` method:
+
+```{r}
+head(show(fwd_fut_wpri)[, 1:9], 20)
+```
+
+
+
 An instance of `MSFC` is a rather rich object, and further details regarding the calculation, spline coefficients, etc. can be found in the slots:
 
 ```{r msfc_slots}

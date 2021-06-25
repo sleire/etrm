@@ -177,7 +177,33 @@ plot(fwd_fut_npri, legend = "", title = "MSFC excluding prior for power futures 
 <img src="man/figures/README-msfc_fut_npri-1.png" width="90%" />
 
 The daily forward curve values can be found along with the prior
-function and contracts used in the calculation with the `show()` method.
+function and contracts used in the calculation with the `show()` method:
+
+``` r
+head(show(fwd_fut_wpri)[, 1:9], 20)
+#>          Date     MSFC W21-13 W22-13 W23-13 W24-13 W25-13 W26-13 MJUL-13
+#> 1  2013-05-13 29.89373     NA     NA     NA     NA     NA     NA      NA
+#> 2  2013-05-14 30.40235     NA     NA     NA     NA     NA     NA      NA
+#> 3  2013-05-15 30.88704     NA     NA     NA     NA     NA     NA      NA
+#> 4  2013-05-16 31.30634     NA     NA     NA     NA     NA     NA      NA
+#> 5  2013-05-17 30.66200     NA     NA     NA     NA     NA     NA      NA
+#> 6  2013-05-18 30.98687     NA     NA     NA     NA     NA     NA      NA
+#> 7  2013-05-19 32.33591     NA     NA     NA     NA     NA     NA      NA
+#> 8  2013-05-20 32.74655  33.65     NA     NA     NA     NA     NA      NA
+#> 9  2013-05-21 33.19772  33.65     NA     NA     NA     NA     NA      NA
+#> 10 2013-05-22 33.63844  33.65     NA     NA     NA     NA     NA      NA
+#> 11 2013-05-23 34.02161  33.65     NA     NA     NA     NA     NA      NA
+#> 12 2013-05-24 33.34168  33.65     NA     NA     NA     NA     NA      NA
+#> 13 2013-05-25 33.62327  33.65     NA     NA     NA     NA     NA      NA
+#> 14 2013-05-26 34.91272  33.65     NA     NA     NA     NA     NA      NA
+#> 15 2013-05-27 35.24208     NA  35.77     NA     NA     NA     NA      NA
+#> 16 2013-05-28 35.59669     NA  35.77     NA     NA     NA     NA      NA
+#> 17 2013-05-29 35.92499     NA  35.77     NA     NA     NA     NA      NA
+#> 18 2013-05-30 36.17633     NA  35.77     NA     NA     NA     NA      NA
+#> 19 2013-05-31 35.34194     NA  35.77     NA     NA     NA     NA      NA
+#> 20 2013-06-01 35.44437     NA  35.77     NA     NA     NA     NA      NA
+```
+
 An instance of `MSFC` is a rather rich object, and further details
 regarding the calculation, spline coefficients, etc. can be found in the
 slots:
