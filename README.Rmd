@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/etrm)](https://cran.r-project.org/package=etrm)
 [![Lifecycle: Stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/etrm?color=blue)](https://r-pkg.org/pkg/etrm)
 <!-- badges: end -->
 
 ## Overview
