@@ -12,6 +12,7 @@ status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](
 [![Lifecycle:
 Stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/etrm?color=blue)](https://r-pkg.org/pkg/etrm)
 <!-- badges: end -->
 
 ## Overview
