@@ -8,11 +8,12 @@
 [![R-CMD-check](https://github.com/sleire/etrm/workflows/R-CMD-check/badge.svg)](https://github.com/sleire/etrm/actions)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/un202j6f1ga7f3uc?svg=true)](https://ci.appveyor.com/project/sleire/etrm)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/etrm)](https://cran.r-project.org/package=etrm)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/etrm)](https://cran.r-project.org/package=etrm)
 [![Lifecycle:
 Stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/etrm?color=blue)](https://r-pkg.org/pkg/etrm)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/etrm?color=blue)](https://r-pkg.org/pkg/etrm)
 <!-- badges: end -->
 
 ## Overview
@@ -51,10 +52,9 @@ sets included in the package.
 A typical characteristic of energy commodities such as electricity and
 natural gas is that delivery takes place over a period in time, not on a
 single date. Listed futures contracts cover standardized periods, such
-as “Week”, “Month”, “Quarter”, “Season” or “Year”. The forward curve is
-an essential tool for pricing non-standard OTC contracts having any
-settlement period. An example of such standard energy market contracts
-can be found in the package data set `powfutures130513`.
+as “Week”, “Month”, “Quarter”, “Season” or “Year”. An example of such
+standard energy market contracts can be found in the package data set
+`powfutures130513`.
 
     #>    Include Contract      Start        End Closing
     #> 1     TRUE   W21-13 2013-05-20 2013-05-26   33.65
@@ -90,15 +90,16 @@ can be found in the package data set `powfutures130513`.
     #> 31   FALSE   CAL-22 2022-01-01 2022-12-31   40.93
     #> 32   FALSE   CAL-23 2023-01-01 2023-12-31   42.15
 
-The function `msfc()` will create an instance of the S4 class `MSFC`
-with generic methods `plot()`, `summary()` and `show()`. In addition to
-the arguments from the list of contracts, the user may also provide a
-prior function to the calculation. This is relevant for markets with
-strong seasonality, such as power markets. The default value is
-`prior = 0`, but the user can provide any vector expressing a belief
-regarding the market to be combined with the observed prices. In the
-example below we have used a simple seasonal prior from the package
-`powpriors130513` data set.
+The forward curve is an essential tool for pricing non-standard OTC
+contracts having any settlement period. The function `msfc()` will
+create an instance of the S4 class `MSFC` with generic methods `plot()`,
+`summary()` and `show()`. In addition to the arguments from the list of
+contracts, the user may also provide a prior function to the
+calculation. This is relevant for markets with strong seasonality, such
+as power markets. The default value is `prior = 0`, but the user can
+provide any vector expressing a belief regarding the market to be
+combined with the observed prices. In the example below we have used a
+simple seasonal prior from the package `powpriors130513` data set.
 
 ``` r
 fwd_fut_wpri <- msfc(tdate = as.Date("2013-05-13"),          # trading date
