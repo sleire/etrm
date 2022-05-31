@@ -18,7 +18,7 @@ Description: Provides a collection of functions to perform core tasks within
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     ggplot2, 
     reshape2, 
