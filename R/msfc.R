@@ -114,10 +114,12 @@ msfc <- function(
     stop("Prior vector cannot be shorter than time interval [tdate, max(edate)] for included contracts")
 
   } else if (length(prior) > 1 & length(prior) >= length(tv)){
+
     # select subset of provided prior relevant for contracts that are included in calculation
     prior = head(prior, length(tv))
 
   } else {
+
     # constant prior, ex. default = 0
     prior = rep(prior, length(tv))
 
@@ -135,14 +137,6 @@ msfc <- function(
   tce <- as.numeric((edate-tdate)/365) #+ 0.00000027397259581841
   tc <- as.numeric((edate-sdate)/365)
 
-  #####################
-  # for daily contracts
-  # TODO: consider removing
-  #tc <- ifelse(tc==0, 0.00000027397259581841, tc)
-  #k <- sort(c(tcs, tce))
-  #k[1] <- 0 # alternatively k <- c(0, k)
-  ########################
-
   # number of polynomials (n) and contracts (m)
   n <- length(k) - 1
   m <- length(f)
@@ -153,20 +147,21 @@ msfc <- function(
   # create n hj matrices
   ix <- 1
   for (j in 1:n) {
-    hj <- matrix(c(28.8*(k[j+1]-k[j])**5,
-                 18*(k[j+1]-k[j])**4,
-                 8*(k[j+1]-k[j])**3,
+    hj <- matrix(c(28.8*(k[j+1]**5-k[j]**5),
+                 18*(k[j+1]**4-k[j]**4),
+                 8*(k[j+1]**3-k[j]**3),
                  0,
                  0,
-                 18*(k[j+1]-k[j])**4,
-                 12*(k[j+1]-k[j])**3,
-                 6*(k[j+1]-k[j])**2,
+                 18*(k[j+1]**4-k[j]**4),
+                 12*(k[j+1]**3-k[j]**3),
+                 6*(k[j+1]**2-k[j]**2),
                  0,
                  0,
-                 8*(k[j+1]-k[j])**3,
-                 6*(k[j+1]-k[j])**2,
+                 8*(k[j+1]**3-k[j]**3),
+                 6*(k[j+1]**2-k[j]**2),
                  4*(k[j+1]-k[j]),
                  0,0,0,0,0,0,0,0,0,0,0,0),nrow=5,ncol=5)
+
     # insert hj's at h(5j-4,5j-4) in H
     H[ix:(ix+5-1),ix:(ix+5-1)] <- hj
     ix <- ix + 5
@@ -179,6 +174,7 @@ msfc <- function(
   co <- 1
   ro <- 1
   for (j in 2:n) {
+
     # continuity of the function at the knots
     A[ro,co:(co+9)] <- c(-k[j]**4, -k[j]**3, -k[j]**2, -k[j], -1,
                          k[j]**4,  k[j]**3, k[j]**2, k[j], 1)
