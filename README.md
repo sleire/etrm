@@ -26,6 +26,8 @@ main activities:
 2.  Portfolio insurance trading strategies for energy price risk
     management
 
+The package is described in further detail in the R-journal paper [etrm: Energy Trading and Risk Management in R](https://journal.r-project.org/articles/RJ-2022-013/)
+
 ## Installation
 
 The stable version can be installed from
