@@ -26,7 +26,25 @@ main activities:
 2.  Portfolio insurance trading strategies for energy price risk
     management
 
+## Paper in The R Journal
 The package is described in further detail in the R-journal paper [etrm: Energy Trading and Risk Management in R](https://journal.r-project.org/articles/RJ-2022-013/)
+
+If you use `etrm` in a scientific publication, we would appreciate using the following citation:
+
+```
+@article{RJ-2022-013,
+  author = {Sleire, Anders D.},
+  title = {The R Journal: etrm: Energy Trading and Risk Management in R},
+  journal = {The R Journal},
+  year = {2022},
+  note = {https://doi.org/10.32614/RJ-2022-013},
+  doi = {10.32614/RJ-2022-013},
+  volume = {14},
+  issue = {1},
+  issn = {2073-4859},
+  pages = {320-341}
+}
+```
 
 ## Installation
 
